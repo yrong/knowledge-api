@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="plugin/jquery-2.1.4.min.js"></script>
+    <script>
+      function init() {
+        var Article_Type={
+            Free:'Free',
+            Guide:'Guide',
+            Troubleshooting:'Troubleshooting'
+        };
+
+
+
+        $("#btnadd_article").click(function () {
+          $.ajax({
+            type: 'Post',
+            url: '/KB/API/articles',
+            data: {
+              title: '水电费',
+              it_service: ['科学','测试'],
+              tag: ['测试','人生'],
+              author: '随机者',
+              ref_links: ['https://www.baidu.com'],
+              tasks: '测试插入',
+              description: '水电费',
+              analysis: '水电费',
+              solution: '前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了。<br/>'+
+
+          '不管是不是骗子，我还是回复了一句“嗯”。'+
+
+          '接着，她问我：“听说你上学期赚了几千块？”'+
+
+          '我疑惑，她怎么会知道我的状况呢？今天这么突然问我又是什么意思呢？'+
+
+          '我回复，“你怎么知道？”'+
+
+          '她说：“我妈刚给我打电话说的。”'+
+
+          '我说：“哦，原来是这样啊。”'+
+
+          '她又问我：“你到底干了什么赚了几千块？”后面还跟着一串的笑着哭的表情。'+
+
+          '我向她解释说：“我真的没有赚几千，可能是我买电脑没找爸爸要钱，她们就误以为我赚了几千块，其实有一部分钱是开学亲人给的红包存起的而已。”'+
+
+          '说完后，她发来一句“哦哦”。'+
+
+          '接着，她又问：“那你平时都做些什么兼职啊？”<br/>'+
+
+          '我说：“我当过餐馆服务员，做过商品推销，也做过活动工作人员，总之，我能做的，都尝试过，兼职还是挺辛苦的，辛辛苦苦也只赚了一千块而已。<br/>”'+
+
+          '朋友又发了一串信息过来说：“额，这样子啊，我还真以为你赚了好几千呢，哈哈，你还挺懂事的嘛。”'+
+
+          '我回了句：“还好”。之后，就没关注她的消息了。',
+              workaround: '水电费',
+              article_type:Article_Type.Troubleshooting,//类型一定要写上
+              token:'dfgdfh'
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('新增模板文章成功！');
+            }
+          });
+        });
+        $("#btndelete_article").click(function () {
+          $.ajax({
+            type: 'DELETE',
+            url: '/KB/API/articles/23',
+            data:{
+              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('删除模板文章成功！');
+            }
+          });
+        });
+
+        $("#btnupdate_article").click(function () {
+          $.ajax({
+            type: 'Put',
+            url: '/KB/API/articles/31',
+            data: {
+              title: 'tuuyuuu',
+              it_service: ['nm'],
+              tag: ['ty'],
+              author: 'ui',
+              ref_links: ['https://www.dffgty.com'],
+              tasks: '胜多负少',
+              solution: 'aaa',
+              workaround: '中国',
+              article_type:Article_Type.Troubleshooting,//类型一定要写上
+              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('修改模板文章成功！');
+            }
+          });
+        });
+
+
+        $("#btnupdate_article_patch").click(function () {
+          $.ajax({
+            type: 'Patch',
+            url: '/KB/API/articles/31',
+            data: {
+              title: '测试patch',
+              article_type:Article_Type.Troubleshooting,//类型一定要写上
+              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('修改模板文章成功！');
+            }
+          });
+        });
+
+
+
+
+        $("#btnquery_article").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/articles',
+            data: {
+              page:1, //分页查询第几页
+              per_page:13,//分页查询每页数量
+              //sortby:'name',//排序字段，默认就是id
+              //order:'asc'/'desc'//排序方式
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              //if (res.status == 'ok')
+                //alert('查询模板文章成功！');
+            }
+          });
+        });
+        $("#btnquery_article_byid").click(function () {
+          var id=$("#queryid").val();
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/articles/'+id,
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询模板文章成功！');
+            }
+          });
+        });
+
+        $("#btnquery_article_keyword").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/search/推销',
+            data:{
+              page:1, //分页查询第几页
+              per_page:13,//分页查询每页数量
+              //sortby:'created_at',//排序字段，不填写的话默认是创建时间
+              //order:'desc'/'desc'//排序方式
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询模板文章成功！');
+            }
+          });
+        });
+        $("#btnquery_article_keyvalue").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/search/',
+            dataType: 'json',
+            data:{
+              tasks:'胜多负少',
+              page:1, //分页查询第几页
+              per_page:13,//分页查询每页数量
+              //sortby:'name',//排序字段，默认就是id
+              //order:'asc'/'desc'//排序方式
+            },
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询模板文章成功！');
+            }
+          });
+        });
+
+		
+		
+		 $("#btnadd_it").click(function () {
+          $.ajax({
+            type: 'Post',
+            url: '/KB/API/it_services',
+            data: {
+              category: '水电费',
+              service_name: '科学测试',
+              priority: 1,
+              responsibility: '随机者',
+              token:'dfgdfh'
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('新增it_services成功！');
+            }
+          });
+        });
+
+        $("#btnput_it").click(function () {
+          $.ajax({
+            type: 'Put',
+            url: '/KB/API/it_services/24',
+            data: {
+              category: '椭圆',
+              service_name: '科学测试',
+              priority: 1,
+              responsibility: '界面',
+              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('修改it_services成功！');
+            }
+          });
+        });
+        $("#btnpatch_it").click(function () {
+          $.ajax({
+            type: 'Patch',
+            url: '/KB/API/it_services/24',
+            data: {
+              service_name: '科学名称',
+              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('修改it_services成功！');
+            }
+          });
+        });
+        $("#btndelete_it").click(function () {
+          $.ajax({
+            type: 'DELETE',
+            url: '/KB/API/it_services/23',
+            data:{
+              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('删除it_services成功！');
+            }
+          });
+        });
+        $("#btnget_it").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/it_services',
+            data: {
+              page:1, //分页查询第几页
+              per_page:13,//分页查询每页数量
+              //sortby:'name',//排序字段，默认就是id
+              //order:'asc'/'desc'//排序方式
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询it_services成功！');
+            }
+          });
+        });
+
+
+
+
+        //文章评论
+
+        $("#btnpostdiscussions").click(function () {
+          $.ajax({
+            type: 'Post',
+            url: '/KB/API/discussions',
+            data: {
+              idcode: 'e1767829-24d2-4348-8cbe-f869eef20a3c',//文章的uuid
+              dis_from: '评论者用户名',
+              dis_to: ['被@用户1', '被@用户2'],
+              content: '评论的测试内容水电费释放但是'
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('评论文章成功！');
+            }
+          });
+        });
+
+        $("#btngetdiscussions_idcode").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/discussions/e1767829-24d2-4348-8cbe-f869eef20a3c',
+            data: {
+              page:1, //分页查询第几页
+              per_page:13,//分页查询每页数量
+              //sortby:'created_at',//排序字段，默认就是时间
+              //order:'asc'/'desc'//排序方式
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询评论成功！');
+            }
+          });
+        });
+
+        $("#btngetdiscussions").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/discussions',
+            data: {
+              page:1, //分页查询第几页
+              per_page:13,//分页查询每页数量
+              //sortby:'created_at',//排序字段，默认就是时间
+              //order:'asc'/'desc'//排序方式
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询评论成功！');
+            }
+          });
+        });
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <div>
+      <button id="btnadd_article">模板文章新增</button>
+      <button id="btndelete_article">模板文章删除</button>
+      <button id="btnupdate_article">模板文章多字段put修改</button>
+      <button id="btnupdate_article_patch">模板文章多单字段patch修改</button>
+      <button id="btnquery_article">模板文章列表查询</button>
+      <input id="queryid" value="11"></input>
+      <button id="btnquery_article_byid">文章模板id查询</button>
+      <button id="btnquery_article_keyword">关键字查询</button>
+      <button id="btnquery_article_keyvalue">声明字段与对应值查询</button>
+    </div>
+    <div>
+      <button id="btnpostdiscussions">评论文章</button>
+      <button id="btngetdiscussions_idcode">查询文章评论</button>
+      <button id="btngetdiscussions">查询全部文章评论</button>
+    </div>
+  </body>
+</html>
