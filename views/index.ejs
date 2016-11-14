@@ -69,7 +69,7 @@
         $("#btndelete_article").click(function () {
           $.ajax({
             type: 'DELETE',
-            url: '/KB/API/articles/23',
+            url: '/KB/API/articles/e1767829-24d2-4348-8cbe-f869eef20a3c',
             data:{
               token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
             },
@@ -85,16 +85,10 @@
         $("#btnupdate_article").click(function () {
           $.ajax({
             type: 'Put',
-            url: '/KB/API/articles/31',
+            url: '/KB/API/articles/e1407833-b2ff-4eea-a07d-27f8b3f6376d',
             data: {
-              title: 'tuuyuuu',
-              it_service: ['nm'],
-              tag: ['ty'],
-              author: 'ui',
-              ref_links: ['https://www.dffgty.com'],
-              tasks: '胜多负少',
-              solution: 'aaa',
-              workaround: '中国',
+              title: '被修改了',
+              author:'测试修改',
               article_type:Article_Type.Troubleshooting,//类型一定要写上
               token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
             },
@@ -111,7 +105,7 @@
         $("#btnupdate_article_patch").click(function () {
           $.ajax({
             type: 'Patch',
-            url: '/KB/API/articles/31',
+            url: '/KB/API/articles/e1407833-b2ff-4eea-a07d-27f8b3f6376d',
             data: {
               title: '测试patch',
               article_type:Article_Type.Troubleshooting,//类型一定要写上
@@ -363,7 +357,7 @@
       <button id="btnupdate_article">模板文章多字段put修改</button>
       <button id="btnupdate_article_patch">模板文章多单字段patch修改</button>
       <button id="btnquery_article">模板文章列表查询</button>
-      <input id="queryid" value="11"></input>
+      <input id="queryid" value="e1407833-b2ff-4eea-a07d-27f8b3f6376d"></input>
       <button id="btnquery_article_byid">文章模板id查询</button>
       <button id="btnquery_article_keyword">关键字查询</button>
       <button id="btnquery_article_keyvalue">声明字段与对应值查询</button>

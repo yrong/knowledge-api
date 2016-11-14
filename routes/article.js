@@ -59,11 +59,11 @@ router.post('/', function(req, res, next) {
     )
 });
 //根据id删除
-router.delete('/:id', function(req, res, next) {
+router.delete('/:idcode', function(req, res, next) {
     //获取文章类型
-    var id=req.params.id;
-    if(id==undefined){
-        res.send({status:'未指定删除id，删除失败！'});
+    var idcode=req.params.idcode;
+    if(idcode==undefined){
+        res.send({status:'未指定删除idcode，删除失败！'});
         return;
     }
     var token=req.body.token;
@@ -79,7 +79,7 @@ router.delete('/:id', function(req, res, next) {
         function (result, done) {
             var client = new Client(pg_config);
             client.connect();
-            let query = client.query('delete from template_article where id=$1', [id],function(err, result){
+            let query = client.query('delete from template_article where idcode=$1', [idcode],function(err, result){
                 if(err)
                     done('删除发生异常错误！',null);
                 else
@@ -96,12 +96,12 @@ router.delete('/:id', function(req, res, next) {
     )
 });
 //根据id更新若干字段
-router.put('/:id', function(req, res, next) {
+router.put('/:idcode', function(req, res, next) {
     //获取文章类型
-    var id=req.params.id;
+    var idcode=req.params.idcode;
     var token=req.body.token;
-    if(id==undefined){
-        res.send({status:'未指定更新id，更新失败！'});
+    if(idcode==undefined){
+        res.send({status:'未指定更新idcode，更新失败！'});
         return;
     }
     var client = new Client(pg_config);
@@ -129,7 +129,7 @@ router.put('/:id', function(req, res, next) {
             }
             var template=new Template_Article(req.body);
             var update_sql = sql_template.updateSQL(template, 'template_article');
-            let query = client.query(update_sql, [id],function(err,result){
+            let query = client.query(update_sql, [idcode],function(err,result){
                 if(err)
                     done('更新发生异常错误！',null);
                 else
@@ -144,12 +144,12 @@ router.put('/:id', function(req, res, next) {
         });
 });
 //根据id更新某一个字段
-router.patch('/:id', function(req, res, next) {
+router.patch('/:idcode', function(req, res, next) {
     //获取文章类型
-    var id=req.params.id;
+    var idcode=req.params.idcode;
     var token=req.body.token;
-    if(id==undefined){
-        res.send({status:'未指定更新id，更新失败！'});
+    if(idcode==undefined){
+        res.send({status:'未指定更新idcode，更新失败！'});
         return;
     }
     let count=0;
@@ -187,7 +187,7 @@ router.patch('/:id', function(req, res, next) {
             }
             var template=new Template_Article(req.body);
             var update_sql = sql_template.updateSQL(template, 'template_article');
-            let query = client.query(update_sql, [id],function(err,result){
+            let query = client.query(update_sql, [idcode],function(err,result){
                 if(err)
                     done('更新发生异常错误！',null);
                 else
@@ -202,10 +202,10 @@ router.patch('/:id', function(req, res, next) {
     });
 });
 //根据id查询
-router.get('/:id', function(req, res, next) {
-    var id = req.params.id;
-    if (id == undefined) {
-        res.send({status: '未指定查询id，查询失败！'});
+router.get('/:idcode', function(req, res, next) {
+    var idcode = req.params.idcode;
+    if (idcode == undefined) {
+        res.send({status: '未指定查询idcode，查询失败！'});
         return;
     }
     var client = new Client(pg_config);
@@ -216,8 +216,8 @@ router.get('/:id', function(req, res, next) {
         res.send({status: '数据库连接错误'});
         return;
     }
-    let sql = util.format("select * from template_article where id=$1");
-    query = client.query(sql, [id], function (err, result) {
+    let sql = util.format("select * from template_article where idcode=$1");
+    query = client.query(sql, [idcode], function (err, result) {
         if (err)
             res.send({status: '查询错误！'});
         else

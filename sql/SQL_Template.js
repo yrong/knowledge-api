@@ -54,9 +54,9 @@ SQL_Template.prototype.updateSQL=function(template,tb_name){
     }
     let sql;
     if(tb_name=='template_article')
-        sql=util.format("update template_article t2 set %s,updated_at=now(),content=t1.content from (select content||jsonb'%s' as content,id from template_article) t1 where t1.id=t2.id and t2.id=$1",items.join(','),content);
+        sql=util.format("update template_article t2 set %s,updated_at=now(),content=t1.content from (select content||jsonb'%s' as content,id from template_article) t1 where t1.id=t2.id and t2.idcode=$1",items.join(','),content);
     else
-        sql=util.format("update %s set %s,updated_at=now() where id=$1",tb_name,items.join(','));
+        sql=util.format("update %s set %s,updated_at=now() where idcode=$1",tb_name,items.join(','));
     console.log(sql);
     return sql;
 }
