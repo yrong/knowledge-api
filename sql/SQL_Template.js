@@ -92,7 +92,7 @@ SQL_Template.prototype.insertDiscussions=function(discussions){
         k++;
         items.push('$'+k);
     }
-    sql=util.format("insert into discussions(%s,created_at) VALUES (%s,now())",keys.join(','),items.join(','));
+    sql=util.format("insert into discussions(%s,created_at,dis_idcode) VALUES (%s,now(),uuid_generate_v4())",keys.join(','),items.join(','));
     console.log(sql,values);
     return {sql:sql,values:values};
 }

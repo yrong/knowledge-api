@@ -13,13 +13,11 @@ var sql_template=new SQL_Template();
 router.post('/', function(req, res, next) {
     //获取文章类型
     var discussions=new Discussions(req.body);
-    console.log(discussions);
     //字段非空判断
     if(!discussions.validate()){
         res.send({status:'存在非空字段未赋值，评论失败！'});
         return;
     }
-    console.log(discussions);
     //async.waterfall([
             //function (result, done) {
                 var client = new Client(pg_config);
@@ -41,8 +39,7 @@ router.post('/', function(req, res, next) {
     //)
 });
 
-
-router.get('/:idcode', function(req, res, next) {
+router.get('/byArticle/:idcode', function(req, res, next) {
     var idcode = req.params.idcode;
     console.log(idcode);
     if (idcode == undefined) {
@@ -51,9 +48,7 @@ router.get('/:idcode', function(req, res, next) {
     }
     let querys = req.query;
     if(querys.sortby==undefined)
-        querys.sortby='created_at';
-    if(querys.order==undefined)
-        querys.order='desc';//按照时间倒叙
+        querys.sortby='dis_reply_idcode,created_at';
     let wheres='idcode=$1';
     try {
         var client = new Client(pg_config);
@@ -95,13 +90,62 @@ router.get('/:idcode', function(req, res, next) {
     }
 });
 
+router.get('/:dis_idcode', function(req, res, next) {
+    var dis_idcode = req.params.dis_idcode;
+    console.log(dis_idcode);
+    if (dis_idcode == undefined) {
+        res.send({status: '未指定topic的dis_idcode，查询失败！'});
+        return;
+    }
+    let querys = req.query;
+    if(querys.sortby==undefined)
+        querys.sortby='dis_reply_idcode,created_at';
+    let wheres='dis_reply_idcode=$1';
+    try {
+        var client = new Client(pg_config);
+        client.connect();
+        async.parallel({
+            Results:function(done){
+                let sql = sql_template.querySQL(querys, 'discussions',wheres);
+                console.log(sql);
+                let query = client.query(sql,[dis_idcode],function(err, result) {
+                    if(err) {
+                        done('查询发生错误！', null);
+                        return;
+                    }
+                    done(null,result.rows);
+                });
+            },
+            Count:function(done){
+                let query = client.query('select count(*) count from discussions where dis_reply_idcode=$1',[dis_idcode],function(err, result){
+                    if(err){
+                        done('查询发生错误！', null);
+                        return;
+                    }
+                    let count=parseInt(result.rows[0].count);
+                    done(null,count);
+
+                });
+            }
+        },function(error,result){
+            if(error)
+                res.send({status: error});
+            else
+                res.send({status: 'ok', data: result});
+            client.end();
+        });
+    }
+    catch(e) {
+        console.log(e);
+        res.send({status: '数据库连接错误！'});
+    }
+});
+
 //无条件查询，支持排序，分页
 router.get('/', function(req, res, next) {
     let querys = req.query;
     if(querys.sortby==undefined)
-        querys.sortby='created_at';
-    if(querys.order==undefined)
-        querys.order='desc';//按照时间倒叙
+        querys.sortby='dis_reply_idcode,created_at';
     try {
         var client = new Client(pg_config);
         client.connect();

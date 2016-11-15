@@ -19,6 +19,12 @@ var Discussions= function(options){
             this.content=options[key];
         if(key=='title')
             this.title=options[key];
+        if(key=='dis_idcode')
+            this.dis_idcode=options[key];
+        if(key=='dis_type')
+            this.dis_type=options[key];
+        if(key=='dis_reply_idcode')
+            this.dis_reply_idcode=options[key];
     }
 }
 
