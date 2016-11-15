@@ -11,8 +11,22 @@
             Guide:'Guide',
             Troubleshooting:'Troubleshooting'
         };
-
-
+        var token=$("#token").val();
+        console.info(token);
+        $(function(){  
+          $('#token').bind('input propertychange', function() {
+            console.info($(this).val());
+            token = $(this).val();
+          });   
+        })  
+        var article_idcode=$("#article_idcode").val();
+        console.info(article_idcode);
+        $(function(){  
+          $('#article_idcode').bind('input propertychange', function() {
+            console.info($(this).val());
+            article_idcode = $(this).val();
+          });   
+        })  
 
         $("#btnadd_article").click(function () {
           $.ajax({
@@ -56,7 +70,7 @@
           '我回了句：“还好”。之后，就没关注她的消息了。',
               workaround: '水电费',
               article_type:Article_Type.Troubleshooting,//类型一定要写上
-              token:'dfgdfh'
+              token: token
             },
             dataType: 'json',
             success: function (res) {
@@ -69,9 +83,9 @@
         $("#btndelete_article").click(function () {
           $.ajax({
             type: 'DELETE',
-            url: '/KB/API/articles/e1767829-24d2-4348-8cbe-f869eef20a3c',
+            url: '/KB/API/articles/'+article_idcode,
             data:{
-              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+              token: token
             },
             dataType: 'json',
             success: function (res) {
@@ -85,12 +99,12 @@
         $("#btnupdate_article").click(function () {
           $.ajax({
             type: 'Put',
-            url: '/KB/API/articles/e1407833-b2ff-4eea-a07d-27f8b3f6376d',
+            url: '/KB/API/articles/'+article_idcode,
             data: {
               title: '被修改了',
               author:'测试修改',
               article_type:Article_Type.Troubleshooting,//类型一定要写上
-              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+              token: token
             },
             dataType: 'json',
             success: function (res) {
@@ -105,11 +119,11 @@
         $("#btnupdate_article_patch").click(function () {
           $.ajax({
             type: 'Patch',
-            url: '/KB/API/articles/e1407833-b2ff-4eea-a07d-27f8b3f6376d',
+            url: '/KB/API/articles/'+article_idcode,
             data: {
               title: '测试patch',
               article_type:Article_Type.Troubleshooting,//类型一定要写上
-              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+              token: token
             },
             dataType: 'json',
             success: function (res) {
@@ -142,7 +156,7 @@
           });
         });
         $("#btnquery_article_byid").click(function () {
-          var id=$("#queryid").val();
+          var id=$("#article_idcode").val();
           $.ajax({
             type: 'Get',
             url: '/KB/API/articles/'+id,
@@ -196,6 +210,7 @@
 		
 		
 		 $("#btnadd_it").click(function () {
+          var token=$("#token").val();
           $.ajax({
             type: 'Post',
             url: '/KB/API/it_services',
@@ -204,7 +219,7 @@
               service_name: '科学测试',
               priority: 1,
               responsibility: '随机者',
-              token:'dfgdfh'
+              token:token
             },
             dataType: 'json',
             success: function (res) {
@@ -224,7 +239,7 @@
               service_name: '科学测试',
               priority: 1,
               responsibility: '界面',
-              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+              token: token
             },
             dataType: 'json',
             success: function (res) {
@@ -255,7 +270,7 @@
             type: 'DELETE',
             url: '/KB/API/it_services/23',
             data:{
-              token:'77e52d6fbd1bbc673e6662d1f26c3d778785d471'
+              token: token
             },
             dataType: 'json',
             success: function (res) {
@@ -294,7 +309,7 @@
             type: 'Post',
             url: '/KB/API/discussions',
             data: {
-              idcode: 'e1767829-24d2-4348-8cbe-f869eef20a3c',//文章的uuid
+              idcode: article_idcode,//文章的uuid
               dis_from: '评论者用户名',
               dis_to: ['被@用户1', '被@用户2'],
               content: '评论的测试内容水电费释放但是'
@@ -311,7 +326,7 @@
         $("#btngetdiscussions_idcode").click(function () {
           $.ajax({
             type: 'Get',
-            url: '/KB/API/discussions/e1767829-24d2-4348-8cbe-f869eef20a3c',
+            url: '/KB/API/discussions/'+article_idcode,
             data: {
               page:1, //分页查询第几页
               per_page:13,//分页查询每页数量
@@ -352,16 +367,21 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
     <div>
-      <button id="btnadd_article">模板文章新增</button>
-      <button id="btndelete_article">模板文章删除</button>
-      <button id="btnupdate_article">模板文章多字段put修改</button>
-      <button id="btnupdate_article_patch">模板文章多单字段patch修改</button>
-      <button id="btnquery_article">模板文章列表查询</button>
-      <input id="queryid" value="e1407833-b2ff-4eea-a07d-27f8b3f6376d"></input>
-      <button id="btnquery_article_byid">文章模板id查询</button>
+      <button id="btnquery_article">文章列表查询</button>
+      <button id="btnquery_article_byid">文章id查询</button>
       <button id="btnquery_article_keyword">关键字查询</button>
-      <button id="btnquery_article_keyvalue">声明字段与对应值查询</button>
+      <button id="btnquery_article_keyvalue">声明字段与对应值查询</button></br></br>
+
+      token: <input id="token" value="77e52d6fbd1bbc673e6662d1f26c3d778785d471" style="width:80%"></input></br>
+      article.idcode: <input id="article_idcode" value="e1407833-b2ff-4eea-a07d-27f8b3f6376d" style="width:80%"></input></br>
+      </br>
+      <button id="btnadd_article">文章新增</button></br>
+      <button id="btndelete_article">文章删除</button>
+      <button id="btnupdate_article">文章多字段put修改</button>
+      <button id="btnupdate_article_patch">文章多单字段patch修改</button>
+
     </div>
+    </br>
     <div>
       <button id="btnpostdiscussions">评论文章</button>
       <button id="btngetdiscussions_idcode">查询文章评论</button>
