@@ -1,4 +1,4 @@
-var Article_Type = require('/Article_Type');//文章类型
+var Article_Type = require('./Article_Type');//文章类型
 var Template_Article= function(options){
     this.content={};
     for(var key in options) {

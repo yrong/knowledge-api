@@ -1,4 +1,5 @@
 var util=require('util');
+var uuid=require('node-uuid');
 var SQL_Template=function(){
 
 };
