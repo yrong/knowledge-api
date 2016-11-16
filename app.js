@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ueditor = require('ueditor-nodejs');
+var schedule = require('node-schedule');
+var fs = require('fs');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -85,5 +87,29 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
+//定时任务，清除临时文件
+var rule = new schedule.RecurrenceRule();
+rule.dayOfWeek = [0,new schedule.Range(1, 6)];
+rule.hour = 23;
+rule.minute = 59;
+schedule.scheduleJob(rule, function(){
+  let files = [];
+  let _path='temp';
+  deleteFolderRecursive(_path);
+});
+var deleteFolderRecursive = function(path) {
+  var files = [];
+  if( fs.existsSync(path) ) {
+    files = fs.readdirSync(path);
+    files.forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.statSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
 module.exports = app;

@@ -12,8 +12,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/printpdf', function(req, res, next) {
   var pdfUrl = req.query.url;
-  var pdfpath = util.format('temp/%s.pdf', uuid.v4());
-  var rasterize= 'bin/rasterize.js';
+  var pdfpath = path.normalize(util.format('temp/%s.pdf', uuid.v4()));
+  var rasterize=path.normalize('bin/rasterize.js');
   //var _path=util.format("phantomjs %s %s %s A4", rasterize,pdfUrl, pdfpath);
   var _path=util.format("phantomjs %s %s %s 800*600px", rasterize,pdfUrl, pdfpath);
   exec(_path, function (error, stdout, stderr) {
