@@ -7,7 +7,7 @@ var SQL_Template = require('../sql/SQL_Template');
 var util=require('util');
 var config=new Config();
 var pg_config=config.PG_Connection;//pg的连接参数
-var Discussions = require('./Discussions');
+var Discussions = require('../model/Discussions');
 var sql_template=new SQL_Template();
 //文章评论
 router.post('/', function(req, res, next) {
