@@ -11,19 +11,20 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/printpdf', function(req, res, next) {
-  var pdfUrl = req.query.url;
-  var pdfpath = path.normalize(util.format('temp/%s.pdf', uuid.v4()));
-  var rasterize=path.normalize('bin/rasterize.js');
-  //var _path=util.format("phantomjs %s %s %s A4", rasterize,pdfUrl, pdfpath);
-  var _path=util.format("phantomjs %s %s %s 800*600px", rasterize,pdfUrl, pdfpath);
+  var pageUrl = req.query.url;
+  var pdfoutpath = path.normalize(util.format('temp/%s.pdf', uuid.v4()));
+  var printpdfjs=path.normalize('bin/printpdf.js');
+  var _path=util.format('casperjs %s %s %s', printpdfjs,pageUrl, pdfoutpath);
   exec(_path, function (error, stdout, stderr) {
+    res.set('Content-Type', 'application/pdf');
     if (error || stderr) {
       console.log(error);
       res.send(500, error || stderr);
+      res.download(pdfoutpath);
       return;
     }
-    res.set('Content-Type', 'application/pdf');
-    res.download(pdfpath);
+    //res.set('Content-Type', 'application/pdf');
+    res.download(pdfoutpath);
   });
 
 });
