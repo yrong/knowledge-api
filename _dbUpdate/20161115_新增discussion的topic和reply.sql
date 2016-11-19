@@ -1,13 +1,13 @@
-alter table discussions add column dis_idcode uuid not null;
+ï»¿alter table discussions add column dis_idcode uuid not null;
 alter table discussions add column dis_type text;
 alter table discussions add column dis_reply_idcode uuid;
 
 COMMENT ON COLUMN public.discussions.dis_idcode
-    IS 'ÆÀÂÛÎ¨Ò»Ê¶±ğÂë';
+    IS 'è¯„è®ºå”¯ä¸€è¯†åˆ«ç ';
 COMMENT ON COLUMN public.discussions.dis_type 
-    IS 'ÆÀÂÛÀàĞÍ';
+    IS 'è¯„è®ºç±»å‹';
 COMMENT ON COLUMN public.discussions.dis_reply_idcode
-    IS 'ÆÀÂÛµÄtopicµÄid';
+    IS 'è¯„è®ºçš„topicçš„id';
 	
 	
 CREATE OR REPLACE FUNCTION discussions_insert() 
