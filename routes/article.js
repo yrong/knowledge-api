@@ -7,13 +7,13 @@ var Article_Type = require('../model/Article_Type');//文章类型
 var Template_Article = require('../model/Template_Article');//文章实体类型
 var SQL_Template = require('../sql/SQL_Template');
 var util=require('util');
-var Tokens=require('../sql/Tokens');
+var User=require('../sql/User');
 var config=new Config();
 var pg_config=config.PG_Connection;//pg的连接参数
 
-var tokens=new Tokens();
+var user=new User();
 var sql_template=new SQL_Template();
-//文章更新
+//文章新增
 router.post('/', function(req, res, next) {
     //获取文章类型
     var token=req.body.token;
@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
     console.log(template);
     async.waterfall([
         function (done) {
-            tokens.token_validate(token,function(info){
+            user.token_validate(token,function(info){
                 if(!info)
                     done('token验证失败，无权限更改数据！',null);
                 else
@@ -69,7 +69,7 @@ router.delete('/:idcode', function(req, res, next) {
     var token=req.body.token;
     async.waterfall([
         function (done) {
-            tokens.token_validate(token,function(info){
+            user.token_validate(token,function(info){
                 if(!info)
                     done('token验证失败，无权限更改数据！',null);
                 else
@@ -114,7 +114,7 @@ router.put('/:idcode', function(req, res, next) {
     }
     async.waterfall([
         function (done) {
-            tokens.token_validate(token,function(info){
+            user.token_validate(token,function(info){
                 if(!info)
                     done('token验证失败，无权限更改数据！',null);
                 else
@@ -172,7 +172,7 @@ router.patch('/:idcode', function(req, res, next) {
     }
     async.waterfall([
         function (done) {
-            tokens.token_validate(token,function(info){
+            user.token_validate(token,function(info){
                 if(!info)
                     done('token验证失败，无权限更改数据！',null);
                 else
