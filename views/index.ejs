@@ -443,5 +443,13 @@
       <button id="btnpostdiscussions_reply_topic">回复topic</button>
       <button id="btngetdiscussions_topic_idcode">查询topic及其它的回复</button>
     </div>
+  <div>
+    <form action="/users/userinfo" enctype="multipart/form-data" method="post">
+      <input type="file" name="headimage"></input>
+      <input name="userid" value="5">用户的id5</input>
+      <input name="per_page" value="5"></input>
+      <input type="submit" value="上传" />
+    </form>
+  </div>
   </body>
 </html>
