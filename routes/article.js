@@ -238,10 +238,6 @@ router.get('/:idcode', function(req, res, next) {
         }
         client.end();
     });
-
-
-
-
 });
 //无条件查询，支持排序，分页
 router.get('/', function(req, res, next) {

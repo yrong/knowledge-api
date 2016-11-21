@@ -13,13 +13,9 @@ SQL_Template.prototype.insertSQL=function(template,tb_name){
     for(let key in template){
         if(template[key]==undefined||template[key]==''||typeof template[key]=='function')
             continue;
-        if(key=='it_service')
+        if(template[key].constructor==Array)//如果是数组类型
             template[key]='{"' + template[key].join('","') + '"}';
-        if(key=='tag')
-            template[key]='{"' + template[key].join('","') + '"}';
-        if(key=='ref_links')
-            template[key]='{"' + template[key].join('","') + '"}';
-        if(key=='content')
+        else if(template[key].constructor==Object)
             template[key]=JSON.stringify(template[key]);//json对象转字符串
         keys.push(key);
         values.push(util.format('%s',template[key]));
