@@ -181,6 +181,24 @@
           });
         });
 
+
+
+        $("#btnquery_article_bytag").click(function () {
+          //var id=$("#article_idcode").val();
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/articles/tag/人生',
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询模板文章成功！');
+            }
+          });
+        });
+
+
+
         $("#btnquery_article_keyword").click(function () {
           $.ajax({
             type: 'Get',
@@ -432,6 +450,7 @@
       <button id="btnupdate_article">模板文章多字段put修改</button>
       <button id="btnupdate_article_patch">模板文章多单字段patch修改</button>      
       <button id="btnquery_article_byid">文章模板id查询</button>
+      <button id="btnquery_article_bytag">文章模板tag查询</button>
     </div>
     </br></br>
     <div>
