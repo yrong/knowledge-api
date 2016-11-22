@@ -36,11 +36,12 @@ User.prototype.token_validate=function(token,cb){
 }
 //修改用户密码
 User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
+    var self=this;
     this._client.connect();
     this._client.query("use " + mysql_config.database);
     async.waterfall([
             function (done) {
-                this._client.query(
+                self._client.query(
                     'SELECT count(*) count FROM users where userid=? and alias=? and passwd=?',
                     [userid,alias,oldpwd],
                     function(err, results, fields) {
@@ -55,12 +56,12 @@ User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
                             else
                                 done('用户不存在或密码错误，无法修改密码！');
                         }
-                        this._client.end();
+                        self._client.end();
                     }
                 );
             },
             function (result, done) {
-                this._client.query(
+                self._client.query(
                     'update users set passwd=? where userid=?',
                     [newpwd,userid],
                     function(err, results, fields) {
@@ -70,7 +71,7 @@ User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
                         }
                         else
                             done(null,true);
-                        this._client.end();
+                        self._client.end();
                     }
                 );
 
