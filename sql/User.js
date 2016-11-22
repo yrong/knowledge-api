@@ -14,6 +14,8 @@ var User=function(){
 }
 //验证用户token
 User.prototype.token_validate=function(token,cb){
+    cb(true);
+    return;
     this._client.connect();
     this._client.query("use " + mysql_config.database);
     this._client.query(

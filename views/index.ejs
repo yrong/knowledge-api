@@ -107,7 +107,6 @@
             }
           });
         });
-
         $("#btnupdate_article").click(function () {
           $.ajax({
             type: 'Put',
@@ -126,8 +125,6 @@
             }
           });
         });
-
-
         $("#btnupdate_article_patch").click(function () {
           $.ajax({
             type: 'Patch',
@@ -145,9 +142,6 @@
             }
           });
         });
-
-
-
 
         $("#btnquery_article").click(function () {
           $.ajax({
@@ -180,8 +174,6 @@
             }
           });
         });
-
-
         //综合查询
         $("#btnquery_article_zhch").click(function () {
           //var id=$("#article_idcode").val();
@@ -215,9 +207,6 @@
             }
           });
         });
-
-
-
         $("#btnquery_article_keyword").click(function () {
           $.ajax({
             type: 'Get',
@@ -263,10 +252,9 @@
             type: 'Post',
             url: '/KB/API/it_services',
             data: {
-              category: '水电费',
-              service_name: '科学测试',
-              priority: 1,
-              responsibility: '随机者',
+              name: '二级服务',
+              dependency: ['DNS'],
+              parent:'3f6cb391e1d54780afbdbf81b05ba222',//不指定就是一级服务分组，可指定某个服务的idcode
               token:token
             },
             dataType: 'json',
@@ -452,6 +440,12 @@
             }
           });
         });
+
+
+
+
+
+
       }
     </script>
   </head>
@@ -488,6 +482,14 @@
       <input name="per_page" value="5"></input>
       <input type="submit" value="上传" />
     </form>
+  </div>
+
+  <div>
+    <button id="btnadd_it">新增it_services</button>
+    <button id="btndelete_it">文章删除it_services</button>
+    <button id="btnupdate_it">更新it_services</button>
+    <button id="btnpatch_it">单个字段更新it_services</button>
+    <button id="btngetid">获取it树形列表</button>
   </div>
   </body>
 </html>

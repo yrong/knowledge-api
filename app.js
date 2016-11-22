@@ -14,7 +14,7 @@ var users = require('./routes/users');
 var article = require('./routes/article');
 var search = require('./routes/search');
 var discussions = require('./routes/discussions');
-//var it_service = require('./routes/it_service');
+var it_services = require('./routes/it_services');
 var app = express();
 
 // view engine setup
@@ -55,8 +55,7 @@ app.use('/users', users);
 app.use('/KB/API/articles', article);
 app.use('/KB/API/search', search);
 app.use('/KB/API/discussions', discussions);
-
-//app.use('/KB/API/it_service', it_service);
+app.use('/KB/API/it_services', it_services);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -5,24 +5,28 @@ var Config = require('../config');
 var async=require('async');
 var SQL_Template = require('../sql/SQL_Template');
 var util=require('util');
-var Tokens=require('../sql/User');
-var IT_Services=require('./IT_Services');
+var User=require('../sql/User');
+var IT_Services=require('../model/IT_Services');
 var config=new Config();
 var pg_config=config.PG_Connection;//pg的连接参数
-var tokens=new Tokens();
+var user=new User();
 var sql_template=new SQL_Template();
 //文章更新
 router.post('/', function(req, res, next) {
     //获取文章类型
     var token=req.body.token;
     var it_services=new IT_Services(req.body);
-    if(!it_services.validate()){
-        res.send({status:'存在非空字段未赋值，新增失败！'});
+       var client = new Client(pg_config);
+    try{
+        client.connect();
+    }
+    catch(e){
+        res.send({status:'数据库连接错误'});
         return;
     }
     async.waterfall([
             function (done) {
-                tokens.token_validate(token,function(info){
+                user.token_validate(token,function(info){
                     if(!info)
                         done('fail',null);
                     else
@@ -30,24 +34,52 @@ router.post('/', function(req, res, next) {
                 });
             },
             function (result, done) {
-                var client = new Client(pg_config);
-                client.connect();
-                var insert_sql = sql_template.insertSQL(it_services, 'it_services');
+                //查询parent的idcode对应的path
+                var parent=req.body.parent;
+                if(parent==undefined)
+                    done(null,undefined);
+                else
+                {
+                    //查询上级的depend和path
+                    let sql='select dependency,path from it_services where idcode=$1';
+                    client.query(sql,[parent],function(err, result){
+                        console.log(err);
+                        if(err)
+                            done(err,null);
+                        else
+                            done(null,result.rows[0]);
+                    });
+                }
+            },
+            function (result, done) {
+                var insert_sql;
+                it_services.idcode=uuid();
+                if(result!==undefined)
+                {
+                    it_services.dependency=it_services.dependency.concat(result.dependency);
+                    it_services.path=result.path+'.'+it_services.idcode;
+                }
+                else//父节点是空，代表是服务分组
+                    it_services.path=it_services.idcode;
+                insert_sql = sql_template.insertIT(it_services);
+                console.log(insert_sql);
                 let query = client.query(insert_sql.sql,insert_sql.values,function(err, result){
                     console.log(err,result);
                     if(err)
                         done(err,null);
                     else
                         done(null,'ok');
-                    client.end();
+
                 });
-            }], function (error, result) {
-            if (error)
-                res.send({status:error});
-            else
-                res.send({status:'ok'});
-        }
-    )
+            }
+
+    ], function (error, result) {
+        if (error)
+            res.send({status:error});
+        else
+            res.send({status:'ok'});
+        client.end();
+    })
 });
 //根据id删除
 router.delete('/:id', function(req, res, next) {
@@ -310,5 +342,19 @@ router.get('/', function(req, res, next) {
         res.send({status: e});
     }
 });
+var uuid=function() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for ( var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the
+    // clock_seq_hi_and_reserved
+    // to 01
+    s[8] = s[13] = s[18] = s[23] = "";
 
+    var uuid = s.join("");
+    return uuid;
+}
 module.exports = router;

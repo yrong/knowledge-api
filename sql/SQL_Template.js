@@ -96,5 +96,28 @@ SQL_Template.prototype.insertDiscussions=function(discussions){
 
 
 
+SQL_Template.prototype.insertIT=function(it_service){
+    let sql='';
+    let keys=[];
+    let values=[];
+    let items=[];
+    let k=0;
+    for(let key in it_service){
+        if(it_service[key]==undefined||it_service[key]==''||typeof it_service[key]=='function')
+            continue;
+        if(it_service[key].constructor==Array)//如果是数组类型
+            it_service[key]='{"' + it_service[key].join('","') + '"}';
+        else if(it_service[key].constructor==Object)
+            it_service[key]=JSON.stringify(it_service[key]);//json对象转字符串
+        keys.push(key);
+        values.push(util.format('%s',it_service[key]));
+        k++;
+        items.push('$'+k);
+    }
+    sql=util.format("insert into it_services(%s) VALUES (%s)",keys.join(','),items.join(','));
+    console.log(sql,values);
+    return {sql:sql,values:values};
+}
+
 
 module.exports = SQL_Template;
