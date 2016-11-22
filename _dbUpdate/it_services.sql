@@ -1,10 +1,10 @@
 ﻿CREATE TABLE public.it_services
 (
     id serial NOT NULL,
-    idcode uuid,
-    name text,
-    dependency text[], 
-    path ltree,
+	idcode text,
+    name text, -- 名称
+	dependency text[], -- 服务依赖
+	path ltree, -- 服务层级维护
     CONSTRAINT it_services_pkey PRIMARY KEY (id)
 );
 CREATE INDEX it_services_idcode_idx ON public.it_services USING btree (idcode);
