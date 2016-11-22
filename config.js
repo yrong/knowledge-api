@@ -1,7 +1,7 @@
 var Config=function(){
     // Postgres连接参数
     this.PG_Connection= {
-        host: '192.168.0.125',
+        host: '192.168.43.125',
         port: 5432,
         database: 'knowledge',
         user: 'postgres',

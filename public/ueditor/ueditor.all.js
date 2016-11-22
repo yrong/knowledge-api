@@ -11144,7 +11144,7 @@ UE.commands['insertimage'] = {
             });
         }
 
-        if (img && /img/i.test(img.tagName) && (img.className != "edui-faked-video" || img.className.indexOf("edui-upload-video")!=-1) && !img.getAttribute("word_img")) {
+        if (img && /img/i.test(img.tagName) && (img.className != "edui-faked-video" || img.className.indexOf("edui-headImages-video")!=-1) && !img.getAttribute("word_img")) {
             var first = opt.shift();
             var floatStyle = first['floatStyle'];
             delete first['floatStyle'];
@@ -12012,7 +12012,7 @@ UE.plugins['link'] = function(){
             //判断如果是视频的话连接不可用
             //fix 853
             var img = this.selection.getRange().getClosedNode(),
-                flag = img && (img.className == "edui-faked-video" || img.className.indexOf("edui-upload-video")!=-1);
+                flag = img && (img.className == "edui-faked-video" || img.className.indexOf("edui-headImages-video")!=-1);
             return flag ? -1 : 0;
         }
     };
@@ -17679,7 +17679,7 @@ UE.plugins['video'] = function (){
                 var html = creatInsertStr( img2video ? node.getAttr('_url') : node.getAttr('src'),node.getAttr('width'),node.getAttr('height'),null,node.getStyle('float') || '',className,img2video ? 'embed':'image');
                 node.parentNode.replaceChild(UE.uNode.createElement(html),node);
             }
-            if(className && className.indexOf('edui-upload-video') != -1){
+            if(className && className.indexOf('edui-headImages-video') != -1){
                 var html = creatInsertStr( img2video ? node.getAttr('_url') : node.getAttr('src'),node.getAttr('width'),node.getAttr('height'),null,node.getStyle('float') || '',className,img2video ? 'video':'image');
                 node.parentNode.replaceChild(UE.uNode.createElement(html),node);
             }
@@ -17765,7 +17765,7 @@ UE.plugins['video'] = function (){
             var html = [],id = 'tmpVedio', cl;
             for(var i=0,vi,len = videoObjs.length;i<len;i++){
                 vi = videoObjs[i];
-                cl = (type == 'upload' ? 'edui-upload-video video-js vjs-default-skin':'edui-faked-video');
+                cl = (type == 'upload' ? 'edui-headImages-video video-js vjs-default-skin':'edui-faked-video');
                 html.push(creatInsertStr( vi.url, vi.width || 420,  vi.height || 280, id + i, null, cl, 'image'));
             }
             me.execCommand("inserthtml",html.join(""),true);
@@ -17779,7 +17779,7 @@ UE.plugins['video'] = function (){
         },
         queryCommandState : function(){
             var img = me.selection.getRange().getClosedNode(),
-                flag = img && (img.className == "edui-faked-video" || img.className.indexOf("edui-upload-video")!=-1);
+                flag = img && (img.className == "edui-faked-video" || img.className.indexOf("edui-headImages-video")!=-1);
             return flag ? 1 : 0;
         }
     };
@@ -28877,7 +28877,7 @@ UE.ui = baidu.editor.ui = {};
                         dialogs = editor.ui._dialogs;
                     if (img && img.tagName == 'IMG') {
                         var dialogName = 'insertimageDialog';
-                        if (img.className.indexOf("edui-faked-video") != -1 || img.className.indexOf("edui-upload-video") != -1) {
+                        if (img.className.indexOf("edui-faked-video") != -1 || img.className.indexOf("edui-headImages-video") != -1) {
                             dialogName = "insertvideoDialog"
                         }
                         if (img.className.indexOf("edui-faked-webapp") != -1) {
@@ -29021,7 +29021,7 @@ UE.ui = baidu.editor.ui = {};
                         this.renderToolbarBoxHtml() +
                         '</div></div>' : '') +
                 '<div id="##_toolbarmsg" class="%%-toolbarmsg" style="display:none;">' +
-                '<div id = "##_upload_dialog" class="%%-toolbarmsg-upload" onclick="$$.showWordImageDialog();">' + this.editor.getLang("clickToUpload") + '</div>' +
+                '<div id = "##_upload_dialog" class="%%-toolbarmsg-headImages" onclick="$$.showWordImageDialog();">' + this.editor.getLang("clickToUpload") + '</div>' +
                 '<div class="%%-toolbarmsg-close" onclick="$$.hideToolbarMsg();">x</div>' +
                 '<div id="##_toolbarmsg_label" class="%%-toolbarmsg-label"></div>' +
                 '<div style="height:0;overflow:hidden;clear:both;"></div>' +
