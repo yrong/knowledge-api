@@ -296,45 +296,4 @@ router.get('/', function(req, res, next) {
     }
 });
 
-
-//根据tag查询
-router.get('/tag/:tag', function(req, res, next) {
-    var tag = req.params.tag;
-    if (tag == undefined) {
-        res.send({status: '未指定查询tag，查询失败！'});
-        return;
-    }
-    var client = new Client(pg_config);
-    try {
-        client.connect();
-    }
-    catch (e) {
-        res.send({status: '数据库连接错误'});
-        return;
-    }
-    let sql = util.format("select * from template_article where $1=any(tag)");
-    query = client.query(sql, [tag], function (err, result) {
-        if (err)
-            res.send({status: '查询错误！'});
-        else
-        {
-            var row=result.rows[0];
-            if(row==undefined)
-                res.send({status: '未查询到数据！'});
-            else
-            {
-                let content=row.content;
-                delete row.content;
-                for(var key in content)
-                {
-                    row[key]=content[key];
-                }
-                res.send({status: 'ok',data:row});
-            }
-        }
-        client.end();
-    });
-});
-
-
 module.exports = router;

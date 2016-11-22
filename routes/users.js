@@ -4,6 +4,7 @@ var Config = require('../config');
 var User=require('../sql/User');
 var UserInfo = require('../model/UserInfo');
 var fs = require('fs');
+var util=require('util');
 var path = require('path');
 var formidable = require('formidable');
 
@@ -18,10 +19,10 @@ router.get('/', function(req, res, next) {
 //更改用户密码
 var user=new User();
 router.put('/changepwd', function(req, res, next) {
-  var userid=req.params.userid;
-  var alias=req.params.alias;
-  var oldpwd=req.params.oldpwd;
-  var newpwd=req.params.newpwd;
+  var userid=req.body.userid;
+  var alias=req.body.alias;
+  var oldpwd=req.body.oldpwd;
+  var newpwd=req.body.newpwd;
   user.changepwd(userid,alias,oldpwd,newpwd,function(info){
     if(info)
       res.send({status:'修改密码失败'});

@@ -182,12 +182,31 @@
         });
 
 
-
-        $("#btnquery_article_bytag").click(function () {
+        //综合查询
+        $("#btnquery_article_zhch").click(function () {
           //var id=$("#article_idcode").val();
           $.ajax({
             type: 'Get',
-            url: '/KB/API/articles/tag/人生',
+            url: '/KB/API/search/filter/zhcx',
+            data:{
+              filter:
+              {
+                tag: {
+                  value: ['人生'],
+                  logic: 'or'  //只有or和and，不赋值默认数组条件就是or
+                },
+                it_service: {
+                  value: ['科学'],
+                  logic: 'or'  //只有or和and，不赋值默认就是or
+                },
+                keyword:'水电费',
+              },
+              logic:'and',//只有or和and，不赋值默认filter的组合条件就是and
+              page:1, //分页查询第几页，必填值
+              per_page:13//分页查询每页数量，必填值
+              //sortby:'name',//排序字段，默认就是id，可选
+              //order:'asc'/'desc'//排序方式，可选
+            },
             dataType: 'json',
             success: function (res) {
               console.log(res);
@@ -450,7 +469,7 @@
       <button id="btnupdate_article">模板文章多字段put修改</button>
       <button id="btnupdate_article_patch">模板文章多单字段patch修改</button>      
       <button id="btnquery_article_byid">文章模板id查询</button>
-      <button id="btnquery_article_bytag">文章模板tag查询</button>
+      <button id="btnquery_article_zhch">文章综合查询</button>
     </div>
     </br></br>
     <div>
