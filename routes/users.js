@@ -24,10 +24,7 @@ router.put('/changepwd', function(req, res, next) {
   var oldpwd=req.body.oldpwd;
   var newpwd=req.body.newpwd;
   user.changepwd(userid,alias,oldpwd,newpwd,function(info){
-    if(info)
-      res.send({status:'修改密码失败'});
-    else
-      res.send({status:'ok'});
+      res.send(info);
   });
 });
 //上传头像，设置分页等提交的form表单

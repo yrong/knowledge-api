@@ -78,9 +78,9 @@ User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
             }
         ], function (error, result) {
             if (error)
-                res.send({status:error});
+                cb({status:error});
             else
-                res.send({status:'ok'});
+                cb({status:'ok'});
             }
     );
 }
