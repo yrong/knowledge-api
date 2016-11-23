@@ -247,7 +247,7 @@
 
 		
 		
-		 $("#btnadd_it").click(function () {
+        $("#btnadd_it").click(function () {
           $.ajax({
             type: 'Post',
             url: '/KB/API/it_services',
@@ -265,16 +265,13 @@
             }
           });
         });
-
         $("#btnput_it").click(function () {
           $.ajax({
             type: 'Put',
-            url: '/KB/API/it_services/24',
+            url: '/KB/API/it_services/3f6cb391e1d54780afbdbf81b05ba222',
             data: {
-              category: '椭圆',
-              service_name: '科学测试',
-              priority: 1,
-              responsibility: '界面',
+              name: '一级服务3',
+              dependency: ['一级服务3依赖'],
               token:token
             },
             dataType: 'json',
@@ -288,9 +285,10 @@
         $("#btnpatch_it").click(function () {
           $.ajax({
             type: 'Patch',
-            url: '/KB/API/it_services/24',
+            url: '/KB/API/it_services/3f6cb391e1d54780afbdbf81b05ba222',
             data: {
-              service_name: '科学名称',
+              name: '一级服务6',
+              //dependency: ['一级服务3依赖'],
               token:token
             },
             dataType: 'json',
@@ -304,7 +302,8 @@
         $("#btndelete_it").click(function () {
           $.ajax({
             type: 'DELETE',
-            url: '/KB/API/it_services/23',
+            url: '/KB/API/it_services/3f6cb391e1d54780afbdbf81b05ba222',//注意，会级联删除，就是说，比如二级服务删除了，该
+            //二级服务所拥有的三级服务都会被关联删除
             data:{
               token:token
             },
@@ -316,16 +315,12 @@
             }
           });
         });
-        $("#btnget_it").click(function () {
+        //根据某个父服务的idcode，查询其紧邻下级的子服务。
+        //如果是/KB/API/it_services/，不传id，代表获取全部的一级（也就是服务分组）
+        $("#btnget_it_byidcode").click(function () {
           $.ajax({
             type: 'Get',
-            url: '/KB/API/it_services',
-            data: {
-              page:1, //分页查询第几页
-              per_page:13,//分页查询每页数量
-              //sortby:'name',//排序字段，默认就是id
-              //order:'asc'/'desc'//排序方式
-            },
+            url: '/KB/API/it_services/3f6cb391e1d54780afbdbf81b05ba222',
             dataType: 'json',
             success: function (res) {
               console.log(res);
@@ -487,9 +482,9 @@
   <div>
     <button id="btnadd_it">新增it_services</button>
     <button id="btndelete_it">文章删除it_services</button>
-    <button id="btnupdate_it">更新it_services</button>
+    <button id="btnput_it">更新it_services</button>
     <button id="btnpatch_it">单个字段更新it_services</button>
-    <button id="btngetid">获取it树形列表</button>
+    <button id="btnget_it_byidcode">获取idocde下的it树子服务列表</button>
   </div>
   </body>
 </html>
