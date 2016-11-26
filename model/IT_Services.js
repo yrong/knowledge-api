@@ -16,4 +16,11 @@ var IT_Services=function(options){
             this.path=options[key];
     }
 }
+IT_Services.prototype.getLength=function(){
+    let count=-1;
+    for(var key in this){
+        count++;
+    }
+    return count;
+}
 module.exports = IT_Services;

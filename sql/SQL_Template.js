@@ -93,9 +93,6 @@ SQL_Template.prototype.insertDiscussions=function(discussions){
     console.log(sql,values);
     return {sql:sql,values:values};
 }
-
-
-
 SQL_Template.prototype.insertIT=function(it_service){
     let sql='';
     let keys=[];
@@ -118,6 +115,43 @@ SQL_Template.prototype.insertIT=function(it_service){
     console.log(sql,values);
     return {sql:sql,values:values};
 }
-
-
+SQL_Template.prototype.getKeyValue=function(obj) {
+    let keys=[];
+    let values=[];
+    let items=[];
+    let k=0;
+    for(let key in obj){
+        if(obj[key]==undefined||obj[key]==''||typeof obj[key]=='function')
+            continue;
+        if(obj[key].constructor==Array)//如果是数组类型
+            obj[key]='{"' + obj[key].join('","') + '"}';
+        else if(obj[key].constructor==Object)
+            obj[key]=JSON.stringify(obj[key]);//json对象转字符串
+        keys.push(key);
+        values.push(util.format('%s',obj[key]));
+        k++;
+        items.push('$'+k);
+    }
+    return {
+        keys:keys,
+        values:values,
+        items:items
+    }
+}
+SQL_Template.prototype.updateFormat=function(obj){
+    let items=[];
+    for(let key in obj){
+        if(obj[key]==undefined||obj[key]==''||typeof obj[key]=='function')
+            continue;
+        if(obj[key].constructor==Array)//如果是数组类型
+            obj[key]='{"' + obj[key].join('","') + '"}';
+        else if(obj[key].constructor==Object)
+            obj[key]=JSON.stringify(obj[key]);//json对象转字符串
+        if(typeof obj[key]=='string')
+            items.push(util.format("%s='%s'",key,obj[key]));
+        else if(typeof obj[key]=='number'||typeof obj[key]=='boolean')
+            items.push(util.format('%s=%s',key,obj[key]));
+    }
+    return items;
+}
 module.exports = SQL_Template;

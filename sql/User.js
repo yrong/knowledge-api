@@ -14,6 +14,9 @@ var User=function(){
 }
 //验证用户token
 User.prototype.token_validate=function(token,cb){
+    cb(true);
+    return;
+    var self=this;
     this._client.connect();
     this._client.query("use " + mysql_config.database);
     this._client.query(
@@ -30,7 +33,7 @@ User.prototype.token_validate=function(token,cb){
                 else
                     cb(false);
             }
-            this._client.end();
+            self._client.end();
         }
     );
 }

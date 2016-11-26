@@ -252,9 +252,9 @@
             type: 'Post',
             url: '/KB/API/it_services',
             data: {
-              name: '二级服务',
-              dependency: ['DNS'],
-              parent:'3f6cb391e1d54780afbdbf81b05ba222',//不指定就是一级服务分组，可指定某个服务的idcode
+              name: '四级服务',
+              dependency: ['93147f62cf1d45b59e99f32b8c577b51','0282e0076e844df78962ffe909af3892'],//指定依赖服务的idcode
+              parent:'0dd7749e173748d985ad6044c9faba0e',//不指定就是一级服务分组，可指定某个服务的idcode
               token:token
             },
             dataType: 'json',
@@ -268,10 +268,10 @@
         $("#btnput_it").click(function () {
           $.ajax({
             type: 'Put',
-            url: '/KB/API/it_services/3f6cb391e1d54780afbdbf81b05ba222',
+            url: '/KB/API/it_services/93147f62cf1d45b59e99f32b8c577b51',
             data: {
-              name: '一级服务3',
-              dependency: ['一级服务3依赖'],
+              name: '三级级服务49',
+              dependency: ['93147f62cf1d45b59e99f32b8c577b51'],
               token:token
             },
             dataType: 'json',
@@ -285,10 +285,10 @@
         $("#btnpatch_it").click(function () {
           $.ajax({
             type: 'Patch',
-            url: '/KB/API/it_services/3f6cb391e1d54780afbdbf81b05ba222',
+            url: '/KB/API/it_services/0dd7749e173748d985ad6044c9faba0e',
             data: {
-              name: '一级服务6',
-              //dependency: ['一级服务3依赖'],
+              //name: '一级服务6',
+              dependency: ['93147f62cf1d45b59e99f32b8c577b51'],
               token:token
             },
             dataType: 'json',
@@ -320,7 +320,7 @@
         $("#btnget_it_byidcode").click(function () {
           $.ajax({
             type: 'Get',
-            url: '/KB/API/it_services/3f6cb391e1d54780afbdbf81b05ba222',
+            url: '/KB/API/it_services/0dd7749e173748d985ad6044c9faba0e', //3f6cb391e1d54780afbdbf81b05ba222
             dataType: 'json',
             success: function (res) {
               console.log(res);

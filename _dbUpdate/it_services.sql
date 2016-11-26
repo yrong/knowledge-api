@@ -20,5 +20,4 @@ COMMENT ON COLUMN it_services.name
 COMMENT ON COLUMN it_services.dependency
     IS '服务依赖';	
 COMMENT ON COLUMN it_services.path
-    IS '服务层级维护';	
-	
+    IS '服务层级维护';

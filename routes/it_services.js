@@ -25,54 +25,53 @@ router.post('/', function(req, res, next) {
         return;
     }
     async.waterfall([
-            function (done) {
-                user.token_validate(token,function(info){
-                    if(!info)
-                        done('fail',null);
-                    else
-                        done(null,true);
-                });
-            },
-            function (result, done) {
-                //查询parent的idcode对应的path
-                var parent=req.body.parent;
-                if(parent==undefined)
-                    done(null,undefined);
+        function (done) {
+            user.token_validate(token,function(info){
+                if(!info)
+                    done('fail',null);
                 else
-                {
-                    //查询上级的depend和path
-                    let sql='select dependency,path from it_services where idcode=$1';
-                    client.query(sql,[parent],function(err, result){
-                        console.log(err);
-                        if(err)
-                            done(err,null);
-                        else
-                            done(null,result.rows[0]);
-                    });
-                }
-            },
-            function (result, done) {
-                var insert_sql;
-                it_services.idcode=uuid();
-                if(result!==undefined)
-                {
-                    it_services.dependency=it_services.dependency.concat(result.dependency);
-                    it_services.path=result.path+'.'+it_services.idcode;
-                }
-                else//父节点是空，代表是服务分组
-                    it_services.path=it_services.idcode;
-                insert_sql = sql_template.insertIT(it_services);
-                console.log(insert_sql);
-                let query = client.query(insert_sql.sql,insert_sql.values,function(err, result){
-                    console.log(err,result);
+                    done(null,true);
+            });
+        },
+        function (result, done) {
+            //查询parent的idcode对应的path
+            var parent=req.body.parent;
+            if(parent==undefined)
+                done(null,undefined);
+            else
+            {
+                //查询上级的depend和path
+                let sql='select dependency,path from it_services where idcode=$1';
+                client.query(sql,[parent],function(err, result){
+                    console.log(err);
                     if(err)
                         done(err,null);
                     else
-                        done(null,'ok');
-
+                        done(null,result.rows[0]);
                 });
             }
-
+        },
+        function (result, done) {
+            var insert_sql;
+            it_services.idcode=uuid();
+            if(result!==undefined)
+            {
+                it_services.dependency=it_services.dependency.concat(result.dependency);
+                it_services.dependency=ArrayUnique(it_services.dependency);
+                it_services.path=result.path+'.'+it_services.idcode;
+            }
+            else//父节点是空，代表是服务分组
+                it_services.path=it_services.idcode;
+            insert_sql = sql_template.insertIT(it_services);
+            console.log(insert_sql);
+            let query = client.query(insert_sql.sql,insert_sql.values,function(err, result){
+                console.log(err,result);
+                if(err)
+                    done(err,null);
+                else
+                    done(null,'ok');
+            });
+        }
     ], function (error, result) {
         if (error)
             res.send({status:error});
@@ -149,63 +148,30 @@ router.put('/:idcode', function(req, res, next) {
             });
         },
         function (result, done) {
-            //更新name
-            if(it_services.name!=undefined) {
-                let sql = 'update it_services set name=$1 where idcode=$2';
-                let values = [it_services.name, idcode];
-                let query = client.query(sql, values, function (err, result) {
-                    if (err)
-                        done(err, null);
-                    else{
-                        if(it_services.dependency!=undefined)
-                            done(null, 'ok');
-                        else
-                            done(null, undefined);
-                    }
-                });
-            }
-            else{
-                if(it_services.dependency!=undefined)
-                    done(null, 'ok');
+            //查询depend和path
+            let sql='select dependency from it_services where idcode=$1';
+            client.query(sql,[idcode],function(err, result){
+                console.log(err);
+                if(err)
+                    done(err,null);
                 else
-                    done(null, undefined);
-            }
+                    done(null,result.rows[0]);
+            });
         },
         function (result, done) {
-            if(result==undefined)//没有依赖，直接跳走
-                done(null,undefined);
-            else{//查询信息
-                let sql='select * from it_services where idcode=$1';
-                client.query(sql,[idcode],function(err, result){
-                    if(err)
-                        done(err,null);
-                    else{
-                        var row=result.rows[0];
-                        if(row==undefined)
-                            done('未获取要更新的记录！',null);
-                        else{
-                            let path=row.path;
-                            let dependency=row.dependency;
-                            let sql=util.format("update it_services set dependency=string_to_array(regexp_replace(array_to_string(dependency, ','), '%s', '%s'),',') where path<@'%s'",dependency.join(','),it_services.dependency.join(','),path);
-                            done(null,sql);
-                        }
-                    }
-                });
-            }
-        },
-        function (sql, done) {
-            if(sql==undefined)//没有依赖，直接跳走
-                done(null,undefined);
-            else{
-                let query = client.query(sql,function(err, result){
-                    if(err)
-                        done(err,null);
-                    else
-                        done(null,'ok');
+            it_services.dependency=it_services.dependency.concat(result.dependency);
+            it_services.dependency=ArrayUnique(it_services.dependency);
+            var update_format = sql_template.updateFormat(it_services);
 
-                });
-            }
-        }], function (error, result) {
+            let sql=util.format("update it_services set %s where idcode=$1",update_format.join(','));
+            let query = client.query(sql, [idcode],function(err,result){
+                if(err)
+                    done('更新发生异常错误！',null);
+                else
+                    done(err,'ok');
+            });
+        },
+    ], function (error, result) {
         if (error)
             res.send({status: error});
         else
@@ -226,6 +192,11 @@ router.patch('/:idcode', function(req, res, next) {
         res.send({status:'未指定更新字段数据，更新失败！'});
         return;
     }
+    if(it_services.getLength()>1)
+    {
+        res.send({status:'更新字段超过多个，rest权限不够，考虑put请求，更新失败！'});
+        return;
+    }
     var client = new Client(pg_config);
     try{
         client.connect();
@@ -244,59 +215,29 @@ router.patch('/:idcode', function(req, res, next) {
             });
         },
         function (result, done) {
-            //更新name
-            if(it_services.name!=undefined) {
-                let sql = 'update it_services set name=$1 where idcode=$2';
-                let values = [it_services.name, idcode];
-                let query = client.query(sql, values, function (err, result) {
-                    if (err)
-                        done(err, null);
-                    else
-                        done(null, undefined);
-                });
-            }
-            else{
-                if(it_services.dependency!=undefined)
-                    done(null, 'ok');
+            //查询depend和path
+            let sql='select dependency from it_services where idcode=$1';
+            client.query(sql,[idcode],function(err, result){
+                console.log(err);
+                if(err)
+                    done(err,null);
                 else
-                    done(null, undefined);
-            }
+                    done(null,result.rows[0]);
+            });
         },
         function (result, done) {
-            if(result==undefined)//没有依赖，直接跳走
-                done(null,undefined);
-            else{//查询信息
-                let sql='select * from it_services where idcode=$1';
-                client.query(sql,[idcode],function(err, result){
-                    if(err)
-                        done(err,null);
-                    else{
-                        var row=result.rows[0];
-                        if(row==undefined)
-                            done('未获取要更新的记录！',null);
-                        else{
-                            let path=row.path;
-                            let dependency=row.dependency;
-                            let sql=util.format("update it_services set dependency=string_to_array(regexp_replace(array_to_string(dependency, ','), '%s', '%s'),',') where path<@'%s'",dependency.join(','),it_services.dependency.join(','),path);
-                            done(null,sql);
-                        }
-                    }
-                });
-            }
+            it_services.dependency=it_services.dependency.concat(result.dependency);
+            it_services.dependency=ArrayUnique(it_services.dependency);
+            var update_format = sql_template.updateFormat(it_services);
+            let sql=util.format("update it_services set %s where idcode=$1",update_format.join(','));
+            let query = client.query(sql, [idcode],function(err,result){
+                if(err)
+                    done('更新发生异常错误！',null);
+                else
+                    done(err,'ok');
+            });
         },
-        function (sql, done) {
-            if(sql==undefined)//没有依赖，直接跳走
-                done(null,undefined);
-            else{
-                let query = client.query(sql,function(err, result){
-                    if(err)
-                        done(err,null);
-                    else
-                        done(null,'ok');
-
-                });
-            }
-        }], function (error, result) {
+      ], function (error, result) {
         if (error)
             res.send({status: error});
         else
@@ -316,12 +257,21 @@ router.get('/:idcode', function(req, res, next) {
         return;
     }
     let sql;//查询某个idcode下的子服务列表
-    sql='select a.* from it_services a,(select nlevel(path) as level,path from it_services where idcode=$1) b where a.path<@b.path and nlevel(a.path)=(b.level+1)';
+    sql=`with temservice as (select a.* from it_services a,(select nlevel(path) as level,path from it_services where idcode=$1) b where a.path<@b.path and nlevel(a.path)=(b.level+1))
+
+    select a.id,a.idcode,a.name,t.dependency,a.path from temservice a, (
+
+        select b.idcode,json_object_agg(a.idcode,a.name) dependency from it_services a,(select idcode,dependency from temservice) b
+    where a.idcode=any(b.dependency) group by b.idcode
+
+    ) t where a.idcode=t.idcode`;
+
+
     var query = client.query(sql, [idcode],function(err,result){
         if(err)
             res.send({status:'查询发生错误！'});
         else
-            res.send({status:result.rows});
+            res.send({status:'ok',data:result.rows});
     });
 });
 //分组查询
@@ -334,12 +284,17 @@ router.get('/', function(req, res, next) {
         res.send({status:"查询服务器发生错误！"});
         return;
     }
-    let sql='select * from it_services where nlevel(path)=1';
+    let sql=`select a.id,a.idcode,a.name,t.dependency,a.path from it_services a, (
+
+    select b.idcode,json_object_agg(a.idcode,a.name) dependency from it_services a,(select idcode,dependency from it_services where nlevel(path)=1) b
+    where a.idcode=any(b.dependency) group by b.idcode
+
+    ) t where a.idcode=t.idcode`;
     var query = client.query(sql,function(err,result){
         if(err)
             res.send({status:'查询发生错误！'});
         else
-            res.send({status:result.rows});
+            res.send({status:'ok',data:result.rows});
     });
 });
 var uuid=function() {
@@ -356,5 +311,20 @@ var uuid=function() {
 
     var uuid = s.join("");
     return uuid;
+}
+
+
+var ArrayUnique = function(arr)
+{
+    arr.sort();
+    var re=[arr[0]];
+    for(var i = 1; i < arr.length; i++)
+    {
+        if( arr[i] !== re[re.length-1])
+        {
+            re.push(arr[i]);
+        }
+    }
+    return re;
 }
 module.exports = router;
