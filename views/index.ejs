@@ -436,7 +436,22 @@
           });
         });
 
-
+        $("#btnnotifications").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/notifications',
+            data: {
+              page:1, //分页查询第几页
+              per_page:13//分页查询每页数量
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询评论成功！');
+            }
+          });
+        });
 
 
 
@@ -485,6 +500,9 @@
     <button id="btnput_it">更新it_services</button>
     <button id="btnpatch_it">单个字段更新it_services</button>
     <button id="btnget_it_byidcode">获取idocde下的it树子服务列表</button>
+  </div>
+  <div>
+    <button id="btnnotifications">获取notifications</button>
   </div>
   </body>
 </html>
