@@ -22,9 +22,10 @@ SQL_Template.prototype.insertSQL=function(template,tb_name){
         k++;
         items.push('$'+k);
     }
-    sql=util.format("insert into %s(%s,idcode,created_at) VALUES (%s,uuid_generate_v4(),now())",tb_name,keys.join(','),items.join(','));
+    let idcode=uuid.v4();
+    sql=util.format("insert into %s(%s,idcode,created_at) VALUES (%s,'%s',now())",tb_name,keys.join(','),items.join(','),idcode);
     console.log(sql,values);
-    return {sql:sql,values:values};
+    return {sql:sql,values:values,idcode:idcode};
 }
 SQL_Template.prototype.updateSQL=function(template,tb_name){
     let items=[];

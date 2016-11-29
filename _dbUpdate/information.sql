@@ -1,23 +1,35 @@
-create table notifications(
-	id serial not null,
-	userid text not null,
-	created_at timestamp without time zone,
-	action text,--增删改
-	targetid text,
-	relationid text,
-	constraint information_peky primary key (id)
+CREATE TABLE public.notifications
+(
+  id serial NOT NULL, -- 自增主键
+  userid text NOT NULL, -- 用户id
+  alias text,
+  created_at timestamp without time zone, -- 操作发生时间
+  action text, -- 操作类型
+  targetid text, -- 操作文章或回复的idcode
+  relationid text, -- 操作关联文章或回复的idcode
+  CONSTRAINT information_peky PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
 );
-create index notifications_targetid_idx on notifications using btree(targetid);
-create index notifications_relationid_idx on notifications using btree(relationid);
-COMMENT ON COLUMN notifications.id
-    IS '自增主键';
-COMMENT ON COLUMN notifications.userid 
-    IS '用户id';
-COMMENT ON COLUMN notifications.created_at
-    IS '操作发生时间';
-COMMENT ON COLUMN notifications.action
-    IS '操作类型';
-COMMENT ON COLUMN notifications.targetid
-    IS '操作文章或回复的idcode';
-COMMENT ON COLUMN notifications.relationid
-    IS '操作关联文章或回复的idcode';
+ALTER TABLE public.notifications
+  OWNER TO postgres;
+COMMENT ON COLUMN public.notifications.id IS '自增主键';
+COMMENT ON COLUMN public.notifications.userid IS '用户id';
+COMMENT ON COLUMN public.notifications.alias IS '用户别名';
+COMMENT ON COLUMN public.notifications.created_at IS '操作发生时间';
+COMMENT ON COLUMN public.notifications.action IS '操作类型';
+COMMENT ON COLUMN public.notifications.targetid IS '操作文章或回复的idcode';
+COMMENT ON COLUMN public.notifications.relationid IS '操作关联文章或回复的idcode';
+
+
+CREATE INDEX notifications_relationid_idx
+  ON public.notifications
+  USING btree
+  (relationid);
+
+
+CREATE INDEX notifications_targetid_idx
+  ON public.notifications
+  USING btree
+  (targetid);

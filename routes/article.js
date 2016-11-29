@@ -10,14 +10,13 @@ var util=require('util');
 var User=require('../sql/User');
 var config=new Config();
 var pg_config=config.PG_Connection;//pg的连接参数
-
 var user=new User();
 var sql_template=new SQL_Template();
+
 //文章新增
 router.post('/', function(req, res, next) {
     //获取文章类型
-    var token=req.body.token;
-    console.log(req.body);
+    var userid=req.body.userid;
     var template_type=Article_Type[req.body.article_type];
     if(template_type==undefined){
         res.send({status:'操作文章类型不明确！'});
@@ -29,32 +28,57 @@ router.post('/', function(req, res, next) {
         res.send({status:'存在非空字段未赋值，新增失败！'});
         return;
     }
-    console.log(template);
+    var _notifications={
+        action:'新增'
+    };
+    var client;
     async.waterfall([
         function (done) {
-            user.token_validate(token,function(info){
-                if(!info)
-                    done('token验证失败，无权限更改数据！',null);
-                else
+            user.getUserInfo(userid,function(info){
+                if(info===undefined){
+                    done('权限验证失败，无权限更改数据！',null);
+                }
+                else{
+                    _notifications.userid=info.userid;
+                    _notifications.alias=info.alias;
                     done(null,true);
+                }
             });
         },
         function (result, done) {
-            var client = new Client(pg_config);
+            client = new Client(pg_config);
             client.connect();
             var insert_sql = sql_template.insertSQL(template, 'template_article');
+            _notifications.targetid=insert_sql.idcode;
             let query = client.query(insert_sql.sql,insert_sql.values,function(err, result){
                 if(err)
                     done('新增发生异常错误！',null);
                 else
                     done(null,'ok');
-                client.end();
+            });
+        },
+        function(result, done){
+            var insert_sql = `INSERT INTO notifications(
+                userid, alias, created_at, action, targetid,relationid)
+            VALUES ($1, $2, now(), $3, $4, $5);`
+            let query = client.query(insert_sql,[
+                _notifications.userid,
+                _notifications.alias,
+                _notifications.action,
+                _notifications.targetid,
+                _notifications.relationid
+            ],function(err, result){
+                if(err)
+                    done('新增发生异常错误！',null);
+                else
+                    done(null,'ok');
             });
         }], function (error, result) {
             if (error)
                 res.send({status:error});
             else
                 res.send({status:'ok'});
+            client.end();
         }
     )
 });
@@ -99,11 +123,15 @@ router.delete('/:idcode', function(req, res, next) {
 router.put('/:idcode', function(req, res, next) {
     //获取文章类型
     var idcode=req.params.idcode;
-    var token=req.body.token;
+    var userid=req.body.userid;
     if(idcode==undefined){
         res.send({status:'未指定更新idcode，更新失败！'});
         return;
     }
+    var _notifications={
+        targetid:idcode,
+        action:'修改'
+    };
     var client = new Client(pg_config);
     try {
         client.connect();
@@ -114,11 +142,14 @@ router.put('/:idcode', function(req, res, next) {
     }
     async.waterfall([
         function (done) {
-            user.token_validate(token,function(info){
+            user.getUserInfo(userid,function(info){
                 if(!info)
-                    done('token验证失败，无权限更改数据！',null);
-                else
+                    done('权限验证失败，无权限更改数据！',null);
+                else{
+                    _notifications.userid=info.userid;
+                    _notifications.alias=info.alias;
                     done(null,true);
+                }
             });
         },
         function (result, done) {
@@ -130,6 +161,24 @@ router.put('/:idcode', function(req, res, next) {
             var template=new Template_Article(req.body);
             var update_sql = sql_template.updateSQL(template, 'template_article');
             let query = client.query(update_sql, [idcode],function(err,result){
+                if(err)
+                    done('更新发生异常错误！',null);
+                else
+                    done(null,'ok');
+            });
+        },
+        function(result, done){
+            var insert_sql = `INSERT INTO notifications(
+                userid, alias, created_at, action, targetid,relationid)
+            VALUES ($1, $2, now(), $3, $4, $5);`
+            let query = client.query(insert_sql,[
+                _notifications.userid,
+                _notifications.alias,
+                _notifications.action,
+                _notifications.targetid,
+                _notifications.relationid
+            ],function(err, result){
+                console.log(err);
                 if(err)
                     done('更新发生异常错误！',null);
                 else
@@ -147,11 +196,15 @@ router.put('/:idcode', function(req, res, next) {
 router.patch('/:idcode', function(req, res, next) {
     //获取文章类型
     var idcode=req.params.idcode;
-    var token=req.body.token;
+    var userid=req.body.userid;
     if(idcode==undefined){
         res.send({status:'未指定更新idcode，更新失败！'});
         return;
     }
+    var _notifications={
+        targetid:idcode,
+        action:'修改'
+    };
     let count=0;
     for(var key in req.body){
         if(key!=='token'&&key!=='article_type')//忽视token
@@ -172,11 +225,14 @@ router.patch('/:idcode', function(req, res, next) {
     }
     async.waterfall([
         function (done) {
-            user.token_validate(token,function(info){
+            user.getUserInfo(userid,function(info){
                 if(!info)
-                    done('token验证失败，无权限更改数据！',null);
-                else
+                    done('权限验证失败，无权限更改数据！',null);
+                else{
+                    _notifications.userid=info.userid;
+                    _notifications.alias=info.alias;
                     done(null,true);
+                }
             });
         },
         function (result, done) {
@@ -192,6 +248,23 @@ router.patch('/:idcode', function(req, res, next) {
                     done('更新发生异常错误！',null);
                 else
                     done(err,'ok');
+            });
+        },
+        function(result, done){
+            var insert_sql = `INSERT INTO notifications(
+                userid, alias, created_at, action, targetid,relationid)
+            VALUES ($1, $2, now(), $3, $4, $5);`
+            let query = client.query(insert_sql,[
+                _notifications.userid,
+                _notifications.alias,
+                _notifications.action,
+                _notifications.targetid,
+                _notifications.relationid
+            ],function(err, result){
+                if(err)
+                    done('新增发生异常错误！',null);
+                else
+                    done(null,'ok');
             });
         }], function (error, result) {
         if (error)

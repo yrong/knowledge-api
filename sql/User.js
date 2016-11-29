@@ -14,6 +14,8 @@ var User=function(){
 }
 //验证用户token
 User.prototype.token_validate=function(token,cb){
+    cb(true);
+    return;
     var self=this;
     this._client.connect();
     this._client.query("use " + mysql_config.database);
@@ -34,6 +36,21 @@ User.prototype.token_validate=function(token,cb){
             self._client.end();
         }
     );
+}
+//查询用户信息
+User.prototype.getUserInfo=function(userid,cb) {
+    /*cb({
+        userid:'5',
+        alias:'测试用户'
+    });
+    return;*/
+    var self=this;
+    self._client.connect();
+    self._client.query("use " + mysql_config.database);
+    self._client.query('SELECT userid,alias FROM users where userid=?', [userid],function(err, results, fields) {
+        cb(results[0]);
+        self._client.end();
+    });
 }
 //修改用户密码
 User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
