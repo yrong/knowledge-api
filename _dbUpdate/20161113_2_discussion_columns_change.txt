@@ -1,3 +1,0 @@
-alter table discussions rename column fromer to dis_from;
-alter table discussions rename column toer to dis_to;
-alter table discussions add column title text;
