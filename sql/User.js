@@ -14,8 +14,6 @@ var User=function(){
 }
 //验证用户token
 User.prototype.token_validate=function(token,cb){
-    cb(true);
-    return;
     var self=this;
     this._client.connect();
     this._client.query("use " + mysql_config.database);
@@ -40,8 +38,8 @@ User.prototype.token_validate=function(token,cb){
 //修改用户密码
 User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
     var self=this;
-    this._client.connect();
-    this._client.query("use " + mysql_config.database);
+    self._client.connect();
+    self._client.query("use " + mysql_config.database);
     async.waterfall([
             function (done) {
                 self._client.query(
@@ -59,7 +57,6 @@ User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
                             else
                                 done('用户不存在或密码错误，无法修改密码！');
                         }
-                        self._client.end();
                     }
                 );
             },
@@ -74,7 +71,6 @@ User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
                         }
                         else
                             done(null,true);
-                        self._client.end();
                     }
                 );
 
@@ -84,7 +80,9 @@ User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
                 cb({status:error});
             else
                 cb({status:'ok'});
-            }
+			self._client.end();
+       }
+			
     );
 }
 
