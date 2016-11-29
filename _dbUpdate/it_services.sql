@@ -7,9 +7,9 @@
 	path ltree, -- 服务层级维护
     CONSTRAINT it_services_pkey PRIMARY KEY (id)
 );
-CREATE INDEX it_services_idcode_idx ON public.it_services USING btree (idcode);
-
-CREATE INDEX it_services_path_gist_idx ON public.it_services USING gist (path);
+CREATE INDEX it_services_idcode_idx ON public.it_services USING btree(idcode);
+CREATE INDEX it_services_dependency_idx ON public.it_services USING btree(dependency);
+CREATE INDEX it_services_path_gist_idx ON public.it_services USING gist(path);
 
 COMMENT ON COLUMN it_services.id
     IS '自增主键';
