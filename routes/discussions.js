@@ -13,30 +13,63 @@ var sql_template=new SQL_Template();
 router.post('/', function(req, res, next) {
     //获取文章类型
     var discussions=new Discussions(req.body);
+    var token=req.body.token;
     //字段非空判断
     if(!discussions.validate()){
         res.send({status:'存在非空字段未赋值，评论失败！'});
         return;
     }
-    //async.waterfall([
-            //function (result, done) {
-                var client = new Client(pg_config);
-                client.connect();
-                var insert_sql = sql_template.insertDiscussions(discussions);
-                let query = client.query(insert_sql.sql,insert_sql.values,function(err, result){
-                    if(err)
-                        res.send({status:'评论发生异常错误！'});
-                    else
-                        res.send({status:'ok'});
-                    client.end();
-                });
-           // }], function (error, result) {
-            //if (error)
-               // res.send({status:error});
-           // else
-                //res.send({status:'ok'});
-        //}
-    //)
+    var _notifications={
+        action:'新增',
+        targetid:discussions.idcode,
+        relationid:discussions.dis_reply_idcode
+    };
+    async.waterfall([
+        function (done) {
+            user.token_validate(token,function(info){
+                if(info===undefined){
+                    done('权限验证失败，无权限更改数据！',null);
+                }
+                else{
+                    _notifications.userid=info.userid;
+                    done(null,true);
+                }
+            });
+        },
+        function (result, done) {
+            var client = new Client(pg_config);
+            client.connect();
+            var insert_sql = sql_template.insertDiscussions(discussions);
+            let query = client.query(insert_sql.sql,insert_sql.values,function(err, result){
+                if(err)
+                    res.send({status:'评论发生异常错误！'});
+                else
+                    res.send({status:'ok'});
+                client.end();
+            });
+        },
+        function(result, done){
+            var insert_sql = `INSERT INTO notifications(
+                userid, created_at, action, targetid,relationid)
+            VALUES ($1, now(), $2, $3, $4);`
+            let query = client.query(insert_sql,[
+                _notifications.userid,
+                _notifications.action,
+                _notifications.targetid,
+                _notifications.relationid
+            ],function(err, result){
+                if(err)
+                    done('新增发生异常错误！',null);
+                else
+                    done(null,'ok');
+            });
+        }], function (error, result) {
+            if (error)
+                res.send({status:error});
+            else
+                res.send({status:'ok'});
+        }
+    )
 });
 
 // 所有话题：/discussions/topic

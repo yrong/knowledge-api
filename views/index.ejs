@@ -11,31 +11,31 @@
             Guide:'Guide',
             Troubleshooting:'Troubleshooting'
         };
-        var userid=$("#userid").val();
-        console.info(userid);
-        $(function(){  
-          $('#userid').bind('input propertychange', function() {
+        var token=$("#token").val();
+        console.info(token);
+        $(function(){
+          $('#token').bind('input propertychange', function() {
             console.info($(this).val());
-            userid = $(this).val();
-          });   
-        })  
+            token = $(this).val();
+          });
+        })
 
         var article_idcode=$("#article_idcode").val();
         console.info(article_idcode);
-        $(function(){  
+        $(function(){
           $('#article_idcode').bind('input propertychange', function() {
             console.info($(this).val());
             article_idcode = $(this).val();
-          });   
+          });
         })
 
         var dis_idcode=$("#dis_idcode").val();
         console.info(dis_idcode);
-        $(function(){  
+        $(function(){
           $('#dis_idcode').bind('input propertychange', function() {
             console.info($(this).val());
             dis_idcode = $(this).val();
-          });   
+          });
         })
 
 
@@ -82,7 +82,7 @@
           '我回了句：“还好”。之后，就没关注她的消息了。',
               workaround: '水电费',
               article_type:Article_Type.Troubleshooting,//类型一定要写上
-              userid:userid
+              token:token
             },
             dataType: 'json',
             success: function (res) {
@@ -97,7 +97,7 @@
             type: 'DELETE',
             url: '/KB/API/articles/'+article_idcode,
             data:{
-              userid:userid
+              token:token
             },
             dataType: 'json',
             success: function (res) {
@@ -115,7 +115,7 @@
               title: '被修改了',
               author:'测试修改',
               article_type:Article_Type.Troubleshooting,//类型一定要写上
-              userid:userid
+              token:token
             },
             dataType: 'json',
             success: function (res) {
@@ -132,7 +132,7 @@
             data: {
               title: '测试patch',
               article_type:Article_Type.Troubleshooting,//类型一定要写上
-              userid:userid
+              token:token
             },
             dataType: 'json',
             success: function (res) {
@@ -245,8 +245,8 @@
           });
         });
 
-		
-		
+
+
         $("#btnadd_it").click(function () {
           $.ajax({
             type: 'Post',
@@ -463,7 +463,7 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
     <div>
-      userid: <input id="userid" value="77e52d6fbd1bbc673e6662d1f26c3d778785d471" style="width:80%"></input>
+      token: <input id="token" value="77e52d6fbd1bbc673e6662d1f26c3d778785d471" style="width:80%"></input>
       </br></br>
       <button id="btnadd_article">模板文章新增</button><button id="btnquery_article">模板文章列表查询</button>
       <button id="btnquery_article_keyword">关键字查询</button>
