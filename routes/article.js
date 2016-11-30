@@ -16,7 +16,7 @@ var sql_template=new SQL_Template();
 //文章新增
 router.post('/', function(req, res, next) {
     //获取文章类型
-    var userid=req.body.userid;
+    var token=req.body.token;
     var template_type=Article_Type[req.body.article_type];
     if(template_type==undefined){
         res.send({status:'操作文章类型不明确！'});
@@ -34,13 +34,12 @@ router.post('/', function(req, res, next) {
     var client;
     async.waterfall([
         function (done) {
-            user.getUserInfo(userid,function(info){
+            user.token_validate(token,function(info){
                 if(info===undefined){
                     done('权限验证失败，无权限更改数据！',null);
                 }
                 else{
                     _notifications.userid=info.userid;
-                    _notifications.alias=info.alias;
                     done(null,true);
                 }
             });
@@ -59,11 +58,10 @@ router.post('/', function(req, res, next) {
         },
         function(result, done){
             var insert_sql = `INSERT INTO notifications(
-                userid, alias, created_at, action, targetid,relationid)
-            VALUES ($1, $2, now(), $3, $4, $5);`
+                userid, created_at, action, targetid,relationid)
+            VALUES ($1, now(), $2, $3, $4);`
             let query = client.query(insert_sql,[
                 _notifications.userid,
-                _notifications.alias,
                 _notifications.action,
                 _notifications.targetid,
                 _notifications.relationid
@@ -94,7 +92,7 @@ router.delete('/:idcode', function(req, res, next) {
     async.waterfall([
         function (done) {
             user.token_validate(token,function(info){
-                if(!info)
+                if(info===undefined)
                     done('token验证失败，无权限更改数据！',null);
                 else
                     done(null,true);
@@ -123,7 +121,7 @@ router.delete('/:idcode', function(req, res, next) {
 router.put('/:idcode', function(req, res, next) {
     //获取文章类型
     var idcode=req.params.idcode;
-    var userid=req.body.userid;
+    var token=req.body.token;
     if(idcode==undefined){
         res.send({status:'未指定更新idcode，更新失败！'});
         return;
@@ -142,12 +140,11 @@ router.put('/:idcode', function(req, res, next) {
     }
     async.waterfall([
         function (done) {
-            user.getUserInfo(userid,function(info){
-                if(!info)
+            user.token_validate(token,function(info){
+                if(info===undefined)
                     done('权限验证失败，无权限更改数据！',null);
                 else{
                     _notifications.userid=info.userid;
-                    _notifications.alias=info.alias;
                     done(null,true);
                 }
             });
@@ -170,10 +167,9 @@ router.put('/:idcode', function(req, res, next) {
         function(result, done){
             var insert_sql = `INSERT INTO notifications(
                 userid, alias, created_at, action, targetid,relationid)
-            VALUES ($1, $2, now(), $3, $4, $5);`
+            VALUES ($1,now(), $2, $3, $4);`
             let query = client.query(insert_sql,[
                 _notifications.userid,
-                _notifications.alias,
                 _notifications.action,
                 _notifications.targetid,
                 _notifications.relationid
@@ -196,7 +192,7 @@ router.put('/:idcode', function(req, res, next) {
 router.patch('/:idcode', function(req, res, next) {
     //获取文章类型
     var idcode=req.params.idcode;
-    var userid=req.body.userid;
+    var token=req.body.token;
     if(idcode==undefined){
         res.send({status:'未指定更新idcode，更新失败！'});
         return;
@@ -225,12 +221,11 @@ router.patch('/:idcode', function(req, res, next) {
     }
     async.waterfall([
         function (done) {
-            user.getUserInfo(userid,function(info){
-                if(!info)
+            user.token_validate(token,function(info){
+                if(info===undefined)
                     done('权限验证失败，无权限更改数据！',null);
                 else{
                     _notifications.userid=info.userid;
-                    _notifications.alias=info.alias;
                     done(null,true);
                 }
             });
@@ -252,11 +247,10 @@ router.patch('/:idcode', function(req, res, next) {
         },
         function(result, done){
             var insert_sql = `INSERT INTO notifications(
-                userid, alias, created_at, action, targetid,relationid)
-            VALUES ($1, $2, now(), $3, $4, $5);`
+                userid, created_at, action, targetid,relationid)
+            VALUES ($1, now(), $2, $3, $4);`
             let query = client.query(insert_sql,[
                 _notifications.userid,
-                _notifications.alias,
                 _notifications.action,
                 _notifications.targetid,
                 _notifications.relationid

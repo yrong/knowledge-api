@@ -27,7 +27,7 @@ router.post('/', function(req, res, next) {
     async.waterfall([
         function (done) {
             user.token_validate(token,function(info){
-                if(!info)
+                if(info===undefined)
                     done('fail',null);
                 else
                     done(null,true);
@@ -92,7 +92,7 @@ router.delete('/:idcode', function(req, res, next) {
     async.waterfall([
             function (done) {
                 user.token_validate(token,function(info){
-                    if(!info)
+                    if(info===undefined)
                         done('token验证失败，无权限更改数据！',null);
                     else
                         done(null,true);
@@ -141,7 +141,7 @@ router.put('/:idcode', function(req, res, next) {
     async.waterfall([
         function (done) {
             user.token_validate(token,function(info){
-                if(!info)
+                if(info===undefined)
                     done('token验证失败，无权限更改数据！',null);
                 else
                     done(null,true);
@@ -208,7 +208,7 @@ router.patch('/:idcode', function(req, res, next) {
     async.waterfall([
         function (done) {
             user.token_validate(token,function(info){
-                if(!info)
+                if(info===undefined)
                     done('token验证失败，无权限更改数据！',null);
                 else
                     done(null,true);
