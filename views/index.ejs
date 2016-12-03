@@ -4,6 +4,7 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="plugin/jquery-2.1.4.min.js"></script>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script>
       function init() {
         var Article_Type={
@@ -453,7 +454,12 @@
           });
         });
 
-
+        //注册socket机制
+        var socket = io('http://localhost:3000');
+        socket.on('news', function (data) {
+          console.log(data);
+          socket.emit('getData', { info: 'test' });
+        });
 
 
       }
