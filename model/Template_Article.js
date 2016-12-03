@@ -56,6 +56,9 @@ var Template_Article= function(options){
         case Article_Type.Free:
             this.content.body=options['body'];
             break;
+        case Article_Type.Share:
+            this.content.description=options['description'];
+            break;
     }
 }
 
