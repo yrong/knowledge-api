@@ -66,6 +66,7 @@ router.post('/', function(req, res, next) {
                 _notifications.targetid,
                 _notifications.relationid
             ],function(err, result){
+                console.log(err);
                 if(err)
                     done('新增发生异常错误！',null);
                 else
@@ -362,5 +363,53 @@ router.get('/', function(req, res, next) {
         res.send({status: '数据库连接错误！'});
     }
 });
+
+//查询tags
+router.get('/tag/tags',function(req,res,next){
+    let querys = req.query;
+    try {
+        var client = new Client(pg_config);
+        client.connect();
+        async.parallel({
+            Results:function(done){
+                let sql = util.format('select t.* from (select distinct(unnest(tag)) tag from template_article) t limit %s offset %s',querys.per_page,(parseInt(querys.page)-1)*parseInt(querys.per_page));
+                console.log(sql);
+                let query = client.query(sql,function(err, result) {
+                    if(err) {
+                        done('查询发生错误！', null);
+                        return;
+                    }
+                    var tags=result.rows.map(function (item) {
+                        return item.tag;
+                    });
+                    done(null,tags);
+                });
+            },
+            Count:function(done){
+                let sql = util.format('select count(t.*) count from (select distinct(unnest(tag)) tag from template_article) t');
+                let query = client.query(sql,function(err, result){
+                    if(err){
+                        done('查询发生错误！', null);
+                        return;
+                    }
+                    let count=parseInt(result.rows[0].count);
+                    done(null,count);
+
+                });
+            }
+        },function(error,result){
+            if(error)
+                res.send({status: error});
+            else
+                res.send({status: 'ok', data: result});
+            client.end();
+        });
+    }
+    catch(e) {
+        console.log(e);
+        res.send({status: '数据库连接错误！'});
+    }
+})
+
 
 module.exports = router;
