@@ -50,4 +50,31 @@ CREATE INDEX template_article_index
   ON public.template_article
   USING rum
   (to_tsvector('knowledge_zhcfg'::regconfig, (title || ' '::text) || content) rum_tsvector_ops);
+  
+  
+CREATE OR REPLACE FUNCTION process_template_article() RETURNS TRIGGER AS $body$
+    BEGIN
+        IF (TG_OP = 'UPDATE') THEN
+            INSERT INTO template_article_history(
+            idcode, title, it_service, tag, author, created_at, updated_at, 
+            ref_links, tasks, article_type, content) values (NEW.idcode, NEW.title, NEW.it_service, NEW.tag, NEW.author, 
+			NEW.created_at, now(), 
+            NEW.ref_links, NEW.tasks, NEW.article_type, NEW.content);
+            RETURN NEW;
+        ELSIF (TG_OP = 'INSERT') THEN
+			INSERT INTO template_article_history(
+            idcode, title, it_service, tag, author, created_at, 
+            ref_links, tasks, article_type, content) values (NEW.idcode, NEW.title, NEW.it_service, NEW.tag, NEW.author, 
+			now(),NEW.ref_links, NEW.tasks, NEW.article_type, NEW.content);
+            RETURN NEW;
+        END IF;
+        RETURN NULL;
+    END;
+$body$ LANGUAGE plpgsql;
+
+CREATE TRIGGER TRIGGER_template_article
+AFTER INSERT OR UPDATE ON template_article
+    FOR EACH ROW EXECUTE PROCEDURE process_template_article();
+  
+
 
