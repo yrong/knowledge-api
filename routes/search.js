@@ -9,6 +9,93 @@ var util=require('util');
 var pg_config=new Config().PG_Connection;//pg的连接参数
 var sql_template=new SQL_Template();
 
+//综合查询，支持分页排序
+router.get('/advanced', function(req, res, next) {
+    var querys = req.query;
+    console.log(querys);
+    if (querys.filter == undefined) {
+        res.send({status: '未指定查询条件！'});
+        return;
+    }
+    let where=[];
+    if(querys.filter.tag!==undefined){
+        let logic=(querys.filter.tag.logic!==undefined)?querys.filter.tag.logic:'or';
+        if(logic=='or')
+            where.push("Array['"+querys.filter.tag.value.join("','")+"']&&tag");
+        else if(logic=='and')
+            where.push("Array['"+querys.filter.tag.value.join("','")+"']<@tag");
+    }
+    if(querys.filter.it_service!==undefined){
+        let logic=(querys.filter.it_service.logic!==undefined)?querys.filter.it_service.logic:'or';
+        if(querys.filter.it_service.logic=='or')
+            where.push("Array['"+querys.filter.it_service.value.join("','")+"']&&it_service");
+        else if(querys.filter.it_service.logic=='and')
+            where.push("Array['"+querys.filter.it_service.value.join("','")+"']<@it_service");
+    }
+    if(querys.filter.keyword!==undefined)
+        where.push("to_tsvector('knowledge_zhcfg'::regconfig,title||' '||content) @@ to_tsquery($1)");
+    querys.logic=(querys.logic!==undefined)?querys.logic:'and';
+    if(querys.logic=='and')
+        where=where.join(' and ');
+    else if(querys.logic=='or')
+        where=where.join(' or ');
+    if(querys.sortby==undefined)
+        querys.sortby='created_at';
+    if(querys.order==undefined)
+        querys.order='desc';//按照时间倒叙
+    var client = new Client(pg_config);
+    try {
+        client.connect();
+    }
+    catch (e) {
+        res.send({status: '数据库连接错误'});
+        return;
+    }
+    async.parallel({
+        Results:function(done) {
+            let sql=sql_template.querySQL(querys,'template_article',where);
+            console.log(sql);
+            query = client.query(sql,[querys.filter.keyword],function (err, result) {
+                if(err) {
+                    done('查询发生错误！', null);
+                    return;
+                }
+                let results=[];
+                for(let i=0;i<result.rows.length;i++){
+                    let row=result.rows[i];
+                    let content=row.content;
+                    delete row.content;
+                    for(var key in content)
+                    {
+                        row[key]=content[key];
+                    }
+                    results.push(row);
+                }
+                done(null,results);
+            });
+        },
+        Count:function(done) {
+            let sql='select count(*) from template_article where '+where;
+            console.log(sql);
+            let query = client.query(sql,[querys.filter.keyword],function(err, result){
+                if(err){
+                    done('查询发生错误！', null);
+                    return;
+                }
+                let count=parseInt(result.rows[0].count);
+                done(null,count);
+
+            });
+        }
+    },function(error,result){
+        if(error)
+            res.send({status: error});
+        else
+            res.send({status: 'ok', data: result});
+        client.end();
+    });
+});
+
 //不指定字段模糊全文检索
 router.get('/:keywords', function(req, res, next) {
     let keywords=req.params.keywords;
@@ -156,92 +243,7 @@ router.get('/', function(req, res, next) {
     });
 });
 
-//综合查询，支持分页排序
-router.get('/filter/zhcx', function(req, res, next) {
-    var querys = req.query;
-    console.log(querys);
-    if (querys.filter == undefined) {
-        res.send({status: '未指定查询条件！'});
-        return;
-    }
-    let where=[];
-    if(querys.filter.tag!==undefined){
-        let logic=(querys.filter.tag.logic!==undefined)?querys.filter.tag.logic:'or';
-        if(logic=='or')
-            where.push("Array['"+querys.filter.tag.value.join("','")+"']&&tag");
-        else if(logic=='and')
-            where.push("Array['"+querys.filter.tag.value.join("','")+"']<@tag");
-    }
-    if(querys.filter.it_service!==undefined){
-        let logic=(querys.filter.it_service.logic!==undefined)?querys.filter.it_service.logic:'or';
-        if(querys.filter.it_service.logic=='or')
-            where.push("Array['"+querys.filter.it_service.value.join("','")+"']&&it_service");
-        else if(querys.filter.it_service.logic=='and')
-            where.push("Array['"+querys.filter.it_service.value.join("','")+"']<@it_service");
-    }
-    if(querys.filter.keyword!==undefined)
-        where.push("to_tsvector('knowledge_zhcfg'::regconfig,title||' '||content) @@ to_tsquery($1)");
-    querys.logic=(querys.logic!==undefined)?querys.logic:'and';
-    if(querys.logic=='and')
-        where=where.join(' and ');
-    else if(querys.logic=='or')
-        where=where.join(' or ');
-    if(querys.sortby==undefined)
-        querys.sortby='created_at';
-    if(querys.order==undefined)
-        querys.order='desc';//按照时间倒叙
-    var client = new Client(pg_config);
-    try {
-        client.connect();
-    }
-    catch (e) {
-        res.send({status: '数据库连接错误'});
-        return;
-    }
-    async.parallel({
-        Results:function(done) {
-            let sql=sql_template.querySQL(querys,'template_article',where);
-            console.log(sql);
-            query = client.query(sql,[querys.filter.keyword],function (err, result) {
-                if(err) {
-                    done('查询发生错误！', null);
-                    return;
-                }
-                let results=[];
-                for(let i=0;i<result.rows.length;i++){
-                    let row=result.rows[i];
-                    let content=row.content;
-                    delete row.content;
-                    for(var key in content)
-                    {
-                        row[key]=content[key];
-                    }
-                    results.push(row);
-                }
-                done(null,results);
-            });
-        },
-        Count:function(done) {
-            let sql='select count(*) from template_article where '+where;
-            console.log(sql);
-            let query = client.query(sql,[querys.filter.keyword],function(err, result){
-                if(err){
-                    done('查询发生错误！', null);
-                    return;
-                }
-                let count=parseInt(result.rows[0].count);
-                done(null,count);
 
-            });
-        }
-    },function(error,result){
-        if(error)
-            res.send({status: error});
-        else
-            res.send({status: 'ok', data: result});
-        client.end();
-    });
-});
 
 
 
