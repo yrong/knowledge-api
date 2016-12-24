@@ -18,7 +18,7 @@ User.prototype.token_validate=function(token,cb){
     this._client.connect();
     this._client.query("use " + mysql_config.database);
     this._client.query(
-        util.format("SELECT userid count FROM tokens where token='%s'",token),
+        util.format("SELECT id as userid FROM tokens where token='%s'",token),
         function(err, results, fields) {
             if (err) {
                 cb(false);

@@ -1,18 +1,21 @@
 var Config=function(){
     // Postgres连接参数
     this.PG_Connection= {
-        host: '192.168.43.125',
+        host: 'localhost',
         port: 5432,
-        database: 'knowledge',
+        database: 'test',
         user: 'postgres',
-        password: '123456'
+        password: 'postgres'
     };
     this.MySQL_Connection={
-        host:'192.168.0.125',
+        host:'localhost',
         user:'root',
-        password:'123456',
+        password:'root',
         port:'3306',
-        database:'mysql',
+        database:'test',
+    };
+    this.CMDB_API={
+        base_url: 'http://localhost:3001'
     }
 }
 module.exports = Config;

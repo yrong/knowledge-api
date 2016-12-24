@@ -47,7 +47,7 @@
             url: '/KB/API/articles',
             data: {
               title: '水电费',
-              it_service: ['科学','测试'],
+              it_service: ['a6fcbfd0-c91f-11e6-87b6-4fbcdb47bca1','a7034f80-c91f-11e6-87b6-4fbcdb47bca1'],
               tag: ['测试','人生'],
               author: '随机者',
               ref_links: ['https://www.baidu.com'],
@@ -189,10 +189,10 @@
                   logic: 'or'  //只有or和and，不赋值默认数组条件就是or
                 },
                 it_service: {
-                  value: ['科学'],
+                  value: ['a6fcbfd0-c91f-11e6-87b6-4fbcdb47bca1','not_exist'],
                   logic: 'or'  //只有or和and，不赋值默认就是or
-                },
-                keyword:'水电费',
+                }
+               // keyword:'水电费',
               },
               logic:'and',//只有or和and，不赋值默认filter的组合条件就是and
               page:1, //分页查询第几页，必填值
@@ -494,7 +494,7 @@
       <button id="btnadd_article">模板文章新增</button><button id="btnquery_article">模板文章列表查询</button>
       <button id="btnquery_article_keyword">关键字查询</button>
       <button id="btnquery_article_keyvalue">声明字段与对应值查询</button></br>
-      article.idcode: <input id="article_idcode" value="e1407833-b2ff-4eea-a07d-27f8b3f6376d" style="width:80%"></input></br>
+      article.idcode: <input id="article_idcode" value="15efd5ac-bab5-4a3a-b253-4e69626e3041" style="width:80%"></input></br>
       <button id="btndelete_article">模板文章删除</button>
       <button id="btnupdate_article">模板文章多字段put修改</button>
       <button id="btnupdate_article_patch">模板文章多单字段patch修改</button>      

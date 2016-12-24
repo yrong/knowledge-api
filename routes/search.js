@@ -55,7 +55,7 @@ router.get('/advanced', function(req, res, next) {
         Results:function(done) {
             let sql=sql_template.querySQL(querys,'template_article',where);
             console.log(sql);
-            query = client.query(sql,[querys.filter.keyword],function (err, result) {
+            var callback = function (err, result) {
                 if(err) {
                     done('查询发生错误！', null);
                     return;
@@ -72,20 +72,29 @@ router.get('/advanced', function(req, res, next) {
                     results.push(row);
                 }
                 done(null,results);
-            });
+            };
+            if(querys.filter.keyword){
+                query = client.query(sql,[querys.filter.keyword],callback);
+            }else{
+                query = client.query(sql,callback);
+            }
         },
         Count:function(done) {
             let sql='select count(*) from template_article where '+where;
             console.log(sql);
-            let query = client.query(sql,[querys.filter.keyword],function(err, result){
+            var callback = function(err, result){
                 if(err){
                     done('查询发生错误！', null);
                     return;
                 }
                 let count=parseInt(result.rows[0].count);
                 done(null,count);
-
-            });
+            };
+            if(querys.filter.keyword){
+                query = client.query(sql,[querys.filter.keyword],callback);
+            }else{
+                query = client.query(sql,callback);
+            }
         }
     },function(error,result){
         if(error)

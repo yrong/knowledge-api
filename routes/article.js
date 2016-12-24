@@ -13,6 +13,9 @@ var pg_config=config.PG_Connection;//pg的连接参数
 var user=new User();
 var sql_template=new SQL_Template();
 
+var cmdb_api_config = config.CMDB_API;
+var rp = require('request-promise');
+
 //文章新增
 router.post('/', function(req, res, next) {
     //获取文章类型
@@ -39,7 +42,7 @@ router.post('/', function(req, res, next) {
                     done('权限验证失败，无权限更改数据！',null);
                 }
                 else{
-                    _notifications.userid=info.userid;
+                    _notifications.userid=info;
                     done(null,true);
                 }
             });
@@ -301,7 +304,19 @@ router.get('/:idcode', function(req, res, next) {
                 {
                     row[key]=content[key];
                 }
-                res.send({status: 'ok',data:row});
+                if(row.it_service){
+                    var options = {
+                        method: 'GET',
+                        uri: cmdb_api_config.base_url + '/api/it_services/service?uuids=' + row.it_service.join(),
+                        json: true
+                    };
+                    rp(options).then(function (result) {
+                        row.it_service = result.data.results;
+                        res.send({status: 'ok',data:row});
+                    });
+                }else{
+                    res.send({status: 'ok',data:row});
+                }
             }
         }
         client.end();
