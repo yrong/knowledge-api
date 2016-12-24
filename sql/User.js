@@ -25,7 +25,7 @@ User.prototype.token_validate=function(token,cb){
                 throw err;
             }
             if(results.length>0)
-                cb(results[0].userid);
+                cb(results[0]);
             else
                 cb(undefined);
             self._client.end();

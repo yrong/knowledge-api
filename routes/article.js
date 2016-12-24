@@ -42,7 +42,7 @@ router.post('/', function(req, res, next) {
                     done('权限验证失败，无权限更改数据！',null);
                 }
                 else{
-                    _notifications.userid=info;
+                    _notifications.userid=info.userid;
                     done(null,true);
                 }
             });
