@@ -15,6 +15,7 @@ var sql_template=new SQL_Template();
 
 var cmdb_api_config = config.CMDB_API;
 var rp = require('request-promise');
+var _ = require('lodash');
 
 //文章新增
 router.post('/', function(req, res, next) {
@@ -305,15 +306,15 @@ router.get('/:idcode', function(req, res, next) {
                     row[key]=content[key];
                 }
                 if(row.it_service){
-                    var options = {
-                        method: 'GET',
-                        uri: cmdb_api_config.base_url + '/api/it_services/service?uuids=' + row.it_service.join(),
-                        json: true
-                    };
-                    rp(options).then(function (result) {
-                        row.it_service = result.data.results;
-                        res.send({status: 'ok',data:row});
-                    });
+                    getITServiceFromCmdbApi(row.it_service,function(error,result){
+                        if(error){
+                            console.log(error);
+                            res.send({status: 'ok',data:row});
+                        }else{
+                            row.it_service = result.data.results;
+                            res.send({status: 'ok',data:row});
+                        }
+                    })
                 }else{
                     res.send({status: 'ok',data:row});
                 }
@@ -322,6 +323,40 @@ router.get('/:idcode', function(req, res, next) {
         client.end();
     });
 });
+
+var getITServiceFromCmdbApi = function(uuids,callback) {
+    var options = {
+        method: 'GET',
+        uri: cmdb_api_config.base_url + '/api/it_services/service?uuids=' + uuids.join(),
+        json: true
+    };
+    rp(options).then(function (result) {
+        callback(null,result);
+    }).catch(function (e){
+        callback(e,null)
+    });
+};
+
+var findITServiceItemByID = function(uuid,it_services){
+    return _.find(it_services,function(it_service){
+        return it_service.service.uuid === uuid;
+    })
+};
+
+var mapITServiceIDToITServiceItem = function(results,it_services){
+    results = _.map(results,function(result){
+        if(result.it_service){
+            var it_services_items = [];
+            _.each(result.it_service,function(uuid){
+                it_services_items.push(findITServiceItemByID(uuid,it_services));
+            });
+            result.it_service = it_services_items;
+        }
+        return result;
+    })
+    return results;
+};
+
 //无条件查询，支持排序，分页
 router.get('/', function(req, res, next) {
     let querys = req.query;
@@ -341,6 +376,7 @@ router.get('/', function(req, res, next) {
                         return;
                     }
                     let results=[];
+                    let it_service_uuids=[],it_services = [];
                     for(let i=0;i<result.rows.length;i++){
                         let row=result.rows[i];
                         let content=row.content;
@@ -350,8 +386,24 @@ router.get('/', function(req, res, next) {
                             row[key]=content[key];
                         }
                         results.push(row);
+                        it_service_uuids = _.concat(it_service_uuids,row.it_service);
                     }
-                    done(null,results);
+                    it_service_uuids = _.uniq(it_service_uuids);
+                    if(it_service_uuids.length){
+                        getITServiceFromCmdbApi(it_service_uuids,function(error,result){
+                            if(error){
+                                console.log(error);
+                                done(null,results);
+                            }else{
+                                it_services = result.data.results;
+                                results = mapITServiceIDToITServiceItem(results,it_services);
+                                done(null,results);
+                            }
+
+                        })
+                    }else{
+                        done(null,results);
+                    }
                 });
             },
             Count:function(done){
