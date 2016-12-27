@@ -9,6 +9,8 @@ var util=require('util');
 var pg_config=new Config().PG_Connection;//pg的连接参数
 var sql_template=new SQL_Template();
 
+var articleHelper = require('./article_helper');
+
 //综合查询，支持分页排序
 router.get('/advanced', function(req, res, next) {
     var querys = req.query;
@@ -60,18 +62,13 @@ router.get('/advanced', function(req, res, next) {
                     done('查询发生错误！', null);
                     return;
                 }
-                let results=[];
-                for(let i=0;i<result.rows.length;i++){
-                    let row=result.rows[i];
-                    let content=row.content;
-                    delete row.content;
-                    for(var key in content)
-                    {
-                        row[key]=content[key];
+                articleHelper.articlesMapping(result,function(err,results){
+                    if (err){
+                        done('查询关联服务错误！');
+                    }else{
+                        done(null,results);
                     }
-                    results.push(row);
-                }
-                done(null,results);
+                })
             };
             if(querys.filter.keyword){
                 query = client.query(sql,[querys.filter.keyword],callback);

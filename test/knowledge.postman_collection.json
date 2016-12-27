@@ -1,0 +1,53 @@
+{
+	"id": "f8e78b9b-b635-9cbd-738f-237a368a2b11",
+	"name": "knowledge",
+	"description": "",
+	"order": [
+		"4ebd9ca7-364c-472f-b748-bd1e54e24677",
+		"e86caff0-214d-b083-e36b-b095cbc32c7e"
+	],
+	"folders": [],
+	"timestamp": 1482845451944,
+	"owner": "1388965",
+	"public": false,
+	"requests": [
+		{
+			"id": "4ebd9ca7-364c-472f-b748-bd1e54e24677",
+			"headers": "",
+			"url": "{{cmdb_url}}/it_services/service/",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"at least 2 ITService instances ready\"] = (jsonData.data.count >=2)\nvar service_uuids = [];\njsonData.data.results.forEach(function(result){\n    service_uuids.push(result.uuid);\n})\npostman.setEnvironmentVariable(\"service_uuids\", JSON.stringify(service_uuids));",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1482854750281,
+			"name": "query it service from cmdb-api",
+			"description": "",
+			"collectionId": "f8e78b9b-b635-9cbd-738f-237a368a2b11",
+			"responses": []
+		},
+		{
+			"id": "e86caff0-214d-b083-e36b-b095cbc32c7e",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{url}}/articles",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"article_id\", jsonData.id);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1482854989382,
+			"name": "add article",
+			"description": "",
+			"collectionId": "f8e78b9b-b635-9cbd-738f-237a368a2b11",
+			"responses": [],
+			"rawModeData": "\n\t{\n\t\t\"token\":\"77e52d6fbd1bbc673e6662d1f26c3d778785d471\",\n\t    \"title\": \"水电费\",\n\t    \n\t    \"it_service\": {{service_uuids}},\n\t     \"tag\": [\"测试\",\"人生\"],\n\t\t \"author\": \"随机\",\n\t\t \"ref_links\": [\"https://www.baidu.com\"],\n\t\t \"tasks\": \"测试插入\",\n\t\t \"description\": \"水电费\",\n\t\t \"analysis\": \"水电费\",\n\t\t \"solution\": \"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\n\t\t \"workaround\": \"水电费\",\n\t\t \"article_type\":\"Troubleshooting\"\n \t}\n\n"
+		}
+	]
+}

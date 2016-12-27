@@ -45,9 +45,10 @@
           $.ajax({
             type: 'Post',
             url: '/KB/API/articles',
-            data: {
+              contentType: 'application/json',
+              data: JSON.stringify({
               title: '水电费',
-              it_service: ['a6fcbfd0-c91f-11e6-87b6-4fbcdb47bca1','a7034f80-c91f-11e6-87b6-4fbcdb47bca1'],
+              it_service: ['348fe830-cb74-11e6-867b-c1ba67b2949f,349873b0-cb74-11e6-867b-c1ba67b2949f'],
               tag: ['测试','人生'],
               author: '随机者',
               ref_links: ['https://www.baidu.com'],
@@ -84,7 +85,7 @@
               workaround: '水电费',
               article_type:Article_Type.Troubleshooting,//类型一定要写上
               token:token
-            },
+            }),
             dataType: 'json',
             success: function (res) {
               console.log(res);
@@ -189,7 +190,7 @@
                   logic: 'or'  //只有or和and，不赋值默认数组条件就是or
                 },
                 it_service: {
-                  value: ['a6fcbfd0-c91f-11e6-87b6-4fbcdb47bca1','not_exist'],
+                  value: ['348fe830-cb74-11e6-867b-c1ba67b2949f','not_exist'],
                   logic: 'or'  //只有or和and，不赋值默认就是or
                 }
                // keyword:'水电费',

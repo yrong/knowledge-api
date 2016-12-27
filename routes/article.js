@@ -13,9 +13,7 @@ var pg_config=config.PG_Connection;//pg的连接参数
 var user=new User();
 var sql_template=new SQL_Template();
 
-var cmdb_api_config = config.CMDB_API;
-var rp = require('request-promise');
-var _ = require('lodash');
+var articleHelper = require('./article_helper');
 
 //文章新增
 router.post('/', function(req, res, next) {
@@ -80,7 +78,7 @@ router.post('/', function(req, res, next) {
             if (error)
                 res.send({status:error});
             else
-                res.send({status:'ok'});
+                res.send({status:'ok',id: _notifications.targetid});
             client.end();
         }
     )
@@ -273,6 +271,7 @@ router.patch('/:idcode', function(req, res, next) {
         client.end();
     });
 });
+
 //根据id查询
 router.get('/:idcode', function(req, res, next) {
     var idcode = req.params.idcode;
@@ -299,63 +298,18 @@ router.get('/:idcode', function(req, res, next) {
                 res.send({status: '未查询指定id的文章！'});
             else
             {
-                let content=row.content;
-                delete row.content;
-                for(var key in content)
-                {
-                    row[key]=content[key];
-                }
-                if(row.it_service){
-                    getITServiceFromCmdbApi(row.it_service,function(error,result){
-                        if(error){
-                            console.log(error);
-                            res.send({status: 'ok',data:row});
-                        }else{
-                            row.it_service = result.data.results;
-                            res.send({status: 'ok',data:row});
-                        }
-                    })
-                }else{
-                    res.send({status: 'ok',data:row});
-                }
+                articleHelper.articlesMapping(result,function(err,results){
+                    if (err||results.length!=1){
+                        res.send({status: '查询关联服务错误！'});
+                    }else{
+                        res.send({status: 'ok',data:results[0]});
+                    }
+                })
             }
         }
         client.end();
     });
 });
-
-var getITServiceFromCmdbApi = function(uuids,callback) {
-    var options = {
-        method: 'GET',
-        uri: cmdb_api_config.base_url + '/api/it_services/service?uuids=' + uuids.join(),
-        json: true
-    };
-    rp(options).then(function (result) {
-        callback(null,result);
-    }).catch(function (e){
-        callback(e,null)
-    });
-};
-
-var findITServiceItemByID = function(uuid,it_services){
-    return _.find(it_services,function(it_service){
-        return it_service.service.uuid === uuid;
-    })
-};
-
-var mapITServiceIDToITServiceItem = function(results,it_services){
-    results = _.map(results,function(result){
-        if(result.it_service){
-            var it_services_items = [];
-            _.each(result.it_service,function(uuid){
-                it_services_items.push(findITServiceItemByID(uuid,it_services));
-            });
-            result.it_service = it_services_items;
-        }
-        return result;
-    })
-    return results;
-};
 
 //无条件查询，支持排序，分页
 router.get('/', function(req, res, next) {
@@ -375,35 +329,13 @@ router.get('/', function(req, res, next) {
                         done('查询发生错误！', null);
                         return;
                     }
-                    let results=[];
-                    let it_service_uuids=[],it_services = [];
-                    for(let i=0;i<result.rows.length;i++){
-                        let row=result.rows[i];
-                        let content=row.content;
-                        delete row.content;
-                        for(var key in content)
-                        {
-                            row[key]=content[key];
+                    articleHelper.articlesMapping(result,function(err,results){
+                        if (err){
+                            done('查询关联服务错误！');
+                        }else{
+                            done(null,results);
                         }
-                        results.push(row);
-                        it_service_uuids = _.concat(it_service_uuids,row.it_service);
-                    }
-                    it_service_uuids = _.uniq(it_service_uuids);
-                    if(it_service_uuids.length){
-                        getITServiceFromCmdbApi(it_service_uuids,function(error,result){
-                            if(error){
-                                console.log(error);
-                                done(null,results);
-                            }else{
-                                it_services = result.data.results;
-                                results = mapITServiceIDToITServiceItem(results,it_services);
-                                done(null,results);
-                            }
-
-                        })
-                    }else{
-                        done(null,results);
-                    }
+                    })
                 });
             },
             Count:function(done){
@@ -414,7 +346,6 @@ router.get('/', function(req, res, next) {
                     }
                     let count=parseInt(result.rows[0].count);
                     done(null,count);
-
                 });
             }
         },function(error,result){
@@ -426,7 +357,6 @@ router.get('/', function(req, res, next) {
         });
     }
     catch(e) {
-        console.log(e);
         res.send({status: '数据库连接错误！'});
     }
 });
