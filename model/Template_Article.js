@@ -1,47 +1,47 @@
 var _ = require('lodash');
 var Article_Type = require('./Article_Type');//文章类型
 var Template_Article= function(options){
-    _.assign(this,_.omit(options,['token','description','analysis','solution','workaround','purpose','how_it_works','steps','body']));
+    // _.assign(this,_.omit(options,['token','description','analysis','solution','workaround','purpose','how_it_works','steps','body']));
     this.content={};
-    // for(var key in options) {
-    //     if(key=='id')
-    //         this.id=options[key];
-    //     if(key=='idcode')
-    //         this.idcode=options[key];
-    //     if(key=='title')
-    //         this.title=options[key];
-    //     if(key=='it_service[]')
-    //     {
-    //         if(typeof options['it_service[]']=='string')
-    //             this.it_service=[options['it_service[]']];
-    //         else if(typeof options['it_service[]']=='object')
-    //             this.it_service=options['it_service[]'];
-    //     }
-    //     if(key=='tag[]')
-    //     {
-    //         if(typeof options['tag[]']=='string')
-    //             this.tag=[options['tag[]']];
-    //         else if(typeof options['tag[]']=='object')
-    //             this.tag=options['tag[]'];
-    //     }
-    //     if(key=='author')
-    //         this.author=options[key];
-    //     if(key=='created_at')
-    //         this.created_at=options[key];
-    //     if(key=='updated_at')
-    //         this.updated_at=options[key];
-    //     if(key=='ref_links[]')
-    //     {
-    //         if(typeof options['ref_links[]']=='string')
-    //             this.ref_links=[options['ref_links[]']];
-    //         else if(typeof options['ref_links[]']=='object')
-    //             this.ref_links=options['ref_links[]'];
-    //     }
-    //     if(key=='tasks')
-    //         this.tasks=options[key];
-    //     if(key=='article_type')
-    //         this.article_type=options[key];
-    // }
+    for(var key in options) {
+        if(key=='id')
+            this.id=options[key];
+        if(key=='idcode')
+            this.idcode=options[key];
+        if(key=='title')
+            this.title=options[key];
+        if(key=='it_service[]')
+        {
+            if(typeof options['it_service[]']=='string')
+                this.it_service=[options['it_service[]']];
+            else if(typeof options['it_service[]']=='object')
+                this.it_service=options['it_service[]'];
+        }
+        if(key=='tag[]')
+        {
+            if(typeof options['tag[]']=='string')
+                this.tag=[options['tag[]']];
+            else if(typeof options['tag[]']=='object')
+                this.tag=options['tag[]'];
+        }
+        if(key=='author')
+            this.author=options[key];
+        if(key=='created_at')
+            this.created_at=options[key];
+        if(key=='updated_at')
+            this.updated_at=options[key];
+        if(key=='ref_links[]')
+        {
+            if(typeof options['ref_links[]']=='string')
+                this.ref_links=[options['ref_links[]']];
+            else if(typeof options['ref_links[]']=='object')
+                this.ref_links=options['ref_links[]'];
+        }
+        if(key=='tasks')
+            this.tasks=options[key];
+        if(key=='article_type')
+            this.article_type=options[key];
+    }
 
     switch(this.article_type){
         case Article_Type.Troubleshooting:
