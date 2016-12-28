@@ -78,8 +78,39 @@ router.post('/', function(req, res, next) {
             if (error)
                 res.send({status:error});
             else
-                res.send({status:'ok',id: _notifications.targetid});
+                res.send({status:'ok',uuid: _notifications.targetid});
             client.end();
+        }
+    )
+});
+//删除全部(测试使用)
+router.delete('/', function(req, res, next) {
+    var token=req.body.token;
+    async.waterfall([
+            function (done) {
+                user.token_validate(token,function(info){
+                    if(info===undefined)
+                        done('token验证失败，无权限更改数据！',null);
+                    else
+                        done(null,true);
+                });
+            },
+            function (result, done) {
+                var client = new Client(pg_config);
+                client.connect();
+                let query = client.query('delete from template_article',function(err, result){
+                    if(err)
+                        done('删除发生异常错误！',null);
+                    else
+                        done(null,'ok');
+                    client.end();
+                });
+            }],
+        function (error, result) {
+            if (error)
+                res.send({status: error});
+            else
+                res.send({status: 'ok'});
         }
     )
 });

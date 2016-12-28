@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "postman": "node ./test/postman.js"
   },
   "dependencies": {
     "async": "^2.1.2",
@@ -19,10 +20,14 @@
     "node-schedule": "^1.2.0",
     "node-uuid": "^1.4.7",
     "pg": "^6.1.0",
+    "query-string": "^4.2.3",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.7.1",
     "ueditor-nodejs": "^0.1.4"
+  },
+  "devDependencies": {
+    "newman": "^3.3.1"
   }
 }

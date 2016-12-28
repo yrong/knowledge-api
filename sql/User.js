@@ -5,19 +5,18 @@ var async=require('async');
 var config=new Config();
 var mysql_config=config.MySQL_Connection;//mysql的连接参数
 var User=function(){
-    this._client=mysql.createConnection({
+    this._pool  = mysql.createPool({
+        connectionLimit : 20,
         host:mysql_config.host,
         port:mysql_config.port,
         user:mysql_config.user,
-        password:mysql_config.password
+        password:mysql_config.password,
+        database:mysql_config.database
     });
 }
 //验证用户token
 User.prototype.token_validate=function(token,cb){
-    var self=this;
-    this._client.connect();
-    this._client.query("use " + mysql_config.database);
-    this._client.query(
+    this._pool.query(
         util.format("SELECT id as userid FROM tokens where token='%s'",token),
         function(err, results, fields) {
             if (err) {
@@ -28,33 +27,21 @@ User.prototype.token_validate=function(token,cb){
                 cb(results[0]);
             else
                 cb(undefined);
-            self._client.end();
         }
     );
 }
 //查询用户信息
 User.prototype.getUserInfo=function(userid,cb) {
-    /*cb({
-        userid:'5',
-        alias:'测试用户'
-    });
-    return;*/
-    var self=this;
-    self._client.connect();
-    self._client.query("use " + mysql_config.database);
-    self._client.query('SELECT userid,alias FROM users where userid=?', [userid],function(err, results, fields) {
+    this._pool.query('SELECT userid,alias FROM users where userid=?', [userid],function(err, results, fields) {
         cb(results[0]);
-        self._client.end();
     });
 }
 //修改用户密码
 User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
-    var self=this;
-    self._client.connect();
-    self._client.query("use " + mysql_config.database);
+    var self = this;
     async.waterfall([
             function (done) {
-                self._client.query(
+                self._pool.query(
                     'SELECT count(*) count FROM users where userid=? and alias=? and passwd=?',
                     [userid,alias,oldpwd],
                     function(err, results, fields) {
@@ -73,7 +60,7 @@ User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
                 );
             },
             function (result, done) {
-                self._client.query(
+                self._pool.query(
                     'update users set passwd=? where userid=?',
                     [newpwd,userid],
                     function(err, results, fields) {
@@ -92,7 +79,6 @@ User.prototype.changepwd=function(userid,alias,oldpwd,newpwd,cb){
                 cb({status:error});
             else
                 cb({status:'ok'});
-			self._client.end();
        }
 			
     );

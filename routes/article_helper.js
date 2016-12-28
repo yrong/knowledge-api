@@ -3,19 +3,21 @@ var config=new Config();
 var cmdb_api_config = config.CMDB_API;
 var rp = require('request-promise');
 var _ = require('lodash');
+const queryString = require('query-string');
 
-var getITServiceFromCmdbApi = function(uuids,callback) {
+var apiInvokeFromCmdb = function(path,params,callback){
     var options = {
         method: 'GET',
-        uri: cmdb_api_config.base_url + '/api/it_services/service?uuids=' + uuids.join(),
+        uri: cmdb_api_config.base_url + path + (params?('/?' + queryString.stringify(params)):''),
         json: true
     };
-    rp(options).then(function (result) {
+    return rp(options).then(function (result) {
         callback(null,result);
     }).catch(function (e){
         callback(e,null)
     });
-};
+}
+module.exports.apiInvokeFromCmdb = apiInvokeFromCmdb;
 
 var findITServiceItemByID = function(uuid,it_services){
     return _.find(it_services,function(it_service){
@@ -56,7 +58,7 @@ var articlesMapping = function(result,callback){
     it_service_uuids = _.uniq(it_service_uuids);
     results = contentMapping(results);
     if(it_service_uuids.length){
-        getITServiceFromCmdbApi(it_service_uuids,function(error,result){
+        apiInvokeFromCmdb('/api/it_services/service',{uuids:it_service_uuids.join()},function(error,result){
             if(error){
                 callback(error,results);
             }else{
@@ -70,5 +72,4 @@ var articlesMapping = function(result,callback){
         callback(null,results);
     }
 }
-
 module.exports.articlesMapping = articlesMapping;
