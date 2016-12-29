@@ -58,8 +58,8 @@ SQL_Template.prototype.updateSQL=function(template,tb_name){
     console.log(sql);
     return sql;
 }
-SQL_Template.prototype.querySQL=function(querys,tb_name,wheres){
-    let sql=util.format("select * from %s t",tb_name);
+SQL_Template.prototype.querySQL=function(querys,tb_name,wheres,alias='t'){
+    let sql=util.format("select * from %s as "+alias,tb_name);
     if(wheres!==undefined)
         sql+=" where "+wheres;
     if(querys.sortby!=undefined)

@@ -13,7 +13,7 @@ var pg_config=config.PG_Connection;//pg的连接参数
 var user=new User();
 var sql_template=new SQL_Template();
 
-var articleHelper = require('./article_helper');
+var articleHelper = require('./../helper/article_helper');
 
 //文章新增
 router.post('/', function(req, res, next) {
@@ -84,7 +84,7 @@ router.post('/', function(req, res, next) {
     )
 });
 //删除全部(测试使用)
-router.delete('/', function(req, res, next) {
+router.delete('/synergy', function(req, res, next) {
     var token=req.body.token;
     async.waterfall([
             function (done) {
@@ -98,12 +98,15 @@ router.delete('/', function(req, res, next) {
             function (result, done) {
                 var client = new Client(pg_config);
                 client.connect();
-                let query = client.query('delete from template_article',function(err, result){
-                    if(err)
-                        done('删除发生异常错误！',null);
-                    else
-                        done(null,'ok');
-                    client.end();
+                client.query('delete from template_article',function(err, result){
+                    client.query('delete from discussions',function(err, result){
+                        client.query('delete from notifications',function(err, result){
+                            client.query('delete from notifications',function(err, result){
+                                done(null,'ok');
+                                client.end();
+                            });
+                        });
+                    })
                 });
             }],
         function (error, result) {

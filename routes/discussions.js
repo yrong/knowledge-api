@@ -9,6 +9,8 @@ var config=new Config();
 var pg_config=config.PG_Connection;//pg的连接参数
 var Discussions = require('../model/Discussions');
 var sql_template=new SQL_Template();
+var User=require('../sql/User');
+var user = new User();
 //文章评论
 router.post('/', function(req, res, next) {
     //获取文章类型
@@ -24,6 +26,8 @@ router.post('/', function(req, res, next) {
         targetid:discussions.idcode,
         relationid:discussions.dis_reply_idcode
     };
+    var client = new Client(pg_config);
+    client.connect();
     async.waterfall([
         function (done) {
             user.token_validate(token,function(info){
@@ -37,15 +41,13 @@ router.post('/', function(req, res, next) {
             });
         },
         function (result, done) {
-            var client = new Client(pg_config);
-            client.connect();
             var insert_sql = sql_template.insertDiscussions(discussions);
             let query = client.query(insert_sql.sql,insert_sql.values,function(err, result){
                 if(err)
-                    res.send({status:'评论发生异常错误！'});
+                    done('评论发生异常错误！',null);
                 else
-                    res.send({status:'ok'});
-                client.end();
+                    discussions.dis_idcode = insert_sql.idcode;
+                    done(null,true);
             });
         },
         function(result, done){
@@ -67,7 +69,8 @@ router.post('/', function(req, res, next) {
             if (error)
                 res.send({status:error});
             else
-                res.send({status:'ok'});
+                res.send({status:'ok',uuid:discussions.dis_idcode});
+            client.end();
         }
     )
 });
