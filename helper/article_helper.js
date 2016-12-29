@@ -62,7 +62,7 @@ var articlesMapping = function(result,callback){
             if(error){
                 callback(error,results);
             }else{
-                it_services = result.data.results;
+                it_services = result.data;
                 results = serviceMapping(results,it_services);
                 callback(null,results);
             }
@@ -73,3 +73,4 @@ var articlesMapping = function(result,callback){
     }
 }
 module.exports.articlesMapping = articlesMapping;
+
