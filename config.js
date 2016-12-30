@@ -5,7 +5,9 @@ var Config=function(){
         port: 5432,
         database: 'test',
         user: 'postgres',
-        password: 'postgres'
+        password: 'postgres',
+        max: 50,
+        idleTimeoutMillis: 3000
     };
     this.MySQL_Connection={
         host:'localhost',

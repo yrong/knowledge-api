@@ -1,18 +1,13 @@
 var express = require('express');
-var Client=require('pg').Client;
 var router = express.Router();
-var Config = require('../config');
 var async=require('async');
 var SQL_Template = require('../sql/SQL_Template');
 var util=require('util');
-
-var pg_config=new Config().PG_Connection;//pg的连接参数
 var sql_template=new SQL_Template();
-
 var articleHelper = require('./../helper/article_helper');
 var dbHelper = require('./../helper/db_helper');
-
-var article_table_name = 'template_article', article_table_alias = 'ta', discussion_table_name = 'discussions', discussion_table_alias = 't';
+var article_table_name = dbHelper.article_table_name, article_table_alias = dbHelper.article_table_alias,
+    discussion_table_name = dbHelper.discussion_table_name, discussion_table_alias = dbHelper.discussion_table_alias;
 
 //综合查询，支持分页排序
 router.all('/advanced', function(req, res, next) {//add post method for postman test purpose
@@ -26,20 +21,11 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
         res.send({status: '未指定查询条件！'});
         return;
     }
-    client = new Client(pg_config);
-    try {
-        client.connect();
-    }
-    catch (e) {
-        res.send({status: '数据库连接错误'});
-        return;
-    }
     var getITServices = function(done){
         if(querys.filter.it_service!==undefined){
-            let logic=(querys.filter.it_service.logic!==undefined)?querys.filter.it_service.logic:'or';
             articleHelper.apiInvokeFromCmdb('/api/it_services/service',{search:querys.filter.it_service.value.join()},function(error,result){
                 if(error){
-                    done('查询关联服务错误！',null);
+                    done(error,null);
                 }else{
                     done(null,result.data)
                 }
@@ -48,7 +34,7 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
             done(null,[]);
         }
     };
-    var constructWhereWithAlias = function(services,done){
+    var constructWherePart = function(services,done){
         if(querys.filter.tag!==undefined){
             let logic=(querys.filter.tag.logic!==undefined)?querys.filter.tag.logic:'or';
             let tags = querys.filter.tag.value.join("','");
@@ -80,9 +66,9 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
     var queryArticles = function(result,done){
         let sql=sql_template.querySQL(querys,article_table_name,where,article_table_alias);
         console.log(sql);
-        client.query(sql,function (err, result) {
+        dbHelper.pool.query(sql,function (err, result) {
             if(err) {
-                done('查询发生错误！', null);
+                done(err, null);
             }
             done(null,result);
         });
@@ -90,24 +76,24 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
     var articlesMapping = function(result,done){
         articleHelper.articlesMapping(result,function(err,results){
             if (err){
-                done('查询关联服务错误！',null);
+                done(err,null);
             }else{
                 done(null,results);
             }
         })
     };
     var countArticles = function(done) {
-        dbHelper.countByTableNameAndWhere(client,article_table_name,article_table_alias,where,function(error,count){
+        dbHelper.countByTableNameAndWhere(article_table_name,function(error,count){
             if(error){
                 done(error);
             }else{
                 done(null,count);
             }
-        })
+        },where,article_table_alias)
     };
     var countDiscussions = function(done) {
         var query = `select count(*) from ${discussion_table_name} as ${discussion_table_alias} join ${article_table_name} as ${article_table_alias} on ${article_table_alias}.idcode=${discussion_table_alias}.idcode and ${where}`;
-        dbHelper.countBySql(client,query,function(error,count){
+        dbHelper.countBySql(query,function(error,count){
             if(error){
                 done(error);
             }else{
@@ -120,15 +106,14 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
             res.send({status: error});
         else
             res.send({status: 'ok', data: result});
-        client.end();
     };
     var countArticlesAndDiscussions = function(result,done){
-        async.parallel({articlesCount:countArticles,discussionsCount:countDiscussions},sendResponse);
+        async.parallel({articlesCount:countArticles,discussionsCount:countDiscussions},done);
     }
     if(querys.countOnly){
-        async.waterfall([getITServices,constructWhereWithAlias,countArticlesAndDiscussions]);
+        async.waterfall([getITServices,constructWherePart,countArticlesAndDiscussions],sendResponse);
     }else{
-        async.waterfall([getITServices,constructWhereWithAlias,queryArticles,articlesMapping],sendResponse);
+        async.waterfall([getITServices,constructWherePart,queryArticles,articlesMapping],sendResponse);
     }
 });
 
@@ -140,17 +125,12 @@ router.get('/:keywords', function(req, res, next) {
         querys.sortby='created_at';
     if(querys.order==undefined)
         querys.order='desc';//按照时间倒叙
-    //let wheres="f1('knowledge_zhcfg'::regconfig,t::text) @@ to_tsquery($1)";
     let wheres="to_tsvector('knowledge_zhcfg'::regconfig,title||' '||content) @@ to_tsquery($1)";
     let sql = sql_template.querySQL(querys, 'template_article',wheres);
     try {
-        var client = new Client(pg_config);
-        console.log(sql);
-        client.connect();
-
         async.parallel({
             Results:function(done){
-                let query = client.query(sql, [keywords],function (err, result) {
+                let query = dbHelper.pool.query(sql, [keywords],function (err, result) {
                     if (err)
                         done('查询发生错误！', null);
                     else {
@@ -190,7 +170,7 @@ router.get('/:keywords', function(req, res, next) {
                 });
             },
             Count:function(done){
-                let query = client.query("select count(*) count from template_article t where to_tsvector('knowledge_zhcfg'::regconfig,title||' '||content) @@ to_tsquery($1)",[keywords],function(err, result){
+                let query = dbHelper.pool.query("select count(*) count from template_article t where to_tsvector('knowledge_zhcfg'::regconfig,title||' '||content) @@ to_tsquery($1)",[keywords],function(err, result){
                     if(err){
                         done('查询发生错误！', null);
                         return;
@@ -229,18 +209,10 @@ router.get('/', function(req, res, next) {
         }
     }
     wheres='where '+wheres.join(' and ');
-    var client = new Client(pg_config);
-    try {
-        client.connect();
-    }
-    catch(e){
-        res.send({status: '数据库连接发生错误！'});
-        return;
-    }
     async.parallel({
         Results:function(done){
             let sql=sql_template.querySQL(querys,'template_article',wheres);
-            let query = client.query(sql,function(err, result) {
+            dbHelper.pool.query(sql,function(err, result) {
                 if(err) {
                     done('查询发生错误！', null);
                     return;
@@ -260,14 +232,13 @@ router.get('/', function(req, res, next) {
             });
         },
         Count:function(done){
-            let query = client.query(util.format('select count(*) count from template_article %s',wheres),function(err, result){
+            dbHelper.pool.query(util.format('select count(*) count from template_article %s',wheres),function(err, result){
                 if(err){
                     done('查询发生错误！', null);
                     return;
                 }
                 let count=parseInt(result.rows[0].count);
                 done(null,count);
-
             });
         }
     },function(error,result){
@@ -275,16 +246,7 @@ router.get('/', function(req, res, next) {
             res.send({status: error});
         else
             res.send({status: 'ok', data: result});
-        client.end();
     });
 });
-
-
-
-
-
-
-//综合查询 it_service,tag,keyword
-
 
 module.exports = router;

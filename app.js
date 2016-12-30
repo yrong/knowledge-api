@@ -16,6 +16,7 @@ var search = require('./routes/search');
 var discussions = require('./routes/discussions');
 var it_services = require('./routes/it_services');
 var notifications = require('./routes/notifications');
+var tag = require('./routes/tag');
 var app = express();
 
 // view engine setup
@@ -58,6 +59,7 @@ app.use('/KB/API/search', search);
 app.use('/KB/API/discussions', discussions);
 app.use('/KB/API/it_services', it_services);
 app.use('/KB/API/notifications', notifications);
+app.use('/KB/API/tags', tag);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

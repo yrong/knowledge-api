@@ -1,19 +1,15 @@
 var express = require('express');
-var Client=require('pg').Client;
 var router = express.Router();
-var Config = require('../config');
 var async=require('async');
 var Article_Type = require('../model/Article_Type');//文章类型
 var Template_Article = require('../model/Template_Article');//文章实体类型
 var SQL_Template = require('../sql/SQL_Template');
 var util=require('util');
 var User=require('../sql/User');
-var config=new Config();
-var pg_config=config.PG_Connection;//pg的连接参数
 var user=new User();
 var sql_template=new SQL_Template();
-
 var articleHelper = require('./../helper/article_helper');
+var dbHelper = require('./../helper/db_helper');
 
 //文章新增
 router.post('/', function(req, res, next) {
@@ -33,7 +29,6 @@ router.post('/', function(req, res, next) {
     var _notifications={
         action:'新增'
     };
-    var client;
     async.waterfall([
         function (done) {
             user.token_validate(token,function(info){
@@ -47,28 +42,25 @@ router.post('/', function(req, res, next) {
             });
         },
         function (result, done) {
-            client = new Client(pg_config);
-            client.connect();
-            var insert_sql = sql_template.insertSQL(template, 'template_article');
+            var insert_sql = sql_template.insertSQL(template, dbHelper.article_table_name);
             _notifications.targetid=insert_sql.idcode;
-            let query = client.query(insert_sql.sql,insert_sql.values,function(err, result){
+            dbHelper.pool.query(insert_sql.sql,insert_sql.values,function(err, result){
                 if(err)
                     done('新增发生异常错误！',null);
                 else
-                    done(null,'ok');
+                    done(null,result);
             });
         },
         function(result, done){
-            var insert_sql = `INSERT INTO notifications(
+            var insert_sql = `INSERT INTO ${dbHelper.notification_table_name}(
                 userid, created_at, action, targetid,relationid)
             VALUES ($1, now(), $2, $3, $4);`
-            let query = client.query(insert_sql,[
+            dbHelper.pool.query(insert_sql,[
                 _notifications.userid,
                 _notifications.action,
                 _notifications.targetid,
                 _notifications.relationid
             ],function(err, result){
-                console.log(err);
                 if(err)
                     done('新增发生异常错误！',null);
                 else
@@ -79,7 +71,6 @@ router.post('/', function(req, res, next) {
                 res.send({status:error});
             else
                 res.send({status:'ok',uuid: _notifications.targetid});
-            client.end();
         }
     )
 });
@@ -96,15 +87,10 @@ router.delete('/synergy', function(req, res, next) {
                 });
             },
             function (result, done) {
-                var client = new Client(pg_config);
-                client.connect();
-                client.query('delete from template_article',function(err, result){
-                    client.query('delete from discussions',function(err, result){
-                        client.query('delete from notifications',function(err, result){
-                            client.query('delete from notifications',function(err, result){
-                                done(null,'ok');
-                                client.end();
-                            });
+                dbHelper.pool.query(`delete from ${dbHelper.article_table_name}`,function(err, result){
+                    dbHelper.pool.query(`delete from ${dbHelper.discussion_table_name}`,function(err, result){
+                        dbHelper.pool.query(`delete from ${dbHelper.notification_table_name}`,function(err, result){
+                            done(null,'ok');
                         });
                     })
                 });
@@ -136,14 +122,11 @@ router.delete('/:idcode', function(req, res, next) {
             });
         },
         function (result, done) {
-            var client = new Client(pg_config);
-            client.connect();
-            let query = client.query('delete from template_article where idcode=$1', [idcode],function(err, result){
+            dbHelper.pool.query(`delete from ${dbHelper.article_table_name} where idcode=$1`, [idcode],function(err, result){
                 if(err)
                     done('删除发生异常错误！',null);
                 else
                     done(null,'ok');
-                client.end();
             });
         }],
         function (error, result) {
@@ -167,14 +150,6 @@ router.put('/:idcode', function(req, res, next) {
         targetid:idcode,
         action:'修改'
     };
-    var client = new Client(pg_config);
-    try {
-        client.connect();
-    }
-    catch(e){
-        res.send({status:'数据库连接错误'});
-        return;
-    }
     async.waterfall([
         function (done) {
             user.token_validate(token,function(info){
@@ -193,25 +168,24 @@ router.put('/:idcode', function(req, res, next) {
                 return;
             }
             var template=new Template_Article(req.body);
-            var update_sql = sql_template.updateSQL(template, 'template_article');
-            let query = client.query(update_sql, [idcode],function(err,result){
+            var update_sql = sql_template.updateSQL(template, dbHelper.article_table_name);
+            dbHelper.pool.query(update_sql, [idcode],function(err,result){
                 if(err)
                     done('更新发生异常错误！',null);
                 else
-                    done(null,'ok');
+                    done(null,result);
             });
         },
         function(result, done){
             var insert_sql = `INSERT INTO notifications(
                 userid, alias, created_at, action, targetid,relationid)
             VALUES ($1,now(), $2, $3, $4);`
-            let query = client.query(insert_sql,[
+            dbHelper.pool.query(insert_sql,[
                 _notifications.userid,
                 _notifications.action,
                 _notifications.targetid,
                 _notifications.relationid
             ],function(err, result){
-                console.log(err);
                 if(err)
                     done('更新发生异常错误！',null);
                 else
@@ -222,7 +196,6 @@ router.put('/:idcode', function(req, res, next) {
                 res.send({status: error});
             else
                 res.send({status: 'ok'});
-            client.end();
         });
 });
 //根据id更新某一个字段
@@ -248,14 +221,6 @@ router.patch('/:idcode', function(req, res, next) {
         res.send({status:'更新字段超过多个，rest权限不够，考虑put请求，更新失败！'});
         return;
     }
-    var client = new Client(pg_config);
-    try {
-        client.connect();
-    }
-    catch(e){
-        res.send({status:'数据库连接错误！'});
-        return;
-    }
     async.waterfall([
         function (done) {
             user.token_validate(token,function(info){
@@ -274,19 +239,19 @@ router.patch('/:idcode', function(req, res, next) {
                 return;
             }
             var template=new Template_Article(req.body);
-            var update_sql = sql_template.updateSQL(template, 'template_article');
-            let query = client.query(update_sql, [idcode],function(err,result){
+            var update_sql = sql_template.updateSQL(template, dbHelper.article_table_name);
+            dbHelper.pool.query(update_sql, [idcode],function(err,result){
                 if(err)
                     done('更新发生异常错误！',null);
                 else
-                    done(err,'ok');
+                    done(err,result);
             });
         },
         function(result, done){
-            var insert_sql = `INSERT INTO notifications(
+            var insert_sql = `INSERT INTO ${dbHelper.notification_table_name}(
                 userid, created_at, action, targetid,relationid)
             VALUES ($1, now(), $2, $3, $4);`
-            let query = client.query(insert_sql,[
+            dbHelper.pool.query(insert_sql,[
                 _notifications.userid,
                 _notifications.action,
                 _notifications.targetid,
@@ -295,14 +260,13 @@ router.patch('/:idcode', function(req, res, next) {
                 if(err)
                     done('新增发生异常错误！',null);
                 else
-                    done(null,'ok');
+                    done(null,result);
             });
         }], function (error, result) {
         if (error)
             res.send({status: error});
         else
             res.send({status: 'ok'});
-        client.end();
     });
 });
 
@@ -313,16 +277,8 @@ router.get('/:idcode', function(req, res, next) {
         res.send({status: '未指定查询idcode，查询失败！'});
         return;
     }
-    var client = new Client(pg_config);
-    try {
-        client.connect();
-    }
-    catch (e) {
-        res.send({status: '数据库连接错误'});
-        return;
-    }
-    let sql = util.format("select * from template_article where idcode=$1");
-    query = client.query(sql, [idcode], function (err, result) {
+    let sql = util.format(`select * from ${dbHelper.article_table_name} where idcode=$1`);
+    query = dbHelper.pool.query(sql, [idcode], function (err, result) {
         if (err)
             res.send({status: '查询错误！'});
         else
@@ -341,7 +297,6 @@ router.get('/:idcode', function(req, res, next) {
                 })
             }
         }
-        client.end();
     });
 });
 
@@ -352,95 +307,39 @@ router.get('/', function(req, res, next) {
         querys.sortby='created_at';
     if(querys.order==undefined)
         querys.order='desc';//按照时间倒叙
-    try {
-        var client = new Client(pg_config);
-        client.connect();
-        async.parallel({
-            Results:function(done){
-                let sql = sql_template.querySQL(querys, 'template_article');
-                let query = client.query(sql,function(err, result) {
-                    if(err) {
-                        done('查询发生错误！', null);
-                        return;
+    async.parallel({
+        Results:function(done){
+            let sql = sql_template.querySQL(querys, dbHelper.article_table_name);
+            dbHelper.pool.query(sql,function(err, result) {
+                if(err) {
+                    done('查询发生错误！', null);
+                    return;
+                }
+                articleHelper.articlesMapping(result,function(err,results){
+                    if (err){
+                        done('查询关联服务错误！');
+                    }else{
+                        done(null,results);
                     }
-                    articleHelper.articlesMapping(result,function(err,results){
-                        if (err){
-                            done('查询关联服务错误！');
-                        }else{
-                            done(null,results);
-                        }
-                    })
-                });
-            },
-            Count:function(done){
-                let query = client.query('select count(*) count from template_article',function(err, result){
-                    if(err){
-                        done('查询发生错误！', null);
-                        return;
-                    }
-                    let count=parseInt(result.rows[0].count);
-                    done(null,count);
-                });
-            }
-        },function(error,result){
-            if(error)
-                res.send({status: error});
-            else
-                res.send({status: 'ok', data: result});
-            client.end();
-        });
-    }
-    catch(e) {
-        res.send({status: '数据库连接错误！'});
-    }
+                })
+            });
+        },
+        Count:function(done){
+            dbHelper.countByTableNameAndWhere(dbHelper.article_table_name,function(err, result){
+                if(err){
+                    done('查询发生错误！', null);
+                    return;
+                }
+                done(null,result);
+            });
+        }
+    },function(error,result){
+        if(error)
+            res.send({status: error});
+        else
+            res.send({status: 'ok', data: result});
+    });
+
 });
-
-//查询tags
-router.get('/tag/tags',function(req,res,next){
-    let querys = req.query;
-    try {
-        var client = new Client(pg_config);
-        client.connect();
-        async.parallel({
-            Results:function(done){
-                let sql = util.format('select t.* from (select distinct(unnest(tag)) tag from template_article) t limit %s offset %s',querys.per_page,(parseInt(querys.page)-1)*parseInt(querys.per_page));
-                console.log(sql);
-                let query = client.query(sql,function(err, result) {
-                    if(err) {
-                        done('查询发生错误！', null);
-                        return;
-                    }
-                    var tags=result.rows.map(function (item) {
-                        return item.tag;
-                    });
-                    done(null,tags);
-                });
-            },
-            Count:function(done){
-                let sql = util.format('select count(t.*) count from (select distinct(unnest(tag)) tag from template_article) t');
-                let query = client.query(sql,function(err, result){
-                    if(err){
-                        done('查询发生错误！', null);
-                        return;
-                    }
-                    let count=parseInt(result.rows[0].count);
-                    done(null,count);
-
-                });
-            }
-        },function(error,result){
-            if(error)
-                res.send({status: error});
-            else
-                res.send({status: 'ok', data: result});
-            client.end();
-        });
-    }
-    catch(e) {
-        console.log(e);
-        res.send({status: '数据库连接错误！'});
-    }
-})
-
 
 module.exports = router;
