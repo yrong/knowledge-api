@@ -48,8 +48,8 @@ CREATE INDEX template_article_idcode_idx
 
 CREATE INDEX template_article_index
   ON public.template_article
-  USING rum
-  (to_tsvector('knowledge_zhcfg'::regconfig, (title || ' '::text) || content) rum_tsvector_ops);
+  USING gin
+  (to_tsvector('knowledge_zhcfg'::regconfig, (title || ' '::text) || content));
   
   
 CREATE OR REPLACE FUNCTION process_template_article() RETURNS TRIGGER AS $body$

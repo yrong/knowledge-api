@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('knowledge:server');
 var http = require('http');
 var io = require('../socket');
+var models = require('../models');
+models.sequelize.sync();
 /**
  * Get port from environment and store in Express.
  */
@@ -88,3 +90,8 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+process.on('uncaughtException', function(err) {
+    console.log(err)
+})
+

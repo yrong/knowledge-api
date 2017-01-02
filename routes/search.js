@@ -35,7 +35,7 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
         }
     };
     var constructWherePart = function(services,done){
-        if(querys.filter.tag!==undefined){
+        if(querys.filter.tag&&querys.filter.tag.length){
             let logic=(querys.filter.tag.logic!==undefined)?querys.filter.tag.logic:'or';
             let tags = querys.filter.tag.value.join("','");
             if(logic=='or')
@@ -43,7 +43,7 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
             else if(logic=='and')
                 where.push(`Array['${tags}']<@${article_table_alias}.tag`);
         }
-        if(querys.filter.keyword!==undefined)
+        if(querys.filter.keyword)
             where.push(`to_tsvector('knowledge_zhcfg'::regconfig,${article_table_alias}.title||' '|| ${article_table_alias}.content) @@ to_tsquery('${querys.filter.keyword}')`);
         if(services&&services.length){
             services = services.join("','");
