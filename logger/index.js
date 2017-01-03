@@ -11,7 +11,7 @@ const consoleTransport = new winston.transports.Console({
 
 const fileTransport = new winston.transports.File({
     level: 'info',
-    filename: '../logs/knowledge-api.log',
+    filename: './logs/knowledge-api.log',
     handleExceptions: true,
     json: true,
     maxsize: 5242880, //5MB
