@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "async": "^2.1.2",
+    "asyncawait": "^1.0.6",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
