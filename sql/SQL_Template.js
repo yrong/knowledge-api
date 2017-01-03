@@ -60,15 +60,15 @@ SQL_Template.prototype.updateSQL=function(template,tb_name){
 }
 SQL_Template.prototype.querySQL=function(querys,tb_name,wheres,alias='t'){
     let sql=util.format("select * from %s as "+alias,tb_name);
-    if(wheres!==undefined)
+    if(wheres)
         sql+=" where "+wheres;
-    if(querys.sortby!=undefined)
+    if(querys.sortby)
         sql+=" order by "+querys.sortby;
     else
         sql+=" order by id";
-    if(querys.order!=undefined)
+    if(querys.order)
         sql+=" "+querys.order;
-    if(querys.page!=undefined&&querys.per_page!=undefined)
+    if(querys.page&&querys.per_page)
         sql+=util.format(' limit %s offset %s',querys.per_page,(parseInt(querys.page)-1)*parseInt(querys.per_page));
     return sql;
 }
