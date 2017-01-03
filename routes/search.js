@@ -44,7 +44,7 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
                 where.push(`Array['${tags}']<@${article_table_alias}.tag`);
         }
         if(querys.filter.keyword)
-            where.push(`to_tsvector('knowledge_zhcfg'::regconfig,${article_table_alias}.title||' '|| ${article_table_alias}.content) @@ to_tsquery('${querys.filter.keyword}')`);
+            where.push(`to_tsvector('knowledge_zhcfg'::regconfig,${article_table_alias}.title||' '|| ${article_table_alias}.content) @@ to_tsquery('knowledge_zhcfg'::regconfig,'${querys.filter.keyword}')`);
         if(services&&services.length){
             services = services.join("','");
             if(querys.filter.it_service.logic=='or')
@@ -125,7 +125,7 @@ router.get('/:keywords', function(req, res, next) {
         querys.sortby='created_at';
     if(querys.order==undefined)
         querys.order='desc';//按照时间倒叙
-    let wheres="to_tsvector('knowledge_zhcfg'::regconfig,title||' '||content) @@ to_tsquery($1)";
+    let wheres="to_tsvector('knowledge_zhcfg'::regconfig,title||' '||content) @@ to_tsquery('knowledge_zhcfg'::regconfig,$1)";
     let sql = sql_template.querySQL(querys, 'template_article',wheres);
     try {
         async.parallel({
@@ -170,7 +170,7 @@ router.get('/:keywords', function(req, res, next) {
                 });
             },
             Count:function(done){
-                let query = dbHelper.pool.query("select count(*) count from template_article t where to_tsvector('knowledge_zhcfg'::regconfig,title||' '||content) @@ to_tsquery($1)",[keywords],function(err, result){
+                let query = dbHelper.pool.query("select count(*) count from template_article t where to_tsvector('knowledge_zhcfg'::regconfig,title||' '||content) @@ to_tsquery('knowledge_zhcfg'::regconfig,$1)",[keywords],function(err, result){
                     if(err){
                         done('查询发生错误！', null);
                         return;
