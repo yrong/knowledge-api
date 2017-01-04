@@ -48,5 +48,13 @@ module.exports = {
         if(querys.page!=undefined&&querys.per_page!=undefined)
         articles = await (Article.findAndCountAll({order:[[querys.sortby,querys.order]],offset:(parseInt(querys.page)-1)*parseInt(querys.per_page),limit:querys.per_page,raw: true}));
         res.send(articles);
+    })),
+    article_put: asyncRequest.bind(null, async(function(req, res) {
+        await(Article.update(req.body,{
+            where: {
+                idcode: req.params.uuid
+            }
+        }));
+        res.send({status:'ok'})
     }))
 }

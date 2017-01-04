@@ -72,7 +72,7 @@ app.use('/KB/API/it_services', it_services);
 app.use('/KB/API/notifications', notifications);
 app.use('/KB/API/tags', tag);
 
-routes_new.route_article(app);
+routes_new.route_init(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -87,14 +87,14 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    res.status(err.status || 500).json(err.message);
+    res.status(err.status || 500).json({status:err.message});
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-    res.status(err.status || 500).json({message: 'unknown message'});
+    res.status(err.status || 500).json({status:err.message});
 });
 
 //定时任务，清除临时文件

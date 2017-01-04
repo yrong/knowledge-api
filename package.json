@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node --harmony ./bin/www",
-    "postman": "node ./test/postman.js"
+    "test": "node ./test/postman.js"
   },
   "dependencies": {
     "async": "^2.1.2",
