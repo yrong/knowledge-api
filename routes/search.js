@@ -22,7 +22,7 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
         return;
     }
     var getITServices = function(done){
-        if(querys.filter.it_service!==undefined){
+        if(querys.filter.it_service&&querys.filter.it_service.value&&querys.filter.it_service.value.length){
             articleHelper.apiInvokeFromCmdb('/api/it_services/service',{search:querys.filter.it_service.value.join()},function(error,result){
                 if(error){
                     done(error,null);
@@ -35,7 +35,7 @@ router.all('/advanced', function(req, res, next) {//add post method for postman 
         }
     };
     var constructWherePart = function(services,done){
-        if(querys.filter.tag&&querys.filter.tag.length){
+        if(querys.filter.tag&&querys.filter.tag.value&&querys.filter.tag.value.length){
             let logic=(querys.filter.tag.logic!==undefined)?querys.filter.tag.logic:'or';
             let tags = querys.filter.tag.value.join("','");
             if(logic=='or')
