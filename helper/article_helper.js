@@ -153,8 +153,8 @@ var countArticles = function(querys,done) {
 };
 
 var countDiscussions = function(querys,done) {
-    var where = querys.where;
-    var query = `select count(*) from ${discussion_table_name} as ${discussion_table_alias} join ${article_table_name} as ${article_table_alias} on ${article_table_alias}.idcode=${discussion_table_alias}.idcode and ${where}`;
+    var where = querys.where?"and"+querys.where:"";
+    var query = `select count(*) from ${discussion_table_name} as ${discussion_table_alias} join ${article_table_name} as ${article_table_alias} on ${article_table_alias}.idcode=${discussion_table_alias}.idcode ${where}`;
     console.log(query);
     dbHelper.countBySql(query,function(error,count){
         if(error){
