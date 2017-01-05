@@ -73,22 +73,26 @@ var searchITServicesByKeyword = function(querys,done){
 var constructWherePart = function(querys,done){
     var where = [];
     if(querys.filter.tag&&querys.filter.tag.value&&querys.filter.tag.value.length){
-        let tags = querys.filter.tag.value.join("','");
-        let logic=(querys.filter.tag.logic)?querys.filter.tag.logic:'or';
-        if(logic=='or')
-            where.push(`Array['${tags}']&&${article_table_alias}.tag`);
-        else if(logic=='and')
-            where.push(`Array['${tags}']<@${article_table_alias}.tag`);
+        let tags = _.filter(querys.filter.tag.value,(val)=>{return val}).join("','");
+        if(tags) {
+            let logic = (querys.filter.tag.logic) ? querys.filter.tag.logic : 'or';
+            if (logic == 'or')
+                where.push(`Array['${tags}']&&${article_table_alias}.tag`);
+            else if (logic == 'and')
+                where.push(`Array['${tags}']<@${article_table_alias}.tag`);
+        }
     }
     if(querys.filter.keyword)
         where.push(`to_tsvector('knowledge_zhcfg'::regconfig,${article_table_alias}.title||' '|| ${article_table_alias}.content) @@ to_tsquery('knowledge_zhcfg'::regconfig,'${querys.filter.keyword}')`);
     if(querys.filter.it_service&&querys.filter.it_service.value&&querys.filter.it_service.value.length){
-        let services = querys.filter.it_service.value.join("','");
-        let logic=(querys.filter.it_service.logic)?querys.filter.it_service.logic:'or';
-        if(logic=='or')
-            where.push(`Array['${services}']&&${article_table_alias}.it_service`);
-        else if(querys.filter.it_service.logic=='and')
-            where.push(`Array['${services}']<@${article_table_alias}.it_service`);
+        let services = _.filter(querys.filter.it_service.value, (val)=>{return val}).join("','");
+        if(services){
+            let logic=(querys.filter.it_service.logic)?querys.filter.it_service.logic:'or';
+            if(logic=='or')
+                where.push(`Array['${services}']&&${article_table_alias}.it_service`);
+            else if(querys.filter.it_service.logic=='and')
+                where.push(`Array['${services}']<@${article_table_alias}.it_service`);
+        }
     }
     querys.logic=(querys.logic!==undefined)?querys.logic:'and';
     if(querys.logic=='and')
@@ -153,7 +157,7 @@ var countArticles = function(querys,done) {
 };
 
 var countDiscussions = function(querys,done) {
-    var where = querys.where?"and"+querys.where:"";
+    var where = querys.where?"and "+querys.where:"";
     var query = `select count(*) from ${discussion_table_name} as ${discussion_table_alias} join ${article_table_name} as ${article_table_alias} on ${article_table_alias}.idcode=${discussion_table_alias}.idcode ${where}`;
     console.log(query);
     dbHelper.countBySql(query,function(error,count){
