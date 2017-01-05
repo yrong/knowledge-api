@@ -288,7 +288,7 @@ router.get('/:idcode', function(req, res, next) {
                 res.send({status: '未查询指定id的文章！'});
             else
             {
-                articleHelper.articlesMapping(result,function(err,results){
+                articleHelper.articlesMappingWithITService(result.rows,function(err,results){
                     if (err||results.length!=1){
                         res.send({status: '查询关联服务错误！'});
                     }else{
@@ -315,7 +315,7 @@ router.get('/', function(req, res, next) {
                     done('查询发生错误！', null);
                     return;
                 }
-                articleHelper.articlesMapping(result,function(err,results){
+                articleHelper.articlesMappingWithITService(result.rows,function(err,results){
                     if (err){
                         done('查询关联服务错误！');
                     }else{

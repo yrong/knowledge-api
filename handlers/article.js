@@ -31,7 +31,7 @@ module.exports = {
         if(!article){
             throw new Error(res.__('UUIDNotExistError'));
         }
-        articleHelper.articlesMapping({rows:[article]},function(err,results){
+        articleHelper.articlesMappingWithITService([article],function(err,results){
             if (err||results.length!=1){
                 throw new Error(res.__('QueryITServiceError'));
             }else{

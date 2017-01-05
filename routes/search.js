@@ -5,115 +5,29 @@ var SQL_Template = require('../sql/SQL_Template');
 var util=require('util');
 var sql_template=new SQL_Template();
 var articleHelper = require('./../helper/article_helper');
-var dbHelper = require('./../helper/db_helper');
-var article_table_name = dbHelper.article_table_name, article_table_alias = dbHelper.article_table_alias,
-    discussion_table_name = dbHelper.discussion_table_name, discussion_table_alias = dbHelper.discussion_table_alias;
+
 
 //综合查询，支持分页排序
 router.all('/advanced', function(req, res, next) {//add post method for postman test purpose
-    var querys,client,where = [];
+    var querys;
     if(req.method === 'GET'){
         querys = req.query;
     }else{
         querys = req.body;
     }
-    if (querys.filter == undefined) {
-        res.send({status: '未指定查询条件！'});
-        return;
-    }
-    var getITServices = function(done){
-        if(querys.filter.it_service&&querys.filter.it_service.value&&querys.filter.it_service.value.length){
-            articleHelper.apiInvokeFromCmdb('/api/it_services/service',{search:querys.filter.it_service.value.join()},function(error,result){
-                if(error){
-                    done(error,null);
-                }else{
-                    done(null,result.data)
-                }
-            });
-        }else{
-            done(null,[]);
-        }
-    };
-    var constructWherePart = function(services,done){
-        if(querys.filter.tag&&querys.filter.tag.value&&querys.filter.tag.value.length){
-            let logic=(querys.filter.tag.logic!==undefined)?querys.filter.tag.logic:'or';
-            let tags = querys.filter.tag.value.join("','");
-            if(logic=='or')
-                where.push(`Array['${tags}']&&${article_table_alias}.tag`);
-            else if(logic=='and')
-                where.push(`Array['${tags}']<@${article_table_alias}.tag`);
-        }
-        if(querys.filter.keyword)
-            where.push(`to_tsvector('knowledge_zhcfg'::regconfig,${article_table_alias}.title||' '|| ${article_table_alias}.content) @@ to_tsquery('knowledge_zhcfg'::regconfig,'${querys.filter.keyword}')`);
-        if(services&&services.length){
-            services = services.join("','");
-            if(querys.filter.it_service.logic=='or')
-                where.push(`Array['${services}']&&${article_table_alias}.it_service`);
-            else if(querys.filter.it_service.logic=='and')
-                where.push(`Array['${services}']<@${article_table_alias}.it_service`);
-        }
-        querys.logic=(querys.logic!==undefined)?querys.logic:'and';
-        if(querys.logic=='and')
-            where=where.join(' and ');
-        else if(querys.logic=='or')
-            where=where.join(' or ');
-        if(querys.sortby==undefined)
-            querys.sortby='created_at';
-        if(querys.order==undefined)
-            querys.order='desc';//按照时间倒叙
-        done(null,where);
-    };
-    var queryArticles = function(result,done){
-        let sql=sql_template.querySQL(querys,article_table_name,where,article_table_alias);
-        console.log(sql);
-        dbHelper.pool.query(sql,function (err, result) {
-            if(err) {
-                done(err, null);
-            }
-            done(null,result);
-        });
-    };
-    var articlesMapping = function(result,done){
-        articleHelper.articlesMapping(result,function(err,results){
-            if (err){
-                done(err,null);
-            }else{
-                done(null,results);
-            }
-        })
-    };
-    var countArticles = function(done) {
-        dbHelper.countByTableNameAndWhere(article_table_name,function(error,count){
-            if(error){
-                done(error);
-            }else{
-                done(null,count);
-            }
-        },where,article_table_alias)
-    };
-    var countDiscussions = function(done) {
-        var query = `select count(*) from ${discussion_table_name} as ${discussion_table_alias} join ${article_table_name} as ${article_table_alias} on ${article_table_alias}.idcode=${discussion_table_alias}.idcode and ${where}`;
-        dbHelper.countBySql(query,function(error,count){
-            if(error){
-                done(error);
-            }else{
-                done(null,count);
-            }
-        })
-    };
     var sendResponse = function(error,result) {
         if(error)
-            res.send({status: error});
+            res.send({status: error.message?error.message:error});
         else
             res.send({status: 'ok', data: result});
     };
-    var countArticlesAndDiscussions = function(result,done){
-        async.parallel({articlesCount:countArticles,discussionsCount:countDiscussions},done);
+    if(querys.countBy){
+        articleHelper.countArticlesAndDiscussionsByITServiceGroups(querys,sendResponse);
+    }else if(querys.countOnly){
+        articleHelper.countArticlesAndDiscussionsByITServiceKeyword(querys,sendResponse);
     }
-    if(querys.countOnly){
-        async.waterfall([getITServices,constructWherePart,countArticlesAndDiscussions],sendResponse);
-    }else{
-        async.waterfall([getITServices,constructWherePart,queryArticles,articlesMapping],sendResponse);
+    else{
+        articleHelper.articlesSearchByITServiceKeyword(querys,sendResponse);
     }
 });
 
