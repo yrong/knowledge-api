@@ -9,7 +9,9 @@ var debug = require('debug')('knowledge:server');
 var http = require('http');
 var io = require('../socket');
 var models = require('../models');
-models.sequelize.sync();
+models.sequelize.sync().then(function(){
+    models.dbInit();
+})
 /**
  * Get port from environment and store in Express.
  */

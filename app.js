@@ -86,14 +86,16 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500).json({status:err.message});
-  });
+    app.use(function (err, req, res, next) {
+        logger.error(err);
+        res.status(err.status || 500).json({status: err.message});
+    });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+    logger.error(err);
     res.status(err.status || 500).json({status:err.message});
 });
 
