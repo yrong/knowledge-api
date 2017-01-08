@@ -11,8 +11,6 @@
     "asyncawait": "^1.0.6",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "ejs": "~2.4.1",
     "express": "~4.13.4",
     "formidable": "^1.0.17",
     "i18n": "^0.8.3",
@@ -30,7 +28,23 @@
     "socket.io": "^1.7.1",
     "ueditor-nodejs": "^0.1.4",
     "validator": "^6.2.0",
-    "winston": "^2.3.0"
+    "winston": "^2.3.0",
+    "bluebird": "^3.4.6",
+    "cls-bluebird": "^2.0.1",
+    "debug": "^2.3.0",
+    "depd": "^1.1.0",
+    "dottie": "^1.0.0",
+    "env-cmd": "^4.0.0",
+    "generic-pool": "^2.4.4",
+    "inflection": "1.10.0",
+    "moment": "^2.13.0",
+    "moment-timezone": "^0.5.4",
+    "retry-as-promised": "^2.0.0",
+    "semver": "^5.0.1",
+    "terraformer-wkt-parser": "^1.1.2",
+    "toposort-class": "^1.0.1",
+    "uuid": "^3.0.0",
+    "wkx": "^0.4.1"
   },
   "devDependencies": {
     "newman": "^3.3.1"

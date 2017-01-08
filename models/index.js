@@ -2,8 +2,9 @@
 
 var fs        = require("fs");
 var path      = require("path");
-var Sequelize = require("sequelize");
+var Sequelize = require("../sequelize");
 var Config = require('../config');
+var {logger} = require('../logger');
 var config = new Config().PG_Connection;
 var sequelize;
 if (process.env.DATABASE_URL) {
@@ -32,12 +33,12 @@ fs
     });
 
 db.sequelize = sequelize;
+
 db.dbInit = function(){
     Object.keys(db).forEach(function(modelName) {
-        if ("dbInit" in db[modelName]) {
-            db[modelName].dbInit(db);
+        if (db[modelName].initsql) {
+            db.sequelize.query(db[modelName].initsql).catch(logger.error);
         }
     });
 }
-
 module.exports = db;

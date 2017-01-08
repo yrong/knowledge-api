@@ -1,15 +1,12 @@
-var {logger} = require('../logger');
-
 /**
- * Wraps express.js async handler function with catch to correctly handle errors
- * @param  {Function} asyncFn   async handler function for express
- * @param  {Object} req         express request object
- * @param  {Object} res         express response object
- * @return {void}
+ *
+ * @param asyncFn
  */
-exports.asyncRequest = (asyncFn, req, res) =>
-    asyncFn(req, res)
-        .catch(e => {
-            logger.error(e);
-            res.status(500).json({status: e.message});
-        });
+exports.asyncRequest = (asyncFn) => {
+    return (req, res, next) => {
+        const routePromise = asyncFn(req, res, next);
+        if (routePromise.catch) {
+            routePromise.catch(err => next(err));
+        }
+    }
+}
