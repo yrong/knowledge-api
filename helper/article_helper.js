@@ -3,8 +3,9 @@ var async=require('async');
 var cmdb_api_helper = require('./cmdb_api_helper');
 var dbHelper = require('../helper/db_helper');
 var sql_template=new (require('../sql/SQL_Template'))();
-var article_table_name = dbHelper.article_table_name, article_table_alias = dbHelper.article_table_alias,
-    discussion_table_name = dbHelper.discussion_table_name, discussion_table_alias = dbHelper.discussion_table_alias;
+var {article_table_name,article_table_alias,discussion_table_name,discussion_table_alias} = dbHelper
+
+let models = require('../models');
 
 
 var findITServiceItemByID = function(uuid,it_services){
@@ -40,69 +41,92 @@ var contentMapping = function(results){
 var checkQuery = function(querys,done) {
     if(querys.countBy){
         if(querys.countBy!='ITServiceGroup'){
-            done(new Error('countBy只支持ITServiceGroup!'));
-        }else if(querys.filter&&querys.filter.it_service&&querys.filter.it_service.value){
-            done(new Error('countByITServiceGroup则不能同时设置按it_service过滤!'));
-        }else{
-            done(null,querys);
+            querys.error = new Error('countBy只支持ITServiceGroup!')
+        }else if(querys.filter&&querys.filter.it_service){
+            querys.error = new Error('countByITServiceGroup则不能同时设置按it_service过滤!')
         }
     }else{
         if(!querys.countOnly&&!querys.filter){
-            done(new Error('没有指定查询条件!'));
-        }else{
-            done(null,querys);
+            querys.error = new Error('没有指定查询条件!')
         }
     }
+    if(querys.error)
+        done(querys.error,querys)
+    else
+        done(null,querys);
 };
 
+var getITServiceValues = function(querys) {
+    if(querys.v1)
+        return _.values(querys.filter.it_service)[0]
+    else
+        return querys.filter.it_service.value
+}
+
+var setITServiceValues = function(querys,result) {
+    if(querys.v1){
+        let key = _.keys(querys.filter.it_service)[0]||'$overlap'
+        querys.filter.it_service[key] = result
+    }
+    else
+        querys.filter.it_service.value = result
+}
+
 var searchITServicesByKeyword = function(querys,done){
-    if(querys.filter.it_service&&querys.filter.it_service.value&&querys.filter.it_service.value.length){
+    if(querys.filter.it_service){
         cmdb_api_helper.getITServices(function(error,result){
             if(error){
                 done(error,null);
             }else{
-                querys.filter.it_service.value = result.data;
+                setITServiceValues(querys,result.data);
                 done(null,querys);
             }
-        },{search:querys.filter.it_service.value.join()});
+        },{search:getITServiceValues(querys).join()});
     }else{
         done(null,querys);
     }
 };
 
 var constructWherePart = function(querys,done){
-    var where = [];
-    if(querys.filter.tag&&querys.filter.tag.value&&querys.filter.tag.value.length){
-        let tags = _.filter(querys.filter.tag.value,(val)=>{return val}).join("','");
-        if(tags) {
-            let logic = (querys.filter.tag.logic) ? querys.filter.tag.logic : 'or';
-            if (logic == 'or')
-                where.push(`Array['${tags}']&&${article_table_alias}.tag`);
-            else if (logic == 'and')
-                where.push(`Array['${tags}']<@${article_table_alias}.tag`);
+    var where;
+    if(querys.v1){
+        var queryGenerator = models.sequelize.getQueryInterface().QueryGenerator
+        var options = {where:querys.filter?dbHelper.fullTextOperatorProcessor(querys.filter):{}};
+        where = queryGenerator.getWhereConditions(options.where,article_table_alias,models['Article'],options);
+    }else{
+        where = [];
+        if(querys.filter.tag&&querys.filter.tag.value&&querys.filter.tag.value.length){
+            let tags = _.filter(querys.filter.tag.value,(val)=>{return val}).join("','");
+            if(tags) {
+                let logic = (querys.filter.tag.logic) ? querys.filter.tag.logic : 'or';
+                if (logic == 'or')
+                    where.push(`Array['${tags}']&&${article_table_alias}.tag`);
+                else if (logic == 'and')
+                    where.push(`Array['${tags}']<@${article_table_alias}.tag`);
+            }
         }
-    }
-    if(querys.filter.keyword)
-        where.push(`to_tsvector('knowledge_zhcfg'::regconfig,${article_table_alias}.title||' '|| ${article_table_alias}.content) @@ to_tsquery('knowledge_zhcfg'::regconfig,'${querys.filter.keyword}')`);
-    if(querys.filter.it_service&&querys.filter.it_service.value&&querys.filter.it_service.value.length){
-        let services = _.filter(querys.filter.it_service.value, (val)=>{return val}).join("','");
-        if(services){
-            let logic=(querys.filter.it_service.logic)?querys.filter.it_service.logic:'or';
-            if(logic=='or')
-                where.push(`Array['${services}']&&${article_table_alias}.it_service`);
-            else if(querys.filter.it_service.logic=='and')
-                where.push(`Array['${services}']<@${article_table_alias}.it_service`);
+        if(querys.filter.keyword)
+            where.push(`to_tsvector('knowledge_zhcfg'::regconfig,${article_table_alias}.title||' '|| ${article_table_alias}.content) @@ to_tsquery('knowledge_zhcfg'::regconfig,'${querys.filter.keyword}')`);
+        if(querys.filter.it_service&&querys.filter.it_service.value&&querys.filter.it_service.value.length){
+            let services = _.filter(querys.filter.it_service.value, (val)=>{return val}).join("','");
+            if(services){
+                let logic=(querys.filter.it_service.logic)?querys.filter.it_service.logic:'or';
+                if(logic=='or')
+                    where.push(`Array['${services}']&&${article_table_alias}.it_service`);
+                else if(querys.filter.it_service.logic=='and')
+                    where.push(`Array['${services}']<@${article_table_alias}.it_service`);
+            }
         }
+        querys.logic=(querys.logic!==undefined)?querys.logic:'and';
+        if(querys.logic=='and')
+            where=where.join(' and ');
+        else if(querys.logic=='or')
+            where=where.join(' or ');
+        if(querys.sortby==undefined)
+            querys.sortby='created_at';
+        if(querys.order==undefined)
+            querys.order='desc';//按照时间倒叙
     }
-    querys.logic=(querys.logic!==undefined)?querys.logic:'and';
-    if(querys.logic=='and')
-        where=where.join(' and ');
-    else if(querys.logic=='or')
-        where=where.join(' or ');
-    if(querys.sortby==undefined)
-        querys.sortby='created_at';
-    if(querys.order==undefined)
-        querys.order='desc';//按照时间倒叙
     querys.where = where;
     done(null,querys);
 };
@@ -113,41 +137,67 @@ var queryArticles = function(querys,done){
     dbHelper.pool.query(sql,function (err, result) {
         if(err) {
             done(err, null);
+        }else{
+            querys.result = result.rows;
+            done(null,querys);
         }
-        done(null,result.rows);
     });
 };
 
-var articlesMappingWithITService = function(articles,callback){
+var queryArticlesV1AndMappingWithITService = function(querys,done){
+    return models['Article'].findAll(dbHelper.buildQueryCondition(querys))
+        .then((objs)=> {
+                querys.result = objs
+                articlesMappingWithITService(querys,sendResponse)
+            }
+        )
+        .catch((error)=>{
+            sendResponse(error,querys)
+        })
+};
+
+var articlesMappingWithITService = function(querys,callback){
+    let articles = querys.result;
     let it_service_uuids=[],it_services = [];
     for(let i=0;i<articles.length;i++){
         let row=articles[i];
         it_service_uuids = _.concat(it_service_uuids,row.it_service);
     }
     it_service_uuids = _.uniq(it_service_uuids);
-    articles = contentMapping(articles);
+    if(!querys.v1)
+        articles = contentMapping(articles);
     if(it_service_uuids.length){
         cmdb_api_helper.getITServices(function(error,result){
             if(error){
-                callback(error);
+                callback(error,querys);
             }else{
                 it_services = result.data;
                 articles = serviceMapping(articles,it_services);
-                callback(null,articles);
+                querys.result = articles;
+                callback(null,querys);
             }
         },{uuids:it_service_uuids.join()})
     }else{
-        callback(null,articles);
+        callback(null,querys);
     }
 };
 
-var articlesSearchByITServiceKeyword = function(querys,callback) {
-    async.waterfall([(done)=>{checkQuery(querys,done)},searchITServicesByKeyword,constructWherePart,queryArticles,articlesMappingWithITService],callback);
+var articlesSearchByITServiceKeyword = function(querys) {
+    if(querys.v1)
+        async.waterfall([(done)=>{checkQuery(querys,done)},searchITServicesByKeyword,queryArticlesV1AndMappingWithITService]);
+    else
+        async.waterfall([(done)=>{checkQuery(querys,done)},searchITServicesByKeyword,constructWherePart,queryArticles,articlesMappingWithITService],sendResponse);
 };
 
 var countArticles = function(querys,done) {
-    var where = querys.where;
-    dbHelper.countByTableNameAndWhere(article_table_name,function(error,count){
+    var where = querys.where,table_name
+    if(querys.v1){
+        table_name = dbHelper.article_v1_table_name
+        table_name = `"${table_name}"`
+    }
+    else
+        table_name = dbHelper.article_table_name
+    dbHelper.countByTableNameAndWhere(table_name,function(error,count){
         if(error){
             done(error);
         }else{
@@ -157,8 +207,22 @@ var countArticles = function(querys,done) {
 };
 
 var countDiscussions = function(querys,done) {
-    var where = querys.where?"and "+querys.where:"";
-    var query = `select count(*) from ${discussion_table_name} as ${discussion_table_alias} join ${article_table_name} as ${article_table_alias} on ${article_table_alias}.idcode=${discussion_table_alias}.idcode ${where}`;
+    var where = querys.where?"and "+querys.where:"",primary_table,sub_table,primary_join_field,sub_join_field;
+    if(querys.v1){
+        primary_table = dbHelper.discussion_v1_table_name
+        sub_table = dbHelper.article_v1_table_name
+        primary_table = `"${primary_table}"`
+        sub_table = `"${sub_table}"`
+        primary_join_field = 'article_id'
+        sub_join_field = 'uuid'
+    }
+    else{
+        primary_table = dbHelper.discussion_table_name
+        sub_table = dbHelper.article_table_name
+        primary_join_field = 'idcode'
+        sub_join_field = 'idcode'
+    }
+    var query = `select count(*) from ${primary_table} as ${discussion_table_alias} join ${sub_table} as ${article_table_alias} on ${discussion_table_alias}.${primary_join_field}=${article_table_alias}.${sub_join_field} ${where}`;
     console.log(query);
     dbHelper.countBySql(query,function(error,count){
         if(error){
@@ -173,8 +237,15 @@ var countArticlesAndDiscussionsByWhere = function(querys,done){
     async.parallel({articlesCount:(done)=>{countArticles(querys,done)}, discussionsCount:(done)=>{countDiscussions(querys,done)}}, done);
 }
 
-var countArticlesAndDiscussionsByITServiceKeyword = function(querys,callback){
-    async.waterfall([(done)=>{checkQuery(querys,done)},searchITServicesByKeyword,constructWherePart,countArticlesAndDiscussionsByWhere],callback)
+var countArticlesAndDiscussionsByITServiceKeyword = function(querys){
+    async.waterfall([(done)=>{checkQuery(querys,done)},searchITServicesByKeyword,constructWherePart,countArticlesAndDiscussionsByWhere],function(err, result){
+        if(err)
+            sendResponse(err,querys)
+        else{
+            querys.result = result
+            sendResponse(null,querys)
+        }
+    })
 };
 
 var countArticlesAndDiscussions = function(querys,callback){
@@ -199,23 +270,31 @@ var countArticlesAndDiscussionsByITServiceGroup = function(querys,done){
         _.each(group.services,(service)=>{
             services.push(service.uuid);
         });
-        querys.filter.it_service = {},querys.filter.it_service.value = services;
+        querys.filter.it_service = {};
+        setITServiceValues(querys,services);
         delete querys.countBy;
         countArticlesAndDiscussions(querys,function(error,result){
-            if(error){
-                done(error);
-            }
+            if(error)
+                done(error,querys)
             group.count=result;
             groups.push(group);
             if(groups.length === querys.it_service_groups.length){
-                done(null,groups);
+                querys.result = groups
+                done(null,querys);
             }
         })
     });
 }
 
-var countArticlesAndDiscussionsByITServiceGroups = function(querys,callback){
-    async.waterfall([(done)=>{checkQuery(querys,done)},getITServiceGroups,countArticlesAndDiscussionsByITServiceGroup],callback);
+var sendResponse = function(error,querys) {
+    if(error)
+        querys.res.send({status: error.message});
+    else
+        querys.res.send({status: 'ok', data: querys.result});
+}
+
+var countArticlesAndDiscussionsByITServiceGroups = function(querys){
+    async.waterfall([(done)=>{checkQuery(querys,done)},getITServiceGroups,countArticlesAndDiscussionsByITServiceGroup],sendResponse);
 };
 
 module.exports.articlesMappingWithITService = articlesMappingWithITService;

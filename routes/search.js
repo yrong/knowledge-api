@@ -5,31 +5,11 @@ var SQL_Template = require('../sql/SQL_Template');
 var util=require('util');
 var sql_template=new SQL_Template();
 var articleHelper = require('./../helper/article_helper');
+var {search_processor} = require('../handlers/article');
 
 
 //综合查询，支持分页排序
-router.all('/advanced', function(req, res, next) {//add post method for postman test purpose
-    var querys;
-    if(req.method === 'GET'){
-        querys = req.query;
-    }else{
-        querys = req.body;
-    }
-    var sendResponse = function(error,result) {
-        if(error)
-            res.send({status: error.message?error.message:error});
-        else
-            res.send({status: 'ok', data: result});
-    };
-    if(querys.countBy){
-        articleHelper.countArticlesAndDiscussionsByITServiceGroups(querys,sendResponse);
-    }else if(querys.countOnly){
-        articleHelper.countArticlesAndDiscussionsByITServiceKeyword(querys,sendResponse);
-    }
-    else{
-        articleHelper.articlesSearchByITServiceKeyword(querys,sendResponse);
-    }
-});
+router.all('/advanced', search_processor);
 
 //不指定字段模糊全文检索
 router.get('/:keywords', function(req, res, next) {

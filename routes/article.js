@@ -10,6 +10,7 @@ var user=new User();
 var sql_template=new SQL_Template();
 var articleHelper = require('./../helper/article_helper');
 var dbHelper = require('./../helper/db_helper');
+var _ = require('lodash');
 
 //文章新增
 router.post('/', function(req, res, next) {
@@ -288,11 +289,11 @@ router.get('/:idcode', function(req, res, next) {
                 res.send({status: '未查询指定id的文章！'});
             else
             {
-                articleHelper.articlesMappingWithITService(result.rows,function(err,results){
-                    if (err||results.length!=1){
+                articleHelper.articlesMappingWithITService({result:result.rows},function(err,results){
+                    if (err){
                         res.send({status: '查询关联服务错误！'});
                     }else{
-                        res.send({status: 'ok',data:results[0]});
+                        res.send({status: 'ok',data:results.result[0]});
                     }
                 })
             }
@@ -315,11 +316,11 @@ router.get('/', function(req, res, next) {
                     done('查询发生错误！', null);
                     return;
                 }
-                articleHelper.articlesMappingWithITService(result.rows,function(err,results){
+                articleHelper.articlesMappingWithITService({result:result.rows},function(err,results){
                     if (err){
                         done('查询关联服务错误！');
                     }else{
-                        done(null,results);
+                        done(null,results.result);
                     }
                 })
             });
