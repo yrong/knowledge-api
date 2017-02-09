@@ -179,7 +179,7 @@ router.put('/:idcode', function(req, res, next) {
         },
         function(result, done){
             var insert_sql = `INSERT INTO notifications(
-                userid, alias, created_at, action, targetid,relationid)
+                userid, created_at, action, targetid,relationid)
             VALUES ($1,now(), $2, $3, $4);`
             dbHelper.pool.query(insert_sql,[
                 _notifications.userid,
