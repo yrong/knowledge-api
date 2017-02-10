@@ -30,7 +30,6 @@ var route_discussion = (app) => {
 var route_deleteAll = (app) => {
     app.delete(`${base_route}/synergy`,[checkToken],async(function(req, res) {
         await(dbHelper.pool.query(`delete from "Articles"`));
-        await(dbHelper.pool.query(`delete from "Articles_History"`));
         await(dbHelper.pool.query(`delete from "Discussions"`));
         res.send({status:'ok'})
     }))

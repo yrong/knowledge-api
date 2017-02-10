@@ -17,6 +17,16 @@ DROP TRIGGER IF EXISTS discussion_vector_update on "Discussions";
 
 CREATE TRIGGER discussion_vector_update BEFORE INSERT OR UPDATE ON "Discussions" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(keyword, 'public.knowledge_zhcfg', title,content);
 
+DO $$ 
+        BEGIN
+            BEGIN
+                ALTER TABLE "Discussions" ADD COLUMN "migrate" BOOLEAN DEFAULT FALSE;
+            EXCEPTION
+                WHEN duplicate_column THEN RAISE NOTICE 'column migrate already exists in Discussions.';
+            END;
+        END;
+  $$;
+
 `;
 
 module.exports = function (sequelize, DataTypes) {
@@ -29,7 +39,8 @@ module.exports = function (sequelize, DataTypes) {
             reply_id:{type: DataTypes.UUID},
             type: {type: DataTypes.ENUM('topic', 'reply')},
             content: {type: DataTypes.TEXT},
-            title: {type: DataTypes.TEXT}
+            title: {type: DataTypes.TEXT},
+            migrate:{type:DataTypes.BOOLEAN,defaultValue:false}
         });
     Discussion.initsql = initsql;
     return Discussion;

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node --harmony ./bin/www",
-    "test": "node ./test/postman.js"
+    "test": "mocha",
+    "migrate": "node ./migrate/index.js"
   },
   "dependencies": {
     "async": "^2.1.2",
@@ -47,6 +48,8 @@
     "wkx": "^0.4.1"
   },
   "devDependencies": {
-    "newman": "^3.3.1"
+    "newman": "^3.3.1",
+    "mocha": "^3.2.0",
+    "chai": "^3.5.0"
   }
 }

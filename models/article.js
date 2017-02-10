@@ -5,12 +5,12 @@ var initSql = `
 DO $$ 
         BEGIN
             BEGIN
-                ALTER TABLE "Articles" ADD COLUMN keyword TSVECTOR;
+                ALTER TABLE "Articles" ADD COLUMN "keyword" TSVECTOR;                
             EXCEPTION
                 WHEN duplicate_column THEN RAISE NOTICE 'column keyword already exists in Articles.';
             END;
         END;
-  $$;
+  $$;  
 
 UPDATE "Articles" SET keyword = to_tsvector('knowledge_zhcfg', coalesce(title,'') || ' ' || content);
 
@@ -29,6 +29,8 @@ DROP TRIGGER IF EXISTS article_vector_update on "Articles";
 
 CREATE TRIGGER article_vector_update BEFORE INSERT OR UPDATE ON "Articles" FOR EACH ROW EXECUTE PROCEDURE article_vector_trigger();
 
+DROP TABLE IF EXISTS "Articles_History";
+/*
 CREATE TABLE IF NOT EXISTS "Articles_History" AS
 select * from "Articles"
 WITH NO DATA;
@@ -45,6 +47,27 @@ $body$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_article on "Articles";
 CREATE TRIGGER trigger_article AFTER INSERT OR UPDATE ON "Articles" FOR EACH ROW EXECUTE PROCEDURE process_article();
+*/
+
+DO $$ 
+        BEGIN
+            BEGIN
+                ALTER TABLE "Articles" ADD COLUMN "score" INTEGER;
+            EXCEPTION
+                WHEN duplicate_column THEN RAISE NOTICE 'column score already exists in Articles.';
+            END;
+        END;
+  $$;
+
+DO $$ 
+        BEGIN
+            BEGIN
+                ALTER TABLE "Articles" ADD COLUMN "migrate" BOOLEAN DEFAULT FALSE;
+            EXCEPTION
+                WHEN duplicate_column THEN RAISE NOTICE 'column migrate already exists in Articles.';
+            END;
+        END;
+  $$;
 
 `
 
@@ -59,7 +82,9 @@ module.exports = function (sequelize, DataTypes) {
             ref_links: {type: DataTypes.ARRAY(DataTypes.TEXT)},
             tasks: {type: DataTypes.TEXT},
             type: {type: DataTypes.ENUM('Free', 'Guide', 'Share', 'Troubleshooting')},
-            content: {type: DataTypes.JSONB}
+            content: {type: DataTypes.JSONB},
+            score:{type: DataTypes.INTEGER, allowNull: true, defaultValue: null,validate: { min: 0, max: 10}},
+            migrate:{type: DataTypes.BOOLEAN,defaultValue:false}
         });
     Article.initsql = initSql;
     return Article;

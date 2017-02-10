@@ -39,12 +39,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.uuid;\npostman.setEnvironmentVariable(\"article_id_v1\", jsonData.uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1484551665560,
+			"time": 1486698082839,
 			"name": "add article api v1",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
-			"rawModeData": "\n\t{\n\t\t\"token\":\"{{token}}\",\n\t    \"title\": \"水电费\",\n\t    \"it_service\": {{service_uuids}},\n\t    \"tag\": [\"测试\",\"随机\"],\n\t\t\"author\": \"随机\",\n\t\t\"ref_links\": [\"https://www.baidu.com\"],\n\t\t\"tasks\": \"测试插入\",\n\t\t\"type\":\"Troubleshooting\",\n\t\t\"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\": \"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\n\t\t\"workaround\": \"水电费\"}\n \t}\n\n"
+			"rawModeData": "\n\t{\n\t\t\"token\":\"{{token}}\",\n\t    \"title\": \"水电费\",\n\t    \"it_service\": {{service_uuids}},\n\t    \"tag\": [\"测试\",\"随机\"],\n\t\t\"author\": \"随机\",\n\t\t\"ref_links\": [\"https://www.baidu.com\"],\n\t\t\"tasks\": \"测试插入\",\n\t\t\"type\":\"Troubleshooting\",\n\t\t\"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\": \"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\n\t\t\"workaround\": \"水电费\"},\n\t\t\t\t \"score\":3\n \t}\n\n"
 		},
 		{
 			"id": "1a5e0c06-3532-4d5e-2220-d093f7ce9c0e",
