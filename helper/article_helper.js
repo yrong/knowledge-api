@@ -4,8 +4,8 @@ var cmdb_api_helper = require('./cmdb_api_helper');
 var dbHelper = require('../helper/db_helper');
 var sql_template=new (require('../sql/SQL_Template'))();
 var {article_table_name,article_table_alias,discussion_table_name,discussion_table_alias} = dbHelper
-
 let models = require('../models');
+let responseSender = require('./responseSender');
 
 
 var findITServiceItemByID = function(uuid,it_services){
@@ -288,9 +288,9 @@ var countArticlesAndDiscussionsByITServiceGroup = function(querys,done){
 
 var sendResponse = function(error,querys) {
     if(error)
-        querys.res.send({status: error.message});
+        responseSender(querys.req,querys.res,error)
     else
-        querys.res.send({status: 'ok', data: querys.result});
+        responseSender(querys.req,querys.res,querys.result)
 }
 
 var countArticlesAndDiscussionsByITServiceGroups = function(querys){

@@ -10,6 +10,6 @@ module.exports = (req, res, next) => {
             return next();
         }
         else
-            return next(new Error(res.__('TokenAuthFail',token)));
+            return next(new Error('token invalid'));
     });
 };

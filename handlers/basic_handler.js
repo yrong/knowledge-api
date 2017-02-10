@@ -5,12 +5,13 @@ let await = require('asyncawait/await');
 let models = require('../models');
 let _ = require('lodash');
 let dbHelper = require('../helper/db_helper');
+let responseSender = require('../helper/responseSender');
 
 const getModelFromRoute = (url)=>{
     return models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
 }
 
-const findOne = (req)=>{
+const findOne = async((req)=>{
     let model = getModelFromRoute(req.url);
     let obj = await (model.findOne({
         where: {
@@ -22,7 +23,7 @@ const findOne = (req)=>{
         throw new Error(res.__('UUIDNotExistError'));
     }
     return obj;
-};
+});
 
 const BasicHandler = {
     post_processor: asyncRequest(async(function(req, res, next) {
@@ -30,34 +31,43 @@ const BasicHandler = {
         obj.uuid = uuid.v4();
         let model = getModelFromRoute(req.url);
         obj = await(model.create(obj));
-        res.send({status:'ok',uuid: obj.uuid});
+        responseSender(req,res,{uuid: obj.uuid})
     })),
     delete_processor: asyncRequest(async(function(req, res, next) {
         let model = getModelFromRoute(req.url);
-        await(model.destroy({
+        let result = await(findOne(req));
+        result = await(model.destroy({
             where: {
                 uuid: req.params.uuid
             }
         }));
-        res.send({status:'ok'})
+        responseSender(req,res)
     })),
-    findOne_processor: asyncRequest(async (function(req, res, next) {
-        res.send({status: 'ok',data:findOne(req)});
+    findOne_processor: asyncRequest(async(function(req, res, next) {
+        let result = await(findOne(req));
+        responseSender(req,res,result);
     })),
-    findAll_processor: asyncRequest(async (function(req, res, next) {
+    findAll_processor: asyncRequest(async(function(req, res, next) {
         let model = getModelFromRoute(req.url);
         let query = req.method === 'GET'?req.query:req.body;
-        let objs = await (model.findAndCountAll(dbHelper.buildQueryCondition(query)));
-        res.send(objs);
+        let objs = await(model.findAndCountAll(dbHelper.buildQueryCondition(query)));
+        responseSender(req,res,objs)
+    })),
+    search_processor: asyncRequest(async(function(req, res, next) {
+        let model = getModelFromRoute(req.url);
+        let query = req.method === 'GET'?req.query:req.body;
+        let objs = await(model.findAll(dbHelper.buildQueryCondition(query)));
+        responseSender(req,res,objs)
     })),
     put_processor: asyncRequest(async(function(req, res, next) {
         let model = getModelFromRoute(req.url);
-        await(model.update(req.body,{
+        let result = await(findOne(req));
+        result = await(model.update(req.body,{
             where: {
                 uuid: req.params.uuid
             }
         }));
-        res.send({status:'ok'})
+        responseSender(req,res)
     })),
     findOne:findOne
 }

@@ -16,14 +16,8 @@ var discussions = require('./routes/discussions');
 var it_services = require('./routes/it_services');
 var notifications = require('./routes/notifications');
 var tag = require('./routes/tag');
+var responseSender = require('./helper/responseSender')
 
-var i18n = require('i18n');
-i18n.configure({
-    locales:['zh'],
-    directory: __dirname + '/locales',
-    updateFiles: false,
-    objectNotation: true
-});
 
 var {logger} = require('./logger');
 
@@ -40,7 +34,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(i18n.init);
 
 //设置跨域访问
 
@@ -88,7 +81,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         logger.error(err);
-        res.status(err.status || 500).json({status: err.message});
+        responseSender(req,res,err)
     });
 }
 

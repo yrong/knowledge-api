@@ -1,9 +1,0 @@
-{
-	"TokenAuthFail": "Token认证失败,非法token为%s",
-	"RequestParamError": {
-		"IdInvalid": "参数错误:uuid不合法",
-		"patchBodyInvalid":"参数错误:patch请求只能更新单字段"
-	},
-	"UUIDNotExistError": "指定UUID的记录不存在",
-	"QueryITServiceError":"查询关联ITService错误"
-}
