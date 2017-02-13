@@ -4,3 +4,4 @@ public/headimages/
 .idea
 npm-debug.log
 temp
+dump.rdb

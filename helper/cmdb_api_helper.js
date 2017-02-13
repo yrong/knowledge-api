@@ -1,6 +1,5 @@
-var Config = require('../config');
-var config=new Config();
-var cmdb_api_config = config.CMDB_API;
+var config=require('config');
+var cmdb_api_config = config.get('config.cmdb');
 var rp = require('request-promise');
 var queryString = require('query-string');
 

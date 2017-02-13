@@ -1,9 +1,9 @@
 var Pool = require('pg').Pool;
-var Config = require('../config');
-var pg_config=new Config().PG_Connection;//pg的连接参数
+var config = require('config')
+var pg_config=config.get('config.postgres');//pg的连接参数
 var pool = new Pool(pg_config);
 var _ = require('lodash');
-const maxrows = 100;
+const PageSize = config.get('config.perPageSize');
 
 module.exports.pool = pool;
 
@@ -35,6 +35,7 @@ module.exports = Object.assign(module.exports,
 
 
 const fullTextOperatorProcessor = function(val) {
+
     if(_.isArray(val)){
         val = _.map(val, function(val) {
             return fullTextOperatorProcessor(val);
@@ -43,7 +44,7 @@ const fullTextOperatorProcessor = function(val) {
         for(prop in val) {
             if (prop === '$fulltext'){
                 if(_.isString(val[prop]))
-                    val[prop] = {$raw:`plainto_tsquery('knowledge_zhcfg','${val[prop]}')`};
+                    val[prop] = {$raw:`plainto_tsquery('${pg_config.zhparser}','${val[prop]}')`};
             }
             else if (typeof val[prop] === 'object')
                 fullTextOperatorProcessor(val[prop]);
@@ -58,7 +59,7 @@ const buildQueryCondition = (querys) =>{
     let sortby = querys.sortby?querys.sortby:'createdAt';
     let order = querys.order?querys.order:'DESC';
     let page = querys.page?querys.page:1;
-    let per_page = querys.per_page?querys.per_page:maxrows;
+    let per_page = querys.per_page?querys.per_page:PageSize;
     let offset = (parseInt(page)-1)*parseInt(per_page);
     let where = querys.filter?fullTextOperatorProcessor(querys.filter):{};
     return {where:where,order:[[sortby,order]],offset:offset,limit:per_page,raw:true};

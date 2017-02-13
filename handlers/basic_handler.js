@@ -11,16 +11,16 @@ const getModelFromRoute = (url)=>{
     return models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
 }
 
-const findOne = async((req)=>{
+const findOne = async((req,raw=true)=>{
     let model = getModelFromRoute(req.url);
     let obj = await (model.findOne({
         where: {
             uuid: req.params.uuid
         },
-        raw: true
+        raw: raw
     }));
     if(!obj){
-        throw new Error(res.__('UUIDNotExistError'));
+        throw new Error('UUIDNotExistError');
     }
     return obj;
 });
@@ -28,19 +28,13 @@ const findOne = async((req)=>{
 const BasicHandler = {
     post_processor: asyncRequest(async(function(req, res, next) {
         let obj=req.body;
-        obj.uuid = uuid.v4();
         let model = getModelFromRoute(req.url);
         obj = await(model.create(obj));
         responseSender(req,res,{uuid: obj.uuid})
     })),
     delete_processor: asyncRequest(async(function(req, res, next) {
-        let model = getModelFromRoute(req.url);
-        let result = await(findOne(req));
-        result = await(model.destroy({
-            where: {
-                uuid: req.params.uuid
-            }
-        }));
+        let obj = await(findOne(req,false));
+        await(obj.destroy())
         responseSender(req,res)
     })),
     findOne_processor: asyncRequest(async(function(req, res, next) {
@@ -60,13 +54,8 @@ const BasicHandler = {
         responseSender(req,res,objs)
     })),
     put_processor: asyncRequest(async(function(req, res, next) {
-        let model = getModelFromRoute(req.url);
-        let result = await(findOne(req));
-        result = await(model.update(req.body,{
-            where: {
-                uuid: req.params.uuid
-            }
-        }));
+        let obj = await(findOne(req,false));
+        await(obj.update(req.body));
         responseSender(req,res)
     })),
     findOne:findOne

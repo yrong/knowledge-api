@@ -3,24 +3,21 @@
 var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("../sequelize");
-var Config = require('../config');
-var {logger} = require('../logger');
-var config = new Config().PG_Connection;
-var sequelize;
-if (process.env.DATABASE_URL) {
-    sequelize = new Sequelize(process.env.DATABASE_URL);
-} else {
-    sequelize = new Sequelize(config.database, config.user, config.password, {
-        host: config.host,
-        dialect: 'postgres',
-        pool: {
-            max: config.max,
-            min: 0,
-            idle: config.idleTimeoutMillis}
-    });
-}
+var config = require('config');
+var logger = require('../logger');
+var pg_config = config.get('config.postgres')
+var sequelize = new Sequelize(pg_config.database, pg_config.user, pg_config.password, {
+    host: pg_config.host,
+    dialect: 'postgres',
+    pool: {
+        max: pg_config.max,
+        min: 0,
+        idle: pg_config.idleTimeoutMillis
+    },
+    logging: logger.debug.bind(logger)
+});
 
-var db        = {};
+var db  = {};
 
 fs
     .readdirSync(__dirname)

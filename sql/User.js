@@ -1,18 +1,10 @@
 var mysql = require('mysql');
-var Config = require('../config');
+var config = require('config');
 var util=require('util');
 var async=require('async');
-var config=new Config();
-var mysql_config=config.MySQL_Connection;//mysql的连接参数
+var mysql_config=config.get('config.mysql');//mysql的连接参数
 var User=function(){
-    this._pool  = mysql.createPool({
-        connectionLimit : 20,
-        host:mysql_config.host,
-        port:mysql_config.port,
-        user:mysql_config.user,
-        password:mysql_config.password,
-        database:mysql_config.database
-    });
+    this._pool  = mysql.createPool(mysql_config);
 }
 //验证用户token
 User.prototype.token_validate=function(token,cb){

@@ -5,6 +5,8 @@ let await = require('asyncawait/await');
 let BasicHandler = require('./basic_handler');
 let _ = require('lodash');
 let responseSender = require('../helper/responseSender');
+let dbHelper = require('../helper/db_helper')
+let models = require('../models');
 
 module.exports = {
     findOne_processor: asyncRequest(async((req, res, next) => {
@@ -37,5 +39,13 @@ module.exports = {
         else{
             articleHelper.articlesSearchByITServiceKeyword(querys);
         }
+    },
+    tag_processor: function(req,res,next) {
+        dbHelper.pool.query(`select distinct(unnest(tag)) as tag from "Articles"`,function(err,result){
+            if(err)
+                next(err)
+            else
+                responseSender(req,res,result.rows.map(item => item.tag))
+        })
     }
 }
