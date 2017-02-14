@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="plugin/jquery-2.1.4.min.js"></script>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script>
+      function init() {
+        var Article_Type={
+            Free:'Free',
+            Guide:'Guide',
+            Troubleshooting:'Troubleshooting'
+        };
+        var token=$("#token").val();
+        console.info(token);
+        $(function(){
+          $('#token').bind('input propertychange', function() {
+            console.info($(this).val());
+            token = $(this).val();
+          });
+        })
+
+        var article_idcode=$("#article_idcode").val();
+        console.info(article_idcode);
+        $(function(){
+          $('#article_idcode').bind('input propertychange', function() {
+            console.info($(this).val());
+            article_idcode = $(this).val();
+          });
+        })
+
+        var dis_idcode=$("#dis_idcode").val();
+        console.info(dis_idcode);
+        $(function(){
+          $('#dis_idcode').bind('input propertychange', function() {
+            console.info($(this).val());
+            dis_idcode = $(this).val();
+          });
+        })
+
+
+
+        $("#btnadd_article").click(function () {
+          $.ajax({
+            type: 'Post',
+            url: '/KB/API/articles',
+//              contentType: 'application/json',
+            data: {
+            title: '水电费',
+            it_service: ['348fe830-cb74-11e6-867b-c1ba67b2949f,349873b0-cb74-11e6-867b-c1ba67b2949f'],
+            tag: ['测试','人生'],
+            author: '随机者',
+            ref_links: ['https://www.baidu.com'],
+            tasks: '测试插入',
+            description: '水电费',
+            analysis: '水电费',
+            solution: '前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了。<br/>'+
+
+        '不管是不是骗子，我还是回复了一句“嗯”。'+
+
+        '接着，她问我：“听说你上学期赚了几千块？”'+
+
+        '我疑惑，她怎么会知道我的状况呢？今天这么突然问我又是什么意思呢？'+
+
+        '我回复，“你怎么知道？”'+
+
+        '她说：“我妈刚给我打电话说的。”'+
+
+        '我说：“哦，原来是这样啊。”'+
+
+        '她又问我：“你到底干了什么赚了几千块？”后面还跟着一串的笑着哭的表情。'+
+
+        '我向她解释说：“我真的没有赚几千，可能是我买电脑没找爸爸要钱，她们就误以为我赚了几千块，其实有一部分钱是开学亲人给的红包存起的而已。”'+
+
+        '说完后，她发来一句“哦哦”。'+
+
+        '接着，她又问：“那你平时都做些什么兼职啊？”<br/>'+
+
+        '我说：“我当过餐馆服务员，做过商品推销，也做过活动工作人员，总之，我能做的，都尝试过，兼职还是挺辛苦的，辛辛苦苦也只赚了一千块而已。<br/>”'+
+
+        '朋友又发了一串信息过来说：“额，这样子啊，我还真以为你赚了好几千呢，哈哈，你还挺懂事的嘛。”'+
+
+        '我回了句：“还好”。之后，就没关注她的消息了。',
+            workaround: '水电费',
+            article_type:Article_Type.Troubleshooting,//类型一定要写上
+            token:token
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('新增模板文章成功！');
+            }
+          });
+        });
+        $("#btndelete_article").click(function () {
+          $.ajax({
+            type: 'DELETE',
+            url: '/KB/API/articles/'+article_idcode,
+            data:{
+              token:token
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('删除模板文章成功！');
+            }
+          });
+        });
+        $("#btnupdate_article").click(function () {
+          $.ajax({
+            type: 'Put',
+            url: '/KB/API/articles/'+article_idcode,
+            data: {
+              title: '被修改了',
+              author:'测试修改',
+              article_type:Article_Type.Troubleshooting,//类型一定要写上
+              token:token
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('修改模板文章成功！');
+            }
+          });
+        });
+        $("#btnupdate_article_patch").click(function () {
+          $.ajax({
+            type: 'Patch',
+            url: '/KB/API/articles/'+article_idcode,
+            data: {
+              title: '测试patch',
+              article_type:Article_Type.Troubleshooting,//类型一定要写上
+              token:token
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('修改模板文章成功！');
+            }
+          });
+        });
+
+        $("#btnquery_article").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/articles',
+            data: {
+              page:1, //分页查询第几页
+              per_page:13,//分页查询每页数量
+              //sortby:'name',//排序字段，默认就是id
+              //order:'asc'/'desc'//排序方式
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              //if (res.status == 'ok')
+                //alert('查询模板文章成功！');
+            }
+          });
+        });
+        $("#btnquery_article_byid").click(function () {
+          //var id=$("#article_idcode").val();
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/articles/'+article_idcode,
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询模板文章成功！');
+            }
+          });
+        });
+        //综合查询
+        $("#btnquery_article_zhch").click(function () {
+          //var id=$("#article_idcode").val();
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/search/advanced',
+            data:{
+              filter:
+              {
+                tag: {
+                  value: ['人生'],
+                  logic: 'or'  //只有or和and，不赋值默认数组条件就是or
+                },
+                it_service: {
+                    //value: ['pop3', 'email'], //value could be service_id,group_id,service_name,service_desc
+                    //value: ['6bd19a80-cce3-11e6-b4c0-cdc6c919e339'],
+                    value: ['not_exist'],
+                    logic:'or'
+                }
+               // keyword:'水电费',
+              },
+              logic:'and',//只有or和and，不赋值默认filter的组合条件就是and
+              page:1, //分页查询第几页，必填值
+              per_page:13//分页查询每页数量，必填值
+              //sortby:'name',//排序字段，默认就是id，可选
+              //order:'asc'/'desc'//排序方式，可选
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询模板文章成功！');
+            }
+          });
+        });
+        $("#btnquery_article_keyword").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/search/推销',
+            data:{
+              page:1, //分页查询第几页
+              per_page:13,//分页查询每页数量
+              //sortby:'created_at',//排序字段，不填写的话默认是创建时间
+              //order:'desc'/'desc'//排序方式
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询模板文章成功！');
+            }
+          });
+        });
+        $("#btnquery_article_keyvalue").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/search/',
+            dataType: 'json',
+            data:{
+              tasks:'胜多负少',
+              page:1, //分页查询第几页
+              per_page:13,//分页查询每页数量
+              //sortby:'name',//排序字段，默认就是id
+              //order:'asc'/'desc'//排序方式
+            },
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询模板文章成功！');
+            }
+          });
+        });
+
+
+
+        $("#btnadd_it").click(function () {
+          $.ajax({
+            type: 'Post',
+            url: '/KB/API/it_services',
+            data: {
+              name: '四级服务',
+              dependency: ['93147f62cf1d45b59e99f32b8c577b51','0282e0076e844df78962ffe909af3892'],//指定依赖服务的idcode
+              parent:'0dd7749e173748d985ad6044c9faba0e',//不指定就是一级服务分组，可指定某个服务的idcode
+              token:token
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('新增it_services成功！');
+            }
+          });
+        });
+        $("#btnput_it").click(function () {
+          $.ajax({
+            type: 'Put',
+            url: '/KB/API/it_services/93147f62cf1d45b59e99f32b8c577b51',
+            data: {
+              name: '三级级服务49',
+              dependency: ['93147f62cf1d45b59e99f32b8c577b51'],
+              token:token
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('修改it_services成功！');
+            }
+          });
+        });
+        $("#btnpatch_it").click(function () {
+          $.ajax({
+            type: 'Patch',
+            url: '/KB/API/it_services/0dd7749e173748d985ad6044c9faba0e',
+            data: {
+              //name: '一级服务6',
+              dependency: ['93147f62cf1d45b59e99f32b8c577b51'],
+              token:token
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('修改it_services成功！');
+            }
+          });
+        });
+        $("#btndelete_it").click(function () {
+          $.ajax({
+            type: 'DELETE',
+            url: '/KB/API/it_services/3f6cb391e1d54780afbdbf81b05ba222',//注意，会级联删除，就是说，比如二级服务删除了，该
+            //二级服务所拥有的三级服务都会被关联删除
+            data:{
+              token:token
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('删除it_services成功！');
+            }
+          });
+        });
+        //根据某个父服务的idcode，查询其紧邻下级的子服务。
+        //如果是/KB/API/it_services/，不传id，代表获取全部的一级（也就是服务分组）
+        $("#btnget_it_byidcode").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/it_services/0dd7749e173748d985ad6044c9faba0e', //3f6cb391e1d54780afbdbf81b05ba222
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询it_services成功！');
+            }
+          });
+        });
+
+
+
+
+        //文章评论
+
+        $("#btnpostdiscussions").click(function () {
+          $.ajax({
+            type: 'Post',
+            url: '/KB/API/discussions',
+            data: {
+              idcode: article_idcode,//文章的uuid
+              dis_from: '评论者用户名',
+              dis_to: ['被@用户1', '被@用户2'],
+              content: '评论的测试内容水电费释放但是',
+              dis_type:'topic',
+              //dis_type:'reply', //reply类型一定要带上dis_reply_idcode
+              //dis_reply_idcode:dis_idcode //回复的topic的dis_idcode
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('评论文章成功！');
+            }
+          });
+        });
+
+        //回复topic
+        $("#btnpostdiscussions_reply_topic").click(function () {
+          $.ajax({
+            type: 'Post',
+            url: '/KB/API/discussions',
+            data: {
+              idcode: article_idcode,//文章的uuid
+              dis_from: '评论者用户名',
+              dis_to: ['被@用户1', '被@用户2'],
+              content: '评论的测试内容水电费释放但是',
+              //dis_type:'topic',
+              dis_type:'reply', //reply类型一定要带上dis_reply_idcode
+              dis_reply_idcode:dis_idcode //回复的topic的dis_idcode
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('评论文章成功！');
+            }
+          });
+        });
+
+        $("#btngetdiscussions_idcode").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/discussions/byArticle/'+article_idcode,
+            data: {
+              page:1, //分页查询第几页
+              per_page:13 //强制排序的，按照回复主题与时间
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询评论成功！');
+            }
+          });
+        });
+
+
+        $("#btngetdiscussions_topic_idcode").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/discussions/'+dis_idcode,
+            data: {
+              page:1, //分页查询第几页
+              per_page:13//分页查询每页数量
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询评论成功！');
+            }
+          });
+        });
+
+
+
+
+        $("#btngetdiscussions").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/discussions',
+            data: {
+              page:1, //分页查询第几页
+              per_page:13//分页查询每页数量
+              //都是默认强制排序，根据topic和回复时间
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询评论成功！');
+            }
+          });
+        });
+
+        $("#btnnotifications").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/notifications',
+            data: {
+              page:1, //分页查询第几页
+              per_page:13//分页查询每页数量
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询评论成功！');
+            }
+          });
+        });
+        $("#btntag").click(function () {
+          $.ajax({
+            type: 'Get',
+            url: '/KB/API/articles/tag/tags',
+            data: {
+              page:1, //分页查询第几页
+              per_page:13//分页查询每页数量
+            },
+            dataType: 'json',
+            success: function (res) {
+              console.log(res);
+              if (res.status == 'ok')
+                alert('查询标签成功！');
+            }
+          });
+        });
+
+
+
+
+
+        //注册socket机制
+        var socket = io('http://localhost:3000');
+        socket.on('news', function (data) {
+          console.log(data);
+          socket.emit('getData', { info: 'test' });
+        });
+
+
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <div>
+      token: <input id="token" value="77e52d6fbd1bbc673e6662d1f26c3d778785d471" style="width:80%"></input>
+      </br></br>
+      <button id="btnadd_article">模板文章新增</button><button id="btnquery_article">模板文章列表查询</button>
+      <button id="btnquery_article_keyword">关键字查询</button>
+      <button id="btnquery_article_keyvalue">声明字段与对应值查询</button></br>
+      article.idcode: <input id="article_idcode" value="15efd5ac-bab5-4a3a-b253-4e69626e3041" style="width:80%"></input></br>
+      <button id="btndelete_article">模板文章删除</button>
+      <button id="btnupdate_article">模板文章多字段put修改</button>
+      <button id="btnupdate_article_patch">模板文章多单字段patch修改</button>      
+      <button id="btnquery_article_byid">文章模板id查询</button>
+      <button id="btnquery_article_zhch">文章综合查询</button>
+    </div>
+    </br></br>
+    <div>
+      <button id="btngetdiscussions">查询全部文章评论</button>
+      <button id="btngetdiscussions_idcode">查询文章评论</button>
+      <br/>
+      discussion.idcode: <input id="dis_idcode" value="bdf8509d-695b-40ba-ae89-b100fe659001" style="width:80%"></input></br>
+      <button id="btnpostdiscussions">评论文章</button>
+      <button id="btnpostdiscussions_reply_topic">回复topic</button>
+      <button id="btngetdiscussions_topic_idcode">查询topic及其它的回复</button>
+    </div>
+  <div>
+    <form action="/users/userinfo" enctype="multipart/form-data" method="post">
+      <input type="file" name="headimage"></input>
+      <input name="userid" value="6">用户的id6</input>
+      <input name="per_page" value="7"></input>
+      <input type="submit" value="上传" />
+    </form>
+  </div>
+
+  <div>
+    <button id="btnadd_it">新增it_services</button>
+    <button id="btndelete_it">文章删除it_services</button>
+    <button id="btnput_it">更新it_services</button>
+    <button id="btnpatch_it">单个字段更新it_services</button>
+    <button id="btnget_it_byidcode">获取idocde下的it树子服务列表</button>
+  </div>
+    <div>
+      <button id="btnnotifications">获取notifications</button>
+    </div>
+    <div>
+      <button id="btntag">获取tag</button>
+    </div>
+  </body>
+</html>

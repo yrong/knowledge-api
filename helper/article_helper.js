@@ -66,7 +66,8 @@ var getITServiceValues = function(querys) {
 var setITServiceValues = function(querys,result) {
     if(querys.v1){
         let key = _.keys(querys.filter.it_service)[0]||'$overlap'
-        querys.filter.it_service[key] = result
+        if(_.isArray(result))
+            querys.filter.it_service[key] = result
     }
     else
         querys.filter.it_service.value = result
@@ -74,6 +75,7 @@ var setITServiceValues = function(querys,result) {
 
 var searchITServicesByKeyword = function(querys,done){
     if(querys.filter.it_service){
+        let search = getITServiceValues(querys).join()
         cmdb_api_helper.getITServices(function(error,result){
             if(error){
                 done(error,null);
@@ -81,7 +83,7 @@ var searchITServicesByKeyword = function(querys,done){
                 setITServiceValues(querys,result.data);
                 done(null,querys);
             }
-        },{search:getITServiceValues(querys).join()});
+        },{search:search});
     }else{
         done(null,querys);
     }
@@ -145,7 +147,8 @@ var queryArticles = function(querys,done){
 };
 
 var queryArticlesV1AndMappingWithITService = function(querys,done){
-    return models['Article'].findAll(dbHelper.buildQueryCondition(querys))
+    let condition = dbHelper.buildQueryCondition(querys)
+    return models['Article'].findAll(condition)
         .then((objs)=> {
                 querys.result = objs
                 articlesMappingWithITService(querys,sendResponse)
