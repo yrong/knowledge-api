@@ -151,11 +151,11 @@ var queryArticlesV1AndMappingWithITService = function(querys,done){
     return models['Article'].findAll(condition)
         .then((objs)=> {
                 querys.result = objs
-                articlesMappingWithITService(querys,sendResponse)
+                articlesMappingWithITService(querys,done)
             }
         )
         .catch((error)=>{
-            sendResponse(error,querys)
+            done(error,querys)
         })
 };
 
@@ -187,7 +187,7 @@ var articlesMappingWithITService = function(querys,callback){
 
 var articlesSearchByITServiceKeyword = function(querys) {
     if(querys.v1)
-        async.waterfall([(done)=>{checkQuery(querys,done)},searchITServicesByKeyword,queryArticlesV1AndMappingWithITService]);
+        async.waterfall([(done)=>{checkQuery(querys,done)},searchITServicesByKeyword,queryArticlesV1AndMappingWithITService],sendResponse);
     else
         async.waterfall([(done)=>{checkQuery(querys,done)},searchITServicesByKeyword,constructWherePart,queryArticles,articlesMappingWithITService],sendResponse);
 };
