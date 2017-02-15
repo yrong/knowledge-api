@@ -1819,7 +1819,7 @@ const QueryGenerator = {
       $strictRight: '>>',
       $noExtendRight: '&<',
       $noExtendLeft: '&>',
-        $fulltext:'@@'
+      $fulltext:'@@'
     };
 
     // Maintain BC
@@ -1846,7 +1846,8 @@ const QueryGenerator = {
       'overlap': '$overlap',
       '&&': '$overlap',
       '@>': '$contains',
-      '<@': '$contained'
+      '<@': '$contained',
+      '@@': '$fulltext'
     };
 
     key = aliasMap[key] || key;

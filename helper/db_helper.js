@@ -4,6 +4,8 @@ var pg_config=config.get('config.postgres');//pg的连接参数
 var pool = new Pool(pg_config);
 var _ = require('lodash');
 const PageSize = config.get('config.perPageSize');
+var traverse = require('traverse');
+var deepEqual = require('deep-equal')
 
 module.exports.pool = pool;
 
@@ -35,23 +37,38 @@ module.exports = Object.assign(module.exports,
 
 
 const fullTextOperatorProcessor = function(val) {
-
-    if(_.isArray(val)){
-        val = _.map(val, function(val) {
-            return fullTextOperatorProcessor(val);
-        });
-    }else{
-        for(prop in val) {
-            if (prop === '$fulltext'){
-                if(_.isString(val[prop]))
-                    val[prop] = {$raw:`plainto_tsquery('${pg_config.zhparser}','${val[prop]}')`};
-            }
-            else if (typeof val[prop] === 'object')
-                fullTextOperatorProcessor(val[prop]);
+    val = traverse(val).map(function (val) {
+        if(this.key==='$fulltext'){
+            this.update({$raw:`plainto_tsquery('${pg_config.zhparser}','${val}')`})
         }
-    }
+    });
     return val;
 };
+
+var removeEmptyFieldsInQueryFilter = function(filter) {
+    let filter_processed = pruneEmpty(filter)
+    while(!deepEqual(filter,filter_processed)){
+        filter = filter_processed
+        filter_processed = pruneEmpty(filter)
+    }
+    return filter;
+}
+
+var pruneEmpty = function(obj) {
+    return function prune(current) {
+        _.forOwn(current, function (value, key) {
+            if (_.isUndefined(value) || _.isNull(value) || _.isNaN(value) ||
+                (_.isString(value) && _.isEmpty(value)) ||
+                (_.isObject(value) && _.isEmpty(prune(value)))) {
+
+                delete current[key];
+            }
+        });
+        if (_.isArray(current)) _.pull(current, undefined);
+        return current;
+
+    }(_.cloneDeep(obj));
+}
 
 module.exports.fullTextOperatorProcessor = fullTextOperatorProcessor
 
@@ -61,8 +78,9 @@ const buildQueryCondition = (querys) =>{
     let page = querys.page?querys.page:1;
     let per_page = querys.per_page?querys.per_page:PageSize;
     let offset = (parseInt(page)-1)*parseInt(per_page);
-    let where = querys.filter?fullTextOperatorProcessor(querys.filter):{};
-    return {where:where,order:[[sortby,order]],offset:offset,limit:per_page,raw:true};
+    querys.filter = querys.filter?removeEmptyFieldsInQueryFilter(querys.filter):{}
+    querys.filter = querys.filter?fullTextOperatorProcessor(querys.filter):{};
+    return {where:querys.filter,order:[[sortby,order]],offset:offset,limit:per_page,raw:true};
 }
 
 module.exports.buildQueryCondition = buildQueryCondition

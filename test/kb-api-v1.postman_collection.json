@@ -21,6 +21,7 @@
 		"e70b2f82-dbe1-00cf-bf7f-acb456365478",
 		"28e7b03f-1293-3175-ac65-507686dcb5bb",
 		"c20d5669-674f-024d-1388-601f2015bdae",
+		"94c2cc9a-784a-e726-b7d9-ef4071a5e7b1",
 		"bfb27a76-94e0-c7ae-d384-5bcfffc0d358",
 		"4e26a617-fe40-e4f9-e317-0a52fbd56e9c",
 		"53137fc6-4ebc-ba77-ef11-3ad75df0cb5b",
@@ -318,6 +319,25 @@
 			"rawModeData": "\n\t{\n\t\t\"token\":\"{{token}}\",\n\t    \"score\": 5\n \t}\n\n"
 		},
 		{
+			"id": "94c2cc9a-784a-e726-b7d9-ef4071a5e7b1",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{url}}/v1/articles/search",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487170136129,
+			"name": "search articles  by filter with empty fields",
+			"description": "",
+			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
+			"responses": [],
+			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t  \"it_service\":{\"$overlap\":[]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"\"]}},{\"keyword\":{\"$fulltext\":\"\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+		},
+		{
 			"id": "9ca0b15e-249e-591d-f0d8-62f56d5ade84",
 			"headers": "Content-Type: application/json\n",
 			"url": "{{url}}/v1/synergy",
@@ -387,12 +407,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1484551478946,
+			"time": 1487156737500,
 			"name": "search articles  by filter",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"Troubleshooting\",\n\t  \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t  \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
 		},
 		{
 			"id": "c28d0633-bf37-9cca-e779-29e29f0d88a1",
