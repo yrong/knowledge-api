@@ -35,16 +35,6 @@ module.exports = Object.assign(module.exports,
         article_v1_table_name: 'Articles', discussion_v1_table_name: 'Discussions'
     });
 
-
-const fullTextOperatorProcessor = function(val) {
-    val = traverse(val).map(function (val) {
-        if(this.key==='$fulltext'){
-            this.update({$raw:`plainto_tsquery('${pg_config.zhparser}','${val}')`})
-        }
-    });
-    return val;
-};
-
 var removeEmptyFieldsInQueryFilter = function(filter) {
     let filter_processed = pruneEmpty(filter)
     while(!deepEqual(filter,filter_processed)){
@@ -70,7 +60,7 @@ var pruneEmpty = function(obj) {
     }(_.cloneDeep(obj));
 }
 
-module.exports.fullTextOperatorProcessor = fullTextOperatorProcessor
+module.exports.removeEmptyFieldsInQueryFilter = removeEmptyFieldsInQueryFilter
 
 const buildQueryCondition = (querys) =>{
     let sortby = querys.sortby?querys.sortby:'createdAt';
@@ -79,7 +69,6 @@ const buildQueryCondition = (querys) =>{
     let per_page = querys.per_page?querys.per_page:PageSize;
     let offset = (parseInt(page)-1)*parseInt(per_page);
     querys.filter = querys.filter?removeEmptyFieldsInQueryFilter(querys.filter):{}
-    querys.filter = querys.filter?fullTextOperatorProcessor(querys.filter):{};
     return {where:querys.filter,order:[[sortby,order]],offset:offset,limit:per_page,raw:true};
 }
 

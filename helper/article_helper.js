@@ -93,8 +93,8 @@ var constructWherePart = function(querys,done){
     var where;
     if(querys.v1){
         var queryGenerator = models.sequelize.getQueryInterface().QueryGenerator
-        var options = {where:querys.filter?dbHelper.fullTextOperatorProcessor(querys.filter):{}};
-        where = queryGenerator.getWhereConditions(options.where,article_table_alias,models['Article'],options);
+        var options = {where:querys.filter||{}}
+        where = queryGenerator.getWhereConditions(querys.filter||{},article_table_alias,models['Article'],options);
     }else{
         where = [];
         if(querys.filter.tag&&querys.filter.tag.value&&querys.filter.tag.value.length){

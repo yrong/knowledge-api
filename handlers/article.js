@@ -31,6 +31,8 @@ module.exports = {
         }
         querys.res = res;
         querys.req = req;
+        if(querys.filter)
+            querys.filter = dbHelper.removeEmptyFieldsInQueryFilter(querys.filter)
         if(querys.countBy){
             articleHelper.countArticlesAndDiscussionsByITServiceGroups(querys);
         }else if(querys.countOnly){

@@ -2,7 +2,7 @@
 
 var fs        = require("fs");
 var path      = require("path");
-var Sequelize = require("../sequelize");
+var Sequelize = require("sequelize-fulltext-search");
 var config = require('config');
 var logger = require('../logger');
 var pg_config = config.get('config.postgres')
@@ -14,7 +14,8 @@ var sequelize = new Sequelize(pg_config.database, pg_config.user, pg_config.pass
         min: 0,
         idle: pg_config.idleTimeoutMillis
     },
-    logging: logger.debug.bind(logger)
+    logging: logger.debug.bind(logger),
+    regconfig:pg_config.zhparser
 });
 
 var db  = {};
