@@ -21,6 +21,7 @@
 		"e70b2f82-dbe1-00cf-bf7f-acb456365478",
 		"28e7b03f-1293-3175-ac65-507686dcb5bb",
 		"c20d5669-674f-024d-1388-601f2015bdae",
+		"50edc7dd-9644-e409-7e50-8b99bd8afa49",
 		"94c2cc9a-784a-e726-b7d9-ef4071a5e7b1",
 		"bfb27a76-94e0-c7ae-d384-5bcfffc0d358",
 		"4e26a617-fe40-e4f9-e317-0a52fbd56e9c",
@@ -184,6 +185,27 @@
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
 			"rawModeData": "\n\t{\n\t\t\"token\":\"77e52d6fbd1bbc673e6662d1f26c3d778785d471\",\n\t    \"title\": \"水电费\",\n\t    \n\t    \"it_service[]\": {{service_uuids}},\n\t     \"tag[]\": [\"测试\",\"人生\"],\n\t\t \"author\": \"随机\",\n\t\t \"ref_links[]\": [\"https://www.baidu.com\"],\n\t\t \"tasks\": \"测试插入\",\n\t\t \"description\": \"水电费\",\n\t\t \"analysis\": \"水电费\",\n\t\t \"solution\": \"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\n\t\t \"workaround\": \"水电费\",\n\t\t \"article_type\":\"Troubleshooting\"\n \t}\n\n"
+		},
+		{
+			"id": "50edc7dd-9644-e409-7e50-8b99bd8afa49",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{url}}/v1/articles/search",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487156737500,
+			"name": "search articles  by filter with name of ITServiceGroup",
+			"description": "",
+			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
+			"responses": [],
+			"isFromCollection": true,
+			"collectionRequestId": "c20d5669-674f-024d-1388-601f2015bdae",
+			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t  \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
 		},
 		{
 			"id": "53137fc6-4ebc-ba77-ef11-3ad75df0cb5b",
@@ -407,12 +429,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1487156737500,
-			"name": "search articles  by filter",
+			"time": 1487335563147,
+			"name": "search articles  by filter with name of ITService ",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t  \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t  \"it_service\":{\"$overlap\":[\"Messaging\"]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
 		},
 		{
 			"id": "c28d0633-bf37-9cca-e779-29e29f0d88a1",

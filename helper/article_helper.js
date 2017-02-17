@@ -78,7 +78,7 @@ var searchITServicesByKeyword = function(querys,done){
         let search = getITServiceValues(querys).join()
         cmdb_api_helper.getITServices(function(error,result){
             if(error){
-                done(error,null);
+                done(error,querys);
             }else{
                 setITServiceValues(querys,result.data);
                 done(null,querys);
@@ -202,7 +202,7 @@ var countArticles = function(querys,done) {
         table_name = dbHelper.article_table_name
     dbHelper.countByTableNameAndWhere(table_name,function(error,count){
         if(error){
-            done(error);
+            done(error,querys);
         }else{
             done(null,count);
         }
@@ -229,7 +229,7 @@ var countDiscussions = function(querys,done) {
     console.log(query);
     dbHelper.countBySql(query,function(error,count){
         if(error){
-            done(error);
+            done(error,querys);
         }else{
             done(null,count);
         }
@@ -258,7 +258,7 @@ var countArticlesAndDiscussions = function(querys,callback){
 var getITServiceGroups = function(querys,done) {
     cmdb_api_helper.getITServiceGroups(function(error,result){
         if(error){
-            done(error,null);
+            done(error,querys);
         }else{
             querys.it_service_groups = result.data.results;
             done(null,querys)
