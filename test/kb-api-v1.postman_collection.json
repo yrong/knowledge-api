@@ -21,6 +21,7 @@
 		"e70b2f82-dbe1-00cf-bf7f-acb456365478",
 		"28e7b03f-1293-3175-ac65-507686dcb5bb",
 		"c20d5669-674f-024d-1388-601f2015bdae",
+		"4be0cd15-e2c8-cc6c-1060-6361a29a43d7",
 		"50edc7dd-9644-e409-7e50-8b99bd8afa49",
 		"94c2cc9a-784a-e726-b7d9-ef4071a5e7b1",
 		"bfb27a76-94e0-c7ae-d384-5bcfffc0d358",
@@ -46,12 +47,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_id\", jsonData.data.uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1486990052133,
+			"time": 1487415209809,
 			"name": "add article 1",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
-			"rawModeData": "{\n\t\"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": {{service_uuids}},\n    \"tag\": [\"测试\",\"随机\"],\n\t\"author\": \"随机\",\n\t\"ref_links\": [\"https://www.baidu.com/\"],\n\t\"tasks\": \"测试插入\",\n\t\"type\":\"Troubleshooting\",\n\t\"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			"rawModeData": "{\n\t\"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n\t\"author\": \"随机\",\n\t\"ref_links\": [\"https://www.baidu.com/\"],\n\t\"tasks\": \"测试插入\",\n\t\"type\":\"Troubleshooting\",\n\t\"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"id": "1a5e0c06-3532-4d5e-2220-d093f7ce9c0e",
@@ -130,6 +131,25 @@
 			"rawModeData": "{\n\t\"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": {{service_uuids}},\n    \"tag\": [\"测试\",\"随机\"],\n\t\"author\": \"随机\",\n\t\"ref_links\": [\"https://www.baidu.com/\"],\n\t\"tasks\": \"测试插入\",\n\t\"type\":\"Troubleshooting\",\n\t\"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
+			"id": "4be0cd15-e2c8-cc6c-1060-6361a29a43d7",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{url}}/v1/articles/search",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1487415452479,
+			"name": "search articles  by filter with  ITServiceGroup Messaging",
+			"description": "",
+			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
+			"responses": [],
+			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t  \"it_service\":{\"$overlap\":[\"Messaging\"]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"测试\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+		},
+		{
 			"id": "4ca82a8d-06e2-4681-9e50-424b1e9fdcbb",
 			"headers": "Content-Type: application/json\n",
 			"url": "{{url}}/v1/articles/{{article_2_id}}",
@@ -157,15 +177,15 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\n\njsonData.data.forEach(function(result){\n    if(result.group.name==='Infrastructure'){\n        tests[\"Infrastructure group has no article and discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 2)\n    }\n    if(result.group.name==='Messaging'){\n        tests[\"Messaging group has 1 article and 2 discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 2)\n    }\n})",
+			"tests": "var jsonData = JSON.parse(responseBody);\n\njsonData.data.forEach(function(result){\n    if(result.group.name==='Infrastructure'){\n        tests[\"Infrastructure group has no article and discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 0)\n    }\n    if(result.group.name==='Messaging'){\n        tests[\"Messaging group has 1 article and 2 discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 2)\n    }\n})",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1484562743300,
+			"time": 1487420061116,
 			"name": " count articles and discussions by it service group and filter by keyword",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n    \"type\": \"Troubleshooting\",\n\t\"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"countBy\":\"ITServiceGroup\"\n}\n"
+			"rawModeData": "\n{\n  \"filter\":\n  {\n    \"type\": \"Troubleshooting\",\n\t\"$or\": [{ \"tag\":{\"$overlap\":[\"测试\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"countBy\":\"ITServiceGroup\"\n}\n"
 		},
 		{
 			"id": "4ef6e975-bbc5-5319-b40b-4e7f07defe95",
@@ -198,14 +218,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1487156737500,
-			"name": "search articles  by filter with name of ITServiceGroup",
+			"time": 1487343342181,
+			"name": "search articles  by filter with name of ITService",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
-			"isFromCollection": true,
-			"collectionRequestId": "c20d5669-674f-024d-1388-601f2015bdae",
-			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t  \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n\t  \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
 		},
 		{
 			"id": "53137fc6-4ebc-ba77-ef11-3ad75df0cb5b",
@@ -238,12 +256,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_2_id\", jsonData.data.uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1486990082714,
+			"time": 1487415217616,
 			"name": "add article 2 with token in cookie",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
-			"rawModeData": "{\n    \"title\": \"煤气费\",\n    \"it_service\": {{service_uuids}},\n    \"tag\": [\"测试\",\"随机\"],\n\t\"author\": \"随机\",\n\t\"ref_links\": [\"https://www.baidu.com\"],\n\t\"tasks\": \"测试插入\",\n\t\"type\":\"Troubleshooting\",\n\t\"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"}\n }\n\n"
+			"rawModeData": "{\n    \"title\": \"煤气费\",\n    \"it_service\": [\"{{service_dns_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n\t\"author\": \"随机\",\n\t\"ref_links\": [\"https://www.baidu.com\"],\n\t\"tasks\": \"测试插入\",\n\t\"type\":\"Troubleshooting\",\n\t\"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"}\n }\n\n"
 		},
 		{
 			"id": "643315c4-328c-a06c-aea3-5de7219d8cb4",
@@ -257,12 +275,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article updated\"] = jsonData.status === 'ok';",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1486990510130,
+			"time": 1487415138578,
 			"name": "modify article 2",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
-			"rawModeData": "{\n\t\"token\":\"{{token}}\",\n    \"title\": \"煤气费\",\n    \"it_service\": {{service_uuids}},\n    \"tag\": [\"测试\",\"随机\"],\n\t\"author\": \"随机\",\n\t\"ref_links\": [\"https://www.baidu.com\"],\n\t\"tasks\": \"测试插入\",\n\t\"type\":\"Troubleshooting\",\n\t\"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"}\n }\n\n"
+			"rawModeData": "{\n\t\"token\":\"{{token}}\",\n    \"title\": \"煤气费\",\n    \"tag\": [\"测试\",\"随机\"],\n\t\"author\": \"随机\",\n\t\"ref_links\": [\"https://www.baidu.com\"],\n\t\"tasks\": \"测试插入\",\n\t\"type\":\"Troubleshooting\",\n\t\"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"}\n }\n\n"
 		},
 		{
 			"id": "6c971bd0-7177-29cf-e538-c967cd344c96",
@@ -429,12 +447,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1487335563147,
-			"name": "search articles  by filter with name of ITService ",
+			"time": 1487415383337,
+			"name": "search articles  by filter with name of ITServiceGroup",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"responses": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t  \"it_service\":{\"$overlap\":[\"Messaging\"]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+			"rawModeData": "\n{\n  \"filter\":\n  {\n\t \"type\": \"\",\n\t  \"it_service\":{\"$overlap\":[\"Infrastructure\"]},\n\t   \"$or\": [{ \"tag\":{\"$overlap\":[\"测试\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
 		},
 		{
 			"id": "c28d0633-bf37-9cca-e779-29e29f0d88a1",
