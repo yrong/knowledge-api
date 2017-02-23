@@ -40,7 +40,7 @@
     "request-promise": "^4.1.1",
     "retry-as-promised": "^2.0.0",
     "semver": "^5.0.1",
-    "sequelize-fulltext-search": "^4.0.0-2",
+    "sequelize-fulltext-search": "^4.0.0-2-1",
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.7.1",
     "terraformer-wkt-parser": "^1.1.2",
