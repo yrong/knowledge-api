@@ -99,12 +99,13 @@
     }
   },
   {
-    "name": "search discussions  by article id",
+    "name": "search reply discussions  by article id",
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/discussions/search",
     "body": {
       "filter": {
-        "article_id": "c62000c5-85f4-4bba-882b-c3c3f80cf1f6"
+        "article_id": "c62000c5-85f4-4bba-882b-c3c3f80cf1f6",
+        "type": "reply"
       },
       "page": 1,
       "per_page": 2,
@@ -480,6 +481,20 @@
         "solution": "前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了",
         "workaround": "水电费"
       }
+    }
+  },
+  {
+    "name": "search discussions  by article id ",
+    "method": "POST",
+    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "body": {
+      "filter": {
+        "article_id": "c62000c5-85f4-4bba-882b-c3c3f80cf1f6"
+      },
+      "page": 1,
+      "per_page": 2,
+      "sortby": "createdAt",
+      "order": "desc"
     }
   },
   {
