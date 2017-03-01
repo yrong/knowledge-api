@@ -50,7 +50,7 @@ const BasicHandler = {
     search_processor: asyncRequest(async(function(req, res, next) {
         let model = getModelFromRoute(req.url);
         let query = req.method === 'GET'?req.query:req.body;
-        let objs = await(model.findAll(dbHelper.buildQueryCondition(query)));
+        let objs = await(model.findAndCountAll(dbHelper.buildQueryCondition(query)));
         responseSender(req,res,objs)
     })),
     put_processor: asyncRequest(async(function(req, res, next) {

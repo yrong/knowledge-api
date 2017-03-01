@@ -99,7 +99,7 @@
     }
   },
   {
-    "name": "search reply discussions  by article id",
+    "name": "search replies by article id",
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/discussions/search",
     "body": {
@@ -285,7 +285,7 @@
     }
   },
   {
-    "name": "add discussion 1",
+    "name": "add topic 1",
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/discussions",
     "body": {
@@ -304,6 +304,27 @@
     "name": "aggregate article 2",
     "method": "GET",
     "url": "http://localhost:3000/KB/API/v1/articles/1bf83ae6-9399-4d9e-bded-2fe4b6ea5f15/score/aggregate"
+  },
+  {
+    "name": "search topic and related replies  by topic id",
+    "method": "POST",
+    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "body": {
+      "filter": {
+        "$or": [
+          {
+            "uuid": "477f42e6-f247-497b-a2a6-d8b217d0e16e"
+          },
+          {
+            "reply_id": "477f42e6-f247-497b-a2a6-d8b217d0e16e"
+          }
+        ]
+      },
+      "page": 1,
+      "per_page": 2,
+      "sortby": "createdAt",
+      "order": "desc"
+    }
   },
   {
     "name": "score article 2",
@@ -354,7 +375,7 @@
     }
   },
   {
-    "name": "search discussions  by reply id",
+    "name": "search replies by topic id",
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/discussions/search",
     "body": {
@@ -437,7 +458,7 @@
     }
   },
   {
-    "name": "add discussion 2 ",
+    "name": "reply topic 1",
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/discussions",
     "body": {
@@ -484,7 +505,7 @@
     }
   },
   {
-    "name": "search discussions  by article id ",
+    "name": "search topics and replies  by article id ",
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/discussions/search",
     "body": {
@@ -526,7 +547,21 @@
     }
   },
   {
-    "name": "get discussion 1",
+    "name": "search reply by topic id",
+    "method": "POST",
+    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "body": {
+      "filter": {
+        "uuid": "477f42e6-f247-497b-a2a6-d8b217d0e16e"
+      },
+      "page": 1,
+      "per_page": 2,
+      "sortby": "createdAt",
+      "order": "desc"
+    }
+  },
+  {
+    "name": "get topic 1",
     "method": "GET",
     "url": "http://localhost:3000/KB/API/v1/discussions/477f42e6-f247-497b-a2a6-d8b217d0e16e"
   }
