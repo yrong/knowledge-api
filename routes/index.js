@@ -1,5 +1,6 @@
 var express = require('express');
-var exec = require('child_process').exec;
+var child_process = require('child_process')
+var exec = child_process.exec;
 var util=require('util');
 var uuid=require('node-uuid');
 var path = require('path');

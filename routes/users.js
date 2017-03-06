@@ -1,6 +1,7 @@
 var express = require('express');
 var async=require('async');
-var Client=require('pg').Client;
+var pg = require('pg');
+var Client=pg.Client;
 var Config = require('../config');
 var User=require('../sql/User');
 var UserInfo = require('../model/UserInfo');

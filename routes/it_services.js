@@ -1,5 +1,6 @@
 var express = require('express');
-var Client=require('pg').Client;
+var pg = require('pg');
+var Client=pg.Client;
 var router = express.Router();
 var Config = require('../config');
 var async=require('async');

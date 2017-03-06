@@ -1,11 +1,9 @@
-let async = require('asyncawait/async');
-let await = require('asyncawait/await');
 let _ = require('lodash');
 let responseSender = require('../helper/responseSender');
 let models = require('../models');
 
 module.exports = {
-    score_processor: async(function(req,res,next){
+    score_processor: async function(req,res,next){
         let user_id = req.userid
         let article_id = req.params.uuid
         let options = {article_id: article_id, user_id:user_id}
@@ -16,12 +14,12 @@ module.exports = {
             await(models['ArticleScore'].create(_.merge(options,{ score: req.body.score})))
         }
         responseSender(req,res)
-    }),
-    aggregate_processor: async(function(req,res,next){
+    },
+    aggregate_processor: async function(req,res,next){
         let article_id = req.params.uuid
         let options = {article_id: article_id}
         let count = await(models['ArticleScore'].count({where:options}))
         let sum = await(models['ArticleScore'].sum('score',{where:options}))||0
         responseSender(req,res,{count:count,sum:sum,avg:(sum/count||0)})
-    })
+    }
 }

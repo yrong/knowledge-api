@@ -1,7 +1,4 @@
-let {asyncRequest} = require('../helper/asyncRequest');
 let articleHelper = require('./../helper/article_helper');
-let async = require('asyncawait/async');
-let await = require('asyncawait/await');
 let BasicHandler = require('./basic_handler');
 let _ = require('lodash');
 let responseSender = require('../helper/responseSender');
@@ -9,8 +6,8 @@ let dbHelper = require('../helper/db_helper')
 let models = require('../models');
 
 module.exports = {
-    findOne_processor: asyncRequest(async((req, res, next) => {
-        let article = await(BasicHandler.findOne(req))
+    findOne_processor: async (req, res, next) => {
+        let article = await BasicHandler.findOne(req)
         articleHelper.articlesMappingWithITService({result: [article]}, function (err, results) {
             if (err) {
                 next(err);
@@ -18,8 +15,8 @@ module.exports = {
                 responseSender(req,res,results.result[0])
             }
         })
-    })),
-    search_processor: function(req, res, next) {
+    },
+    search_processor: function(req, res) {
         var querys;
         if(req.method === 'GET'){
             querys = req.query;
@@ -42,12 +39,16 @@ module.exports = {
             articleHelper.articlesSearchByITServiceKeyword(querys);
         }
     },
-    tag_processor: function(req,res,next) {
-        dbHelper.pool.query(`select distinct(unnest(tag)) as tag from "Articles"`,function(err,result){
-            if(err)
-                next(err)
-            else
-                responseSender(req,res,result.rows.map(item => item.tag))
-        })
+    tag_processor: async function(req,res) {
+        let result = await dbHelper.pool.query(`select distinct(unnest(tag)) as tag from "Articles"`)
+        responseSender(req,res,result.rows.map(item => item.tag))
+    },
+    findAll_processor: async function(req, res) {
+        let query = req.method === 'GET'?req.query:req.body;
+        let articles = await models['Article'].findAndCountAll(dbHelper.buildQueryCondition(query));
+        for(let article of articles.rows){
+            article.discussion_count = await models['Discussion'].count({where:{article_id:article.uuid}})
+        }
+        responseSender(req,res,articles)
     }
 }

@@ -1,4 +1,5 @@
-var Pool = require('pg').Pool;
+var pg = require('pg')
+var Pool = pg.Pool;
 var config = require('config')
 var pg_config=config.get('config.postgres');//pg的连接参数
 var pool = new Pool(pg_config);
@@ -10,7 +11,7 @@ var deepEqual = require('deep-equal')
 module.exports.pool = pool;
 
 var countBySql = function(sql,callback){
-    query = pool.query(sql,function(err, result){
+    pool.query(sql,function(err, result){
         if(err){
             callback(err, null);
             return;
