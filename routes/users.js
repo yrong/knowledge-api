@@ -111,7 +111,7 @@ router.get('/userinfo/:userid', function(req, res, next) {
     return;
   }
   let sql = util.format("select * from userinfo where userid=$1");
-  query = client.query(sql, [userid], function (err, result) {
+  client.query(sql, [userid], function (err, result) {
     if (err)
       res.send({status: '查询错误！'});
     else {
