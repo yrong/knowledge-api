@@ -1,38 +1,32 @@
-var pg = require('pg')
-var Pool = pg.Pool;
+var Pool = require('pg-pool')
 var config = require('config')
 var pg_config=config.get('config.postgres');//pg的连接参数
 var pool = new Pool(pg_config);
 var _ = require('lodash');
 const PageSize = config.get('config.perPageSize');
-var traverse = require('traverse');
 var deepEqual = require('deep-equal')
+var logger = require('../logger')
 
 module.exports.pool = pool;
 
-var countBySql = function(sql,callback){
-    pool.query(sql,function(err, result){
-        if(err){
-            callback(err, null);
-            return;
-        }
-        let count=parseInt(result.rows[0].count);
-        callback(null,count);
-    });
+var countBySql = async function(sql){
+    logger.info("countBySql:"+sql)
+    let result = await pool.query(sql)
+    let count= parseInt(result.rows[0].count)
+    return count
 };
 module.exports.countBySql = countBySql;
 
-var countByTableNameAndWhere = function(table,callback,/*alias='t',where*/...others){
-    countBySql('select count(*) from ' + table + (others[1]?(' as '+ others[1]):'') + (others[0]?(' where '+ others[0]):''),callback);
+var countByTableNameAndWhere = async function(table,/*alias='t',where*/...others){
+    let count = countBySql('select count(*) from ' + table + (others[1]?(' as '+ others[1]):'') + (others[0]?(' where '+ others[0]):''))
+    return count
 };
 
 module.exports.countByTableNameAndWhere = countByTableNameAndWhere;
 
 module.exports = Object.assign(module.exports,
     {
-        article_table_name: 'template_article', article_table_alias: 'ta',
-        discussion_table_name: 'discussions', discussion_table_alias: 't',
-        notification_table_name: 'notifications',
+        article_table_alias: 'ta', discussion_table_alias: 't',
         article_v1_table_name: 'Articles', discussion_v1_table_name: 'Discussions'
     });
 

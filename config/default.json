@@ -16,7 +16,8 @@
         }
       ],
       "replaceConsole": true,
-      "defaultLevel":"DEBUG"
+      "defaultLevel":"DEBUG",
+      "defaultCategory":"kb-api"
     },
     "postgres": {
       "host": "localhost",

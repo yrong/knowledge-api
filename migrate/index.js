@@ -1,10 +1,8 @@
 const _ = require('lodash');
-const async = require('asyncawait/async');
-const await = require('asyncawait/await');
 const dbHelper = require('../helper/db_helper')
 const models = require('../models')
 
-let article_migrate = async(()=>{
+let article_migrate = async ()=>{
     let sql = `delete from "Articles" where migrate=true`
     let result = await(dbHelper.pool.query(sql))
     sql = `select * from template_article`
@@ -19,9 +17,9 @@ let article_migrate = async(()=>{
         await(models['Article'].create(article))
     }
     return {articles:result.rows.length}
-})
+}
 
-let discussion_migrate = async(()=>{
+let discussion_migrate = async ()=>{
     let sql = `delete from "Discussions" where migrate=true`
     let result = await(dbHelper.pool.query(sql))
     sql = `select * from discussions`
@@ -40,11 +38,11 @@ let discussion_migrate = async(()=>{
         await(models['Discussion'].create(discussion))
     }
     return {discussions:result.rows.length}
-})
+}
 
-let migrate= async(()=>{
+let migrate= async()=>{
     return await([article_migrate(),discussion_migrate()])
-})
+}
 
 if (require.main === module) {
     console.time('kb-api-db-migrate')

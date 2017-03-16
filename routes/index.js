@@ -1,34 +1,62 @@
-var express = require('express');
-var child_process = require('child_process')
-var exec = child_process.exec;
-var util=require('util');
-var uuid=require('node-uuid');
-var path = require('path');
-var router = express.Router();
+var checkToken = require('./../handlers/checkToken');
+var checkUuid = require('./../handlers/checkUuid');
+var _ = require('lodash')
+var asyncRequestWrapper = require('../helper/asyncRequestWrapper');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+//basic processors
+var basic_handler_processor = require('../handlers/basic_handler')
+var {post_processor,delete_processor,findAll_processor,search_processor,findOne_processor,put_processor} = _.mapValues(basic_handler_processor,(processor)=>asyncRequestWrapper(processor));
+//article processors
+var article_processor = require('../handlers/article')
+article_processor = _.mapValues(article_processor,(processor)=>asyncRequestWrapper(processor))
+var article_findOne_processor = article_processor.findOne_processor
+    ,article_search_processor = article_processor.search_processor
+    ,article_findAll_processor = article_processor.findAll_processor
+    ,tag_processor = article_processor.tag_processor
+//article score processors
+var article_score_processor = require('../handlers/article_score');
+var {score_processor,aggregate_processor} = _.mapValues(article_score_processor,(processor)=>asyncRequestWrapper(processor));
 
-router.get('/printpdf', function(req, res, next) {
-  var pageUrl = req.query.url;
-  var pdfoutpath = path.normalize(util.format('temp/%s.pdf', uuid.v4()));
-  var printpdfjs=path.normalize('bin/printpdf.js');
-  var _path=util.format('casperjs %s %s %s', printpdfjs,pageUrl, pdfoutpath);
-  exec(_path, function (error, stdout, stderr) {
-    res.set('Content-Type', 'application/pdf');
-    if (error || stderr) {
-      console.log(error);
-      res.send(500, error || stderr);
-      res.download(pdfoutpath);
-      return;
+const base_route = '/KB/API/v1';
+var dbHelper = require('../helper/db_helper');
+var responseSender = require('../helper/responseSender');
+
+var route_article = (app) => {
+    let article_base_url = `${base_route}/articles`
+    app.post(`${article_base_url}`,[checkToken],post_processor);
+    app.delete(`${article_base_url}/:uuid`,[checkUuid,checkToken],delete_processor);
+    app.get(`${article_base_url}`,article_findAll_processor);
+    app.get(`${article_base_url}/tag`,tag_processor);
+    app.get(`${article_base_url}/:uuid`,[checkUuid],article_findOne_processor);
+    app.put(`${article_base_url}/:uuid`,[checkUuid,checkToken],put_processor);
+    app.patch(`${article_base_url}/:uuid`,[checkUuid,checkToken],put_processor);
+    app.all(`${article_base_url}/search`,article_search_processor);
+    app.post(`${article_base_url}/:uuid/score`,[checkToken],score_processor);
+    app.get(`${article_base_url}/:uuid/score/aggregate`,aggregate_processor);
+};
+
+var route_discussion = (app) => {
+    let discussion_base_url = `${base_route}/discussions`
+    app.post(`${discussion_base_url}`,[checkToken],post_processor);
+    app.delete(`${discussion_base_url}/:uuid`,[checkUuid,checkToken],delete_processor);
+    app.get(`${discussion_base_url}/:uuid`,[checkUuid],findOne_processor);
+    app.all(`${discussion_base_url}`,findAll_processor);
+    app.all(`${discussion_base_url}/search`,search_processor);
+};
+
+var route_deleteAll = (app) => {
+    app.delete(`${base_route}/synergy`,[checkToken],async function(req, res) {
+        await(dbHelper.pool.query(`delete from "Articles"`));
+        await(dbHelper.pool.query(`delete from "Discussions"`));
+        await(dbHelper.pool.query(`delete from "ArticleScores"`));
+        responseSender(req,res)
+    })
+};
+
+module.exports= {
+    route_init:(app) => {
+        route_article(app);
+        route_discussion(app);
+        route_deleteAll(app);
     }
-    //res.set('Content-Type', 'application/pdf');
-    res.download(pdfoutpath);
-  });
-
-});
-
-
-module.exports = router;
+};

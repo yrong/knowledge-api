@@ -3,19 +3,10 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var ueditor = require('ueditor-nodejs');
 var schedule = require('node-schedule');
 var fs = require('fs');
 
-var routes = require('./routes/index');
-var routes_new = require('./routes/routes_v1');
-var users = require('./routes/users');
-var article = require('./routes/article');
-var search = require('./routes/search');
-var discussions = require('./routes/discussions');
-var it_services = require('./routes/it_services');
-var notifications = require('./routes/notifications');
-var tag = require('./routes/tag');
+var routes_new = require('./routes/index');
 var responseSender = require('./helper/responseSender')
 
 var log4js = require('log4js');
@@ -43,24 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 //设置跨域访问
 var cors = require('cors')
 app.use(cors())
-app.use('/', routes);
-
-app.use('/ueditor/ue', ueditor({//这里的/ueditor/ue是因为文件件重命名为了ueditor,如果没改名，那么应该是/ueditor版本号/ue
-    configFile: '/ueditor/php/config.json',//如果下载的是jsp的，就填写/ueditor/jsp/config.json
-    mode: 'local', //本地存储填写local
-    accessKey: '',//本地存储不填写，bcs填写
-    secrectKey: '',//本地存储不填写，bcs填写
-    staticPath: path.join(__dirname, 'public') //一般固定的写法，静态资源的目录，如果是bcs，可以不填
-    //dynamicPath: '/blogpicture' //动态目录，以/开头，bcs填写buckect名字，开头没有/.路径可以根据req动态变化，可以是一个函数，function(req) { return '/xx'} req.query.action是请求的行为，uploadimage表示上传图片，具体查看config.json.
-}));
-
-app.use('/users', users);
-app.use('/KB/API/articles', article);
-app.use('/KB/API/search', search);
-app.use('/KB/API/discussions', discussions);
-app.use('/KB/API/it_services', it_services);
-app.use('/KB/API/notifications', notifications);
-app.use('/KB/API/tags', tag);
 
 var models = require('./models');
 models.sequelize.sync().then(function(){

@@ -1,4 +1,4 @@
-let uuid=require('node-uuid');
+let uuid=require('uuid');
 let models = require('../models');
 let _ = require('lodash');
 let dbHelper = require('../helper/db_helper');

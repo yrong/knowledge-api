@@ -1,3 +1,6 @@
+require("babel-core/register")
+require("babel-polyfill")
+
 var newman = require('newman');
 var assert = require('chai').assert;
 var migrate = require('../migrate');

@@ -8,36 +8,28 @@ let models = require('../models');
 module.exports = {
     findOne_processor: async (req, res, next) => {
         let article = await BasicHandler.findOne(req)
-        articleHelper.articlesMappingWithITService({result: [article]}, function (err, results) {
-            if (err) {
-                next(err);
-            } else {
-                responseSender(req,res,results.result[0])
-            }
-        })
+        let result = await articleHelper.articlesMappingWithITService([article])
+        article = result[0]
+        responseSender(req,res,article)
     },
-    search_processor: function(req, res) {
-        var querys;
+    search_processor: async function(req, res) {
+        var querys,result;
         if(req.method === 'GET'){
             querys = req.query;
         }else{
             querys = req.body;
         }
-        if(req.url.includes('v1')){
-            querys.v1 = true;
-        }
-        querys.res = res;
-        querys.req = req;
         if(querys.filter)
             querys.filter = dbHelper.removeEmptyFieldsInQueryFilter(querys.filter)
         if(querys.countBy){
-            articleHelper.countArticlesAndDiscussionsByITServiceGroups(querys);
+            result = await articleHelper.countArticlesAndDiscussionsByITServiceGroups(querys);
         }else if(querys.countOnly){
-            articleHelper.countArticlesAndDiscussionsByITServiceKeyword(querys);
+            result = await articleHelper.countArticlesAndDiscussionsByITServiceKeyword(querys);
         }
         else{
-            articleHelper.articlesSearchByITServiceKeyword(querys);
+            result = await articleHelper.articlesSearchByITServiceKeyword(querys)
         }
+        responseSender(req,res,result)
     },
     tag_processor: async function(req,res) {
         let result = await dbHelper.pool.query(`select distinct(unnest(tag)) as tag from "Articles"`)
