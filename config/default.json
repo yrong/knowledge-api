@@ -29,16 +29,13 @@
       "idleTimeoutMillis": 3000,
       "zhparser":"knowledge_zhcfg"
     },
-    "mysql": {
-      "host": "localhost",
-      "port": 3306,
-      "user": "root",
-      "password": "root",
-      "database": "test",
-      "connectionLimit":50
-    },
     "cmdb":{
       "base_url":"http://localhost:3001"
+    },
+    "auth":{
+      "base_url":"http://localhost:3002/auth",
+      "token_check_path":"/check",
+      "token_name":"token"
     }
   }
 }

@@ -475,36 +475,6 @@
     }
   },
   {
-    "name": "add article with token invalid",
-    "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles",
-    "body": {
-      "token": "invalid",
-      "title": "水电费",
-      "it_service": [
-        "096a5780-f5c7-11e6-b240-eb7da0788697",
-        "0971aa80-f5c7-11e6-b240-eb7da0788697",
-        "0963c7d0-f5c7-11e6-b240-eb7da0788697"
-      ],
-      "tag": [
-        "测试",
-        "随机"
-      ],
-      "author": "随机",
-      "ref_links": [
-        "https://www.baidu.com"
-      ],
-      "tasks": "测试插入",
-      "type": "Troubleshooting",
-      "content": {
-        "description": "水电费",
-        "analysis": "水电费",
-        "solution": "前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了",
-        "workaround": "水电费"
-      }
-    }
-  },
-  {
     "name": "search topics and replies  by article id ",
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/discussions/search",
@@ -564,5 +534,14 @@
     "name": "get topic 1",
     "method": "GET",
     "url": "http://localhost:3000/KB/API/v1/discussions/477f42e6-f247-497b-a2a6-d8b217d0e16e"
+  },
+  {
+    "name": "login",
+    "method": "POST",
+    "url": "{{auth_url}}/auth/login",
+    "body": {
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
   }
 ]

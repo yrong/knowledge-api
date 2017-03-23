@@ -4,7 +4,7 @@ let models = require('../models');
 
 module.exports = {
     score_processor: async function(req,res,next){
-        let user_id = req.userid
+        let user_id = req.user.userid
         let article_id = req.params.uuid
         let options = {article_id: article_id, user_id:user_id}
         let article_score = await(models['ArticleScore'].findOne({where:options}))
