@@ -21,7 +21,8 @@ describe("Kb-api Integration test suite", function() {
     it('new api', function(done) {
         newman.run({
             collection: require('./kb-api-v1.postman_collection.json'),
-            environment: require('./kb.postman_environment.json'),
+            environment: require('./knowledge.postman_environment.json'),
+            global: require('./globals.postman_globals.json'),
             reporters: 'cli'
         }, function (err) {
             if (err) { done(err)}

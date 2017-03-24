@@ -3,7 +3,6 @@
 	"name": "kb-api-v1",
 	"description": "",
 	"order": [
-		"f900884a-5df0-5536-f82f-fad683199fb3",
 		"9ca0b15e-249e-591d-f0d8-62f56d5ade84",
 		"b84f9721-6403-468c-33bf-639e4058efe3",
 		"1a5e0c06-3532-4d5e-2220-d093f7ce9c0e",
@@ -44,7 +43,7 @@
 	"requests": [
 		{
 			"id": "0b6b8892-5247-b460-7537-4e1b04fc89d1",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headers": "Content-Type: application/json\n",
 			"url": "{{url}}/v1/articles",
 			"preRequestScript": "",
 			"pathVariables": {},
@@ -54,7 +53,7 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_id\", jsonData.data.uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1490277325332,
+			"time": 1490366980069,
 			"name": "add article 1",
 			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
@@ -289,21 +288,20 @@
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257"
 		},
 		{
-			"folder": null,
 			"id": "616a1c70-6919-a897-8508-4b4c2904e813",
-			"name": "add article 2 with token in cookie",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
+			"headers": "Content-Type: application/json\n",
 			"url": "{{url}}/v1/articles",
 			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_2_id\", jsonData.data.uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
+			"time": 1490366999706,
+			"name": "add article 2 with token in cookie",
+			"description": "",
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
 			"rawModeData": "{\n    \"title\": \"煤气费\",\n    \"it_service\": [\"{{service_dns_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"}\n }\n\n"
 		},
@@ -648,26 +646,6 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257"
-		},
-		{
-			"id": "f900884a-5df0-5536-f82f-fad683199fb3",
-			"headers": "Content-Type: application/json\n",
-			"url": "{{auth_url}}/auth/login",
-			"preRequestScript": "var passwd = globals['passwd']\nvar hash = CryptoJS.MD5(passwd).toString();\npostman.setEnvironmentVariable('password', hash);",
-			"pathVariables": {},
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"token found\"] = jsonData.data.token;\npostman.setGlobalVariable(\"token\", jsonData.data.token);\n",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1490191625535,
-			"name": "login",
-			"description": "",
-			"collectionId": "d60f39c9-cc61-fa31-1e0c-fba33e303257",
-			"isFromCollection": true,
-			"collectionRequestId": "a6906343-5bad-5186-79ad-358f88e87678",
-			"rawModeData": "{\n  \"username\":\"{{username}}\",\n  \"password\":\"{{password}}\"\n}"
 		}
 	]
 }

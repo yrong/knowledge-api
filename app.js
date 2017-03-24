@@ -31,6 +31,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 var cors = require('cors')
 app.use(cors())
 
+const token_check_url = config.get('config.auth.base_url')+config.get('config.auth.token_check_path')
+const token_name = config.get('config.auth.token_name')
+const check_token = require('./middleware/check_token')
+app.use(check_token(token_check_url,token_name))
+
 var models = require('./models');
 models.sequelize.sync().then(function(){
     models.dbInit();
