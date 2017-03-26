@@ -7,7 +7,7 @@
     "test": "mocha",
     "migrate": "node ./migrate/index.js",
     "cleandb": "node ./cleandb.js",
-    "generate_simplified_postman_collection": "postman_simplify ./test/kb-api-v1.postman_collection.json ./test/knowledge.postman_environment_all.json"
+    "generate_simplified_postman_collection": "postman_simplify ./test/kb-api-v1.postman_collection.json ./test/knowledge.postman_environment.json"
   },
   "dependencies": {
     "body-parser": "~1.15.1",

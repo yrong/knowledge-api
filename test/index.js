@@ -6,23 +6,11 @@ var assert = require('chai').assert;
 var migrate = require('../migrate');
 describe("Kb-api Integration test suite", function() {
     this.timeout(15000)
-    // it('legacy api', function(done) {
-    //     newman.run({
-    //         collection: require('./kb-api.postman_collection.json'),
-    //         environment: require('./kb.postman_environment.json'),
-    //         reporters: 'cli'
-    //     }, function (err) {
-    //         if (err) { done(err);}
-    //         console.log('legacy api run complete!');
-    //         done();
-    //     });
-    // });
 
     it('new api', function(done) {
         newman.run({
             collection: require('./kb-api-v1.postman_collection.json'),
             environment: require('./knowledge.postman_environment.json'),
-            global: require('./globals.postman_globals.json'),
             reporters: 'cli'
         }, function (err) {
             if (err) { done(err)}
