@@ -129,7 +129,7 @@ var countArticlesAndDiscussionsByITServiceGroup = async function(querys,it_servi
     var groups = [],services,countInfo
     for(let group of it_service_groups){
         services=[];
-        _.each(group.services,(service)=>{
+        _.each(group.members,(service)=>{
             services.push(service.uuid);
         });
         querys.filter.it_service = {};
@@ -147,7 +147,7 @@ var countArticlesAndDiscussionsByITServiceGroups = async function(querys){
     let result,it_service_groups
     checkQuery(querys)
     result = await cmdb_api_helper.getITServiceGroups(querys)
-    it_service_groups = result.data.results
+    it_service_groups = result.data
     return await countArticlesAndDiscussionsByITServiceGroup(querys,it_service_groups)
 };
 

@@ -261,6 +261,7 @@
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/articles",
     "body": {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3NmQ4NTNlOS1iNDMzLTQ1YzktODhhMy1jM2Y4MDRjMDUxODAiLCJ1c2VyIjp7ImlkIjoxMDA1LCJwYXNzd2QiOiIwOThmNmJjZDQ2MjFkMzczY2FkZTRlODMyNjI3YjRmNiIsImNyZWF0ZWQiOjE0OTA1MTI3NzU4MDIsInN1cm5hbWUiOiIiLCJuYW1lIjoibmVyZHMiLCJhbGlhcyI6Im5lcmRzIiwidGhlbWUiOiJkZWZhdWx0IiwibGFuZyI6ImVuX0dCIiwidHlwZSI6MSwiY2F0ZWdvcnkiOiJVc2VyIiwiYXR0ZW1wdF9pcCI6IjEwLjUwLjEzLjY5IiwidXNlcmlkIjoxLCJ1dWlkIjoxfSwiaWF0IjoxNDkwNTEzNTQ4fQ.bIeCf3SN02XOCwHVKhbjJGAYRMZWBFNo1lnu6kk9154",
       "title": "煤气费",
       "it_service": [
         "8d0ef6b0-11f4-11e7-b6b8-d560d215e6e4"
@@ -441,10 +442,10 @@
   {
     "name": "login",
     "method": "POST",
-    "url": "{{auth_url}}/auth/login",
+    "url": "http://localhost:3002/auth/login",
     "body": {
-      "username": "{{username}}",
-      "password": "{{password}}"
+      "username": "nerds",
+      "password": "nerds"
     }
   },
   {
