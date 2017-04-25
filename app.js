@@ -42,30 +42,14 @@ models.sequelize.sync().then(function(){
 })
 routes_new.route_init(app);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
 
 // error handlers
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
-        logger.error(String(err));
-        responseSender(req,res,err)
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    logger.error(err);
-    res.status(err.status || 500).json({status:err.message});
+app.use(function (err, req, res, next) {
+    logger.error(String(err));
+    responseSender(req,res,err)
 });
+
 
 //定时任务，清除临时文件
 var rule = new schedule.RecurrenceRule();

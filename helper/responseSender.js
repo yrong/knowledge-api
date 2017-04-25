@@ -13,7 +13,8 @@ module.exports = (req,res,result)=>{
     if(result instanceof Error){
         response_wrapped.status = STATUS_ERROR
         response_wrapped.message = {content:String(result),displayAs:DISPLAY_AS_MODEL}
-        res.status(result.status || 500)
+        response_wrapped.statusCode = result.statusCode || result.status || 500
+        res.status(result.statusCode || result.status || 500)
     }else{
         if(result)
             response_wrapped.data = result
