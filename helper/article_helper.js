@@ -28,14 +28,13 @@ var serviceMapping = function(results,it_services){
 var checkQuery = function(querys) {
     if(querys.countBy){
         if(querys.countBy!='ITServiceGroup'){
-            throw new Error('countBy只支持ITServiceGroup!')
+            throw new Error('countBy support ITServiceGroup only!')
         }else if(querys.filter&&querys.filter.it_service){
-            throw new Error('countByITServiceGroup则不能同时设置按it_service过滤!')
+            throw new Error('countByITServiceGroup is conflict with filter by it_service!')
         }
-    }else{
-        if(!querys.countOnly&&!querys.filter){
-            throw new Error('没有指定查询条件!')
-        }
+    }
+    if(!querys.countOnly&&!querys.filter&&!querys.countBy){
+        throw new Error('no query condition!')
     }
 };
 
@@ -112,7 +111,7 @@ var countArticlesAndDiscussionsByWhere = async function(querys){
 
 var countArticlesAndDiscussionsByITServiceKeyword = async function(querys){
     checkQuery(querys)
-    if(querys.filter.it_service){
+    if(querys.filter&&querys.filter.it_service){
         await searchITServicesByKeyword(querys)
     }
     let result = await countArticlesAndDiscussions(querys)
@@ -132,6 +131,7 @@ var countArticlesAndDiscussionsByITServiceGroup = async function(querys,it_servi
         _.each(group.members,(service)=>{
             services.push(service.uuid);
         });
+        querys.filter = querys.filter ||{};
         querys.filter.it_service = {};
         setITServiceValues(querys,services);
         delete querys.countBy;
@@ -147,6 +147,9 @@ var countArticlesAndDiscussionsByITServiceGroups = async function(querys){
     let result,it_service_groups
     checkQuery(querys)
     result = await cmdb_api_helper.getITServiceGroups(querys)
+    if(!result||!_.isArray(result.data)){
+        throw new Error('find it service group from cmdb error!')
+    }
     it_service_groups = result.data
     return await countArticlesAndDiscussionsByITServiceGroup(querys,it_service_groups)
 };
