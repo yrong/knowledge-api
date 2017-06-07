@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="plugin/jquery-2.1.4.min.js"></script>
+    <script>
+        function test () {
+            $('#log').append('开始请求...')
+            $.ajax({
+                url: 'http://localhost:3002/auth/login-ldap',
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                timeout: 5000,
+                data: JSON.stringify({
+                    "username":"test test",
+                    "password":"test"
+                })
+            }).done(function (res) {
+                $('#log').append('请求成功:'　+ JSON.stringify(res))
+            }).fail(function(res) {
+                $('#log').append('请求失败:' + JSON.stringify(res))
+            })
+        }
+    </script>
+</head>
+<body>
+<a href="javascript:void(0)" onclick="test()">测试cors请求</a>
+<div id="log"></div>
+</body>
+</html>
