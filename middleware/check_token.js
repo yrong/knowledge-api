@@ -9,7 +9,7 @@ module.exports = function checktoken(token_check_url,token_name) {
             || req.cookies[token_name]
         let options = {uri:token_check_url,method:'POST',json:true,body:{token:token}}
         rp(options).then((result)=>{
-            _.assign(req,result.data.passport)
+            _.assign(req,result.data)
             next();
         }).catch(error=>{
             res.status(401)
