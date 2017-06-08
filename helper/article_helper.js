@@ -3,7 +3,8 @@ const cmdb_api_helper = require('./cmdb_api_helper');
 const dbHelper = require('../helper/db_helper');
 const {article_table_alias,discussion_table_alias} = dbHelper
 const models = require('../models');
-const logger = require('../logger')
+const logger = require('../logger');
+const jp = require('jsonpath');
 
 var findITServiceItemByID = function(uuid,it_services){
     return _.find(it_services,function(it_service){
@@ -25,11 +26,17 @@ var serviceMapping = function(results,it_services){
     return results;
 };
 
+var containsITService = (filter) => {
+    let services = jp.query(filter,'$..it_service')
+    return services.length>0;
+}
+
+
 var checkQuery = function(querys) {
     if(querys.countBy){
         if(querys.countBy!='ITServiceGroup'){
             throw new Error('countBy support ITServiceGroup only!')
-        }else if(querys.filter&&querys.filter.it_service){
+        }else if(containsITService(querys.filter)){
             throw new Error('countByITServiceGroup is conflict with filter by it_service!')
         }
     }
@@ -39,13 +46,19 @@ var checkQuery = function(querys) {
 };
 
 var getITServiceValues = function(querys) {
-    return _.values(querys.filter.it_service)[0]
+    let services = jp.query(querys.filter,'$..it_service')[0]
+    return _.values(services)[0]
 }
 
 var setITServiceValues = function(querys,result) {
-    let key = _.keys(querys.filter.it_service)[0]||'$overlap'
-    if(_.isArray(result))
-        querys.filter.it_service[key] = result
+    let services = jp.query(querys.filter,'$..it_service')[0]
+    let key = _.keys(services)[0]||'$overlap'
+    let value = {}
+    value[key] = result
+    if(_.isArray(result)){
+        jp.value(querys.filter, `$..it_service`,value)
+    }
+    return querys;
 }
 
 var searchITServicesByKeyword = async function(querys){
@@ -79,7 +92,7 @@ var articlesMappingWithITService = async function(articles){
 
 var articlesSearchByITServiceKeyword = async function(querys) {
     checkQuery(querys)
-    if(querys.filter.it_service){
+    if(containsITService(querys.filter)){
         await searchITServicesByKeyword(querys)
     }
     let articles = await queryArticlesV1AndMappingWithITService(querys)
@@ -111,7 +124,7 @@ var countArticlesAndDiscussionsByWhere = async function(querys){
 
 var countArticlesAndDiscussionsByITServiceKeyword = async function(querys){
     checkQuery(querys)
-    if(querys.filter&&querys.filter.it_service){
+    if(containsITService(querys.filter)){
         await searchITServicesByKeyword(querys)
     }
     let result = await countArticlesAndDiscussions(querys)
