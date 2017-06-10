@@ -48,5 +48,31 @@ module.exports = {
             article.discussion_count = await models['Discussion'].count({where:{article_id:article.uuid}})
         }
         responseSender(req,res,articles)
+    },
+    post_processor: async function(req, res, next) {
+        let obj=req.body,user_id = req.local.userid
+        let created_obj = await models['Article'].create(obj),article_id=created_obj.uuid
+        let history_obj = {article_id,user_id,action:'CREATE',new_data:_.omit(obj,'token')}
+        await models['ArticleHistory'].create(history_obj);
+        responseSender(req,res,{uuid: article_id})
+    },
+    delete_processor: async function(req, res, next) {
+        let user_id = req.local.userid
+        let toDeleteRawObj = await BasicHandler.findOne(req)
+        let toDeleteObj = await BasicHandler.findOne(req,false)
+        await(toDeleteObj.destroy())
+        let history_obj = {article_id:req.params.uuid,user_id,action:'DELETE',original_data:toDeleteRawObj}
+        await models['ArticleHistory'].create(history_obj)
+        responseSender(req,res)
+    },
+    put_processor: async function(req, res, next) {
+        let obj = req.body,user_id = req.local.userid
+        let toUpdateRawObj = await BasicHandler.findOne(req)
+        let toUpdateObj = await BasicHandler.findOne(req,false)
+        await(toUpdateObj.update(obj))
+        let updatedRawObj = await BasicHandler.findOne(req)
+        let history_obj = {article_id:req.params.uuid,user_id,action:'UPDATE',original_data:toUpdateRawObj,update_data:_.omit(obj,'token'),new_data:updatedRawObj}
+        await models['ArticleHistory'].create(history_obj)
+        responseSender(req,res)
     }
 }

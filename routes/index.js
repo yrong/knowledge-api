@@ -4,6 +4,7 @@ var asyncRequestWrapper = require('../helper/asyncRequestWrapper');
 //basic processors
 var basic_handler_processor = require('../handlers/basic_handler')
 var {post_processor,delete_processor,findAll_processor,search_processor,findOne_processor,put_processor} = _.mapValues(basic_handler_processor,(processor)=>asyncRequestWrapper(processor));
+
 //article processors
 var article_processor = require('../handlers/article')
 article_processor = _.mapValues(article_processor,(processor)=>asyncRequestWrapper(processor))
@@ -11,6 +12,10 @@ var article_findOne_processor = article_processor.findOne_processor
     ,article_search_processor = article_processor.search_processor
     ,article_findAll_processor = article_processor.findAll_processor
     ,tag_processor = article_processor.tag_processor
+    ,article_post_processor = article_processor.post_processor
+    ,article_put_processor = article_processor.put_processor
+    ,article_delete_processor = article_processor.delete_processor
+
 //article score processors
 var article_score_processor = require('../handlers/article_score');
 var {score_processor,aggregate_processor} = _.mapValues(article_score_processor,(processor)=>asyncRequestWrapper(processor));
@@ -21,13 +26,13 @@ var responseSender = require('../helper/responseSender');
 
 var route_article = (app) => {
     let article_base_url = `${base_route}/articles`
-    app.post(`${article_base_url}`,post_processor);
-    app.delete(`${article_base_url}/:uuid`,delete_processor);
+    app.post(`${article_base_url}`,article_post_processor);
+    app.delete(`${article_base_url}/:uuid`,article_delete_processor);
     app.get(`${article_base_url}`,article_findAll_processor);
     app.get(`${article_base_url}/tag`,tag_processor);
     app.get(`${article_base_url}/:uuid`,article_findOne_processor);
-    app.put(`${article_base_url}/:uuid`,put_processor);
-    app.patch(`${article_base_url}/:uuid`,put_processor);
+    app.put(`${article_base_url}/:uuid`,article_put_processor);
+    app.patch(`${article_base_url}/:uuid`,article_put_processor);
     app.all(`${article_base_url}/search`,article_search_processor);
     app.post(`${article_base_url}/:uuid/score`,score_processor);
     app.get(`${article_base_url}/:uuid/score/aggregate`,aggregate_processor);
