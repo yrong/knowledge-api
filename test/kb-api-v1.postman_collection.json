@@ -28,20 +28,55 @@
 		"99bd6f76-c288-2102-638c-1e7d1a295fab",
 		"f19af5aa-0c8b-a636-e85a-288fd61cfaac",
 		"1ee8d5a2-cd83-435f-1624-ae41c7ee987d",
-		"aff89b37-5329-0de1-822c-f800e6f39720",
 		"a97ba26c-187c-d4fa-d73c-5f3f9a774993",
 		"153abf41-fd36-419e-b98b-f4fad21e1b8e",
 		"19c85a89-27b2-b0c2-22a3-906011df324a",
 		"636a6414-b7d9-07ae-4947-fcd25581f476",
 		"748f6be1-959f-e8b4-4761-f3ee359c4632",
 		"6a6c355c-3cd7-79f9-8f2e-35422d8bb370",
-		"36e908ba-3eac-cb89-4890-13b62424012a"
+		"36e908ba-3eac-cb89-4890-13b62424012a",
+		"d29ffa11-3d4c-f02e-29b1-c647a0f62622",
+		"00737e35-a963-2fb2-7cd9-4b60c4ac88a1"
 	],
 	"folders": [],
 	"timestamp": 0,
 	"owner": "1388965",
 	"public": false,
 	"requests": [
+		{
+			"id": "00737e35-a963-2fb2-7cd9-4b60c4ac88a1",
+			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/v1/articles/search",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"1 article and 2 discussions found\"] = (jsonData.data.articlesCount === 1 && jsonData.data.discussionsCount === 2)",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497081848716,
+			"name": "count articles and discussions by keyword author",
+			"description": "",
+			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
+			"rawModeData": "\n{\n\t\"toke\":\"{{token}}\",\n  \"filter\":\n  {\n    \"author\": \"随机\"\n  },\n  \"countOnly\":true\n}\n"
+		},
 		{
 			"folder": null,
 			"id": "0d00e17e-f736-e91b-04a1-a7ed0ae78d28",
@@ -87,48 +122,72 @@
 			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"article_id\":\"{{article_1_id}}\",\n    \"type\":\"reply\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
 		},
 		{
-			"folder": null,
 			"id": "153abf41-fd36-419e-b98b-f4fad21e1b8e",
-			"name": "search articles  by filter with empty fields",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "{{url}}/v1/articles/search",
+			"queryParams": [],
 			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"queryParams": null,
-			"headerData": null,
-			"pathVariableData": null,
+			"time": 1497077177488,
+			"name": "search articles  by filter with empty fields",
+			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"type\": \"\",\n    \"it_service\":{\"$overlap\":[]},\n     \"$or\": [{ \"tag\":{\"$overlap\":[\"\"]}},{\"keyword\":{\"$fulltext\":\"\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+			"rawModeData": "\n{\n\t\"token\":\"{{token}}\",\n  \"filter\":\n  {\n   \"type\": \"\",\n    \"it_service\":{\"$overlap\":[\"\"]},\n     \"$or\": [{ \"tag\":{\"$overlap\":[\"\"]}},{\"keyword\":{\"$fulltext\":\"\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
 		},
 		{
-			"folder": null,
 			"id": "19c85a89-27b2-b0c2-22a3-906011df324a",
-			"name": "search count of articles and discussions by it service keyword",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "{{url}}/v1/articles/search",
+			"queryParams": [],
 			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"1 article and 2 discussions found\"] = (jsonData.data.articlesCount === 1 && jsonData.data.discussionsCount === 2)",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"queryParams": null,
-			"headerData": null,
-			"pathVariableData": null,
+			"time": 1496995989158,
+			"name": "count articles and discussions by keyword",
+			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "\n{\n  \"filter\":\n  {\n    \"type\": \"Troubleshooting\",\n  \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n  \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"countOnly\":true\n}\n"
+			"rawModeData": "\n{\n\t\"toke\":\"{{token}}\",\n  \"filter\":\n  {\n    \"type\": \"Troubleshooting\",\n  \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n  \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"countOnly\":true\n}\n"
 		},
 		{
 			"folder": null,
@@ -287,20 +346,36 @@
 		{
 			"id": "636a6414-b7d9-07ae-4947-fcd25581f476",
 			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "{{url}}/v1/articles/search",
+			"queryParams": [],
 			"preRequestScript": "",
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
 			"tests": "var jsonData = JSON.parse(responseBody);\n\njsonData.data.forEach(function(result){\n    if(result.name==='Infrastructure'){\n        tests[\"Infrastructure group has no article and discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 0)\n    }\n    if(result.name==='Messaging'){\n        tests[\"Messaging group has 1 article and 2 discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 2)\n    }\n})",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1492953929386,
+			"time": 1496805845415,
 			"name": " count articles and discussions by it service group and filter by keyword",
 			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "\n{\n  \"filter\":\n  {\n    \"type\": \"Troubleshooting\",\n  \"$or\": [{ \"tag\":{\"$overlap\":[\"测试\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"countBy\":\"ITServiceGroup\"\n}\n"
+			"rawModeData": "\n{\n  \"filter\":{},\n  \"countBy\":\"ITServiceGroup\"\n}\n"
 		},
 		{
 			"folder": null,
@@ -404,47 +479,72 @@
 			"rawModeData": "{\n\t  \"token\":\"{{token}}\",\n    \"title\": \"煤气费\",\n    \"it_service\": [\"{{service_dns_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"}\n }\n\n"
 		},
 		{
-			"folder": null,
 			"id": "7a87ef11-70be-a33c-0803-6a138139a068",
-			"name": "add article 1_1",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "{{url}}/v1/articles",
+			"queryParams": [],
 			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_1_id\", jsonData.data.uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"queryParams": null,
-			"headerData": null,
-			"pathVariableData": null,
+			"time": 1496881196103,
+			"name": "add article 1_1",
+			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": {{service_uuids}},\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
-			"folder": null,
 			"id": "867afdbf-715a-99e0-841a-369824a436b7",
-			"name": "get article 2",
-			"dataMode": "params",
-			"data": [],
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Cookie: token={{token}}\n",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "{{url}}/v1/articles/{{article_2_id}}",
+			"headerData": [
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/v1/articles/{{article_2_id}}?token={{token}}",
+			"queryParams": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
 			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article found\"] = jsonData.data.uuid === environment['article_2_id']",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"queryParams": null,
-			"headerData": null,
-			"pathVariableData": null,
+			"time": 1496719209374,
+			"name": "get article 2",
+			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8"
 		},
 		{
@@ -509,87 +609,104 @@
 			"rawModeData": "\n{\n  \"filter\":\n  {\n    \"$or\":[{\"type\": \"topic\"},{\"keyword\":{\"$fulltext\":\"测试\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
 		},
 		{
-			"folder": null,
 			"id": "a97ba26c-187c-d4fa-d73c-5f3f9a774993",
+			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/v1/articles/search",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497081610719,
 			"name": "search articles  by filter with name of ITService",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": null,
 			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "{{url}}/v1/articles/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"queryParams": null,
-			"headerData": null,
-			"pathVariableData": null,
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"type\": \"\",\n   \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n    \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
-		},
-		{
-			"folder": null,
-			"id": "aff89b37-5329-0de1-822c-f800e6f39720",
-			"name": "search articles  by filter with  ITServiceGroup Messaging",
-			"dataMode": "raw",
-			"data": [],
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "{{url}}/v1/articles/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"queryParams": null,
-			"headerData": null,
-			"pathVariableData": null,
-			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"type\": \"\",\n    \"it_service\":{\"$overlap\":[\"Messaging\"]},\n     \"$or\": [{ \"tag\":{\"$overlap\":[\"测试\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"type\": \"\",\n     \"$or\": [{\"it_service\":{\"$overlap\":[\"Messaging\"]}},{ \"tag\":{\"$overlap\":[\"测试\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n"
 		},
 		{
 			"id": "be184ef9-c130-8aff-c119-33b13eaceedf",
 			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "{{auth_url}}/auth/login",
+			"queryParams": [],
 			"preRequestScript": "",
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"token found\"] = jsonData.data.token;\npostman.setEnvironmentVariable(\"token\", jsonData.data.token);\n",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1492914460211,
+			"time": 1496805374434,
 			"name": "login",
 			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "{\n  \"username\":\"nerds\",\n  \"password\":\"nerds\"\n}"
+			"rawModeData": "{\n  \"username\":\"admin\",\n  \"password\":\"admin\"\n}"
 		},
 		{
-			"folder": null,
 			"id": "bfecf9ff-cac9-dd8d-9489-a2b2523b49cd",
-			"name": "get all articles",
-			"dataMode": "params",
-			"data": [],
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Cookie: token={{token}}\n",
-			"method": "GET",
-			"pathVariables": {},
+			"headers": "Cookie: token={{token}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "{{url}}/v1/articles",
+			"queryParams": [],
 			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article found\"] = jsonData.data.count >= 1",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"queryParams": null,
-			"headerData": null,
-			"pathVariableData": null,
+			"time": 1497076829765,
+			"name": "get all articles",
+			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8"
 		},
 		{
@@ -657,6 +774,40 @@
 			"pathVariableData": null,
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
 			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+		},
+		{
+			"id": "d29ffa11-3d4c-f02e-29b1-c647a0f62622",
+			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/v1/articles/search",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.length >= 1",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497081705149,
+			"name": "search articles  by filter with author",
+			"description": "",
+			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
+			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"author\": \"随机\"\n  },\n  \"page\":1,\n  \"per_page\":1,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n"
 		},
 		{
 			"folder": null,
