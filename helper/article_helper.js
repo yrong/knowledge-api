@@ -76,8 +76,8 @@ var constructWherePart = function(querys){
 
 var queryArticlesV1AndMappingWithITService = async function(querys){
     let condition = dbHelper.buildQueryCondition(querys)
-    let articles  = await models['Article'].findAll(condition)
-    articles = await articlesMappingWithITService(articles)
+    let articles  = await models['Article'].findAndCountAll(condition)
+    articles.rows = await articlesMappingWithITService(articles.rows)
     return articles
 };
 
