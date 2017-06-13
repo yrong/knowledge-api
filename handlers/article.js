@@ -75,11 +75,20 @@ module.exports = {
         await models['ArticleHistory'].create(history_obj)
         responseSender(req,res)
     },
-    timeline_processor: async function(req,res,next) {
-        let query = {filter:{article_id: req.params.article_id}}
-        query = dbHelper.buildQueryCondition(query)
+    timeline_search_processor: async function(req, res, next) {
+        query = dbHelper.buildQueryCondition(req.body)
         let results = await models['ArticleHistory'].findAll(query)
         results = await articleHelper.articlesMappingWithITService(results)
         responseSender(req,res,results)
+    },
+    timeline_update_processor: async function(req,res,next) {
+        let obj = req.body
+        let toUpdateObj = await models['ArticleHistory'].findOne({
+            where: {
+                uuid: req.params.uuid
+            }
+        })
+        await(toUpdateObj.update(obj))
+        responseSender(req,res)
     }
 }

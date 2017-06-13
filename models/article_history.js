@@ -7,7 +7,8 @@ module.exports = function (sequelize, DataTypes) {
             action:{type: DataTypes.STRING, allowNull: false},
             old:{type: DataTypes.JSONB},
             new:{type: DataTypes.JSONB},
-            update:{type: DataTypes.JSONB}
+            update:{type: DataTypes.JSONB},
+            status:{type: DataTypes.INTEGER,allowNull: false,defaultValue:0}
         });
     return ArticleHistory;
 };

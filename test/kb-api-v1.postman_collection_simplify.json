@@ -2,9 +2,9 @@
   {
     "name": "count articles and discussions by keyword author",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles/search",
+    "url": "{{url}}/v1/articles/search",
     "body": {
-      "toke": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "toke": "{{token}}",
       "filter": {
         "author": "随机"
       },
@@ -14,15 +14,15 @@
   {
     "name": "search topic and related replies  by topic id",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "url": "{{url}}/v1/discussions/search",
     "body": {
       "filter": {
         "$or": [
           {
-            "uuid": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
+            "uuid": "{{discussion_1_id}}"
           },
           {
-            "reply_id": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
+            "reply_id": "{{discussion_1_id}}"
           }
         ]
       },
@@ -35,10 +35,10 @@
   {
     "name": "search replies by article id",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "url": "{{url}}/v1/discussions/search",
     "body": {
       "filter": {
-        "article_id": "9a3678f0-0204-47a8-b59f-e0249cbf5d32",
+        "article_id": "{{article_1_id}}",
         "type": "reply"
       },
       "page": 1,
@@ -50,9 +50,9 @@
   {
     "name": "search articles  by filter with empty fields",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles/search",
+    "url": "{{url}}/v1/articles/search",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "token": "{{token}}",
       "filter": {
         "type": "",
         "it_service": {
@@ -84,9 +84,9 @@
   {
     "name": "count articles and discussions by keyword",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles/search",
+    "url": "{{url}}/v1/articles/search",
     "body": {
-      "toke": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "toke": "{{token}}",
       "filter": {
         "type": "Troubleshooting",
         "it_service": {
@@ -116,7 +116,7 @@
   {
     "name": "search articles  by filter with name of ITServiceGroup",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles/search",
+    "url": "{{url}}/v1/articles/search",
     "body": {
       "filter": {
         "type": "",
@@ -147,25 +147,40 @@
     }
   },
   {
+    "name": "article timeline search by status",
+    "method": "POST",
+    "url": "{{url}}/v1/articles/history/timeline",
+    "body": {
+      "toke": "{{token}}",
+      "filter": {
+        "status": 0
+      }
+    }
+  },
+  {
     "name": "delete articles",
     "method": "DELETE",
-    "url": "http://localhost:3000/KB/API/v1/synergy",
+    "url": "{{url}}/v1/synergy",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI"
+      "token": "{{token}}"
     }
   },
   {
     "name": "aggregate article 2",
     "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02/score/aggregate"
+    "url": "{{url}}/v1/articles/{{article_2_id}}/score/aggregate",
+    "body": {
+      "token": "{{token}}",
+      "score": 5
+    }
   },
   {
     "name": "reply topic 1",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions",
+    "url": "{{url}}/v1/discussions",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
-      "article_id": "9a3678f0-0204-47a8-b59f-e0249cbf5d32",
+      "token": "{{token}}",
+      "article_id": "{{article_1_id}}",
       "from": "li_si",
       "to": [
         "zhang_san",
@@ -173,16 +188,16 @@
       ],
       "content": "测试内容水电费释放",
       "type": "reply",
-      "reply_id": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
+      "reply_id": "{{discussion_1_id}}"
     }
   },
   {
     "name": "search replies by topic id",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "url": "{{url}}/v1/discussions/search",
     "body": {
       "filter": {
-        "reply_id": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
+        "reply_id": "{{discussion_1_id}}"
       },
       "page": 1,
       "per_page": 2,
@@ -193,18 +208,18 @@
   {
     "name": "delete article 1_1",
     "method": "DELETE",
-    "url": "http://localhost:3000/KB/API/v1/articles/c0377091-fa7d-4216-a1a3-a5c0d808360a",
+    "url": "{{url}}/v1/articles/{{article_1_1_id}}",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI"
+      "token": "{{token}}"
     }
   },
   {
     "name": "search topics and replies  by article id ",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "url": "{{url}}/v1/discussions/search",
     "body": {
       "filter": {
-        "article_id": "9a3678f0-0204-47a8-b59f-e0249cbf5d32"
+        "article_id": "{{article_1_id}}"
       },
       "page": 1,
       "per_page": 2,
@@ -215,7 +230,7 @@
   {
     "name": " count articles and discussions by it service group and filter by keyword",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles/search",
+    "url": "{{url}}/v1/articles/search",
     "body": {
       "filter": {},
       "countBy": "ITServiceGroup"
@@ -224,19 +239,19 @@
   {
     "name": "score article 2",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02/score",
+    "url": "{{url}}/v1/articles/{{article_2_id}}/score",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "token": "{{token}}",
       "score": 5
     }
   },
   {
     "name": "add topic 1",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions",
+    "url": "{{url}}/v1/discussions",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
-      "article_id": "9a3678f0-0204-47a8-b59f-e0249cbf5d32",
+      "token": "{{token}}",
+      "article_id": "{{article_1_id}}",
       "from": "zhang_san",
       "to": [
         "li_si",
@@ -249,22 +264,22 @@
   {
     "name": "query it service group from cmdb-api",
     "method": "GET",
-    "url": "http://localhost:3001/api/it_services/group/"
+    "url": "{{cmdb_url}}/it_services/group/"
   },
   {
     "name": "get all tags",
     "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/articles/tag"
+    "url": "{{url}}/v1/articles/tag"
   },
   {
     "name": "add article 2 with token in cookie",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles",
+    "url": "{{url}}/v1/articles",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "token": "{{token}}",
       "title": "煤气费",
       "it_service": [
-        "69979820-4e8c-11e7-99ba-f58a828fd519"
+        "{{service_dns_uuid}}"
       ],
       "tag": [
         "测试",
@@ -287,9 +302,9 @@
   {
     "name": "add article 1_1",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles",
+    "url": "{{url}}/v1/articles",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "token": "{{token}}",
       "title": "水电费",
       "it_service": [
         "b1844cb0-4bde-11e7-84a3-c1203c9549ce"
@@ -313,21 +328,27 @@
     }
   },
   {
-    "name": "article timeline",
-    "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02/timeline"
+    "name": "article timeline search by article_id",
+    "method": "POST",
+    "url": "{{url}}/v1/articles/history/timeline",
+    "body": {
+      "toke": "{{token}}",
+      "filter": {
+        "article_id": "{{article_2_id}}"
+      }
+    }
   },
   {
     "name": "get article 2",
     "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI"
+    "url": "{{url}}/v1/articles/{{article_2_id}}?token={{token}}"
   },
   {
     "name": "patch article 2",
     "method": "PUT",
-    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02",
+    "url": "{{url}}/v1/articles/{{article_2_id}}",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "token": "{{token}}",
       "title": "煤气费",
       "author": "张三"
     }
@@ -335,12 +356,12 @@
   {
     "name": "query it service from cmdb-api",
     "method": "GET",
-    "url": "http://localhost:3001/api/it_services/service/"
+    "url": "{{cmdb_url}}/it_services/service/"
   },
   {
     "name": "search discussions  by keyword or topic",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "url": "{{url}}/v1/discussions/search",
     "body": {
       "filter": {
         "$or": [
@@ -363,7 +384,7 @@
   {
     "name": "search articles  by filter with name of ITService",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles/search",
+    "url": "{{url}}/v1/articles/search",
     "body": {
       "filter": {
         "type": "",
@@ -398,7 +419,7 @@
   {
     "name": "login",
     "method": "POST",
-    "url": "http://localhost:3002/auth/login",
+    "url": "{{auth_url}}/auth/login",
     "body": {
       "username": "admin",
       "password": "admin"
@@ -407,31 +428,40 @@
   {
     "name": "get all articles",
     "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/articles"
+    "url": "{{url}}/v1/articles"
   },
   {
     "name": "patch article 2",
     "method": "PATCH",
-    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02",
+    "url": "{{url}}/v1/articles/{{article_2_id}}",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "token": "{{token}}",
       "title": "停车费"
     }
   },
   {
     "name": "get all discussions ",
     "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/discussions"
+    "url": "{{url}}/v1/discussions"
+  },
+  {
+    "name": "article timeline update status",
+    "method": "PUT",
+    "url": "{{url}}/v1/articles/history/timeline/{{article_timeline_uuid}}",
+    "body": {
+      "toke": "{{token}}",
+      "status": 1
+    }
   },
   {
     "name": "add article 1",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles",
+    "url": "{{url}}/v1/articles",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "token": "{{token}}",
       "title": "水电费",
       "it_service": [
-        "687deac0-4e8c-11e7-99ba-f58a828fd519"
+        "{{service_email_uuid}}"
       ],
       "tag": [
         "测试",
@@ -454,7 +484,7 @@
   {
     "name": "search articles  by filter with author",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles/search",
+    "url": "{{url}}/v1/articles/search",
     "body": {
       "filter": {
         "author": "随机"
@@ -468,15 +498,15 @@
   {
     "name": "get topic 1",
     "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/discussions/6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
+    "url": "{{url}}/v1/discussions/{{discussion_1_id}}"
   },
   {
     "name": "search reply by topic id",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "url": "{{url}}/v1/discussions/search",
     "body": {
       "filter": {
-        "uuid": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
+        "uuid": "{{discussion_1_id}}"
       },
       "page": 1,
       "per_page": 2,
@@ -487,7 +517,7 @@
   {
     "name": "search discussions  by topic",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "url": "{{url}}/v1/discussions/search",
     "body": {
       "filter": {
         "type": "topic"
@@ -501,7 +531,7 @@
   {
     "name": "search discussions  by keyword and topic",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/discussions/search",
+    "url": "{{url}}/v1/discussions/search",
     "body": {
       "filter": {
         "type": "topic",

@@ -5,9 +5,13 @@ var asyncRequestWrapper = require('../helper/asyncRequestWrapper');
 var basic_handler_processor = require('../handlers/basic_handler')
 var {post_processor,delete_processor,findAll_processor,search_processor,findOne_processor,put_processor} = _.mapValues(basic_handler_processor,(processor)=>asyncRequestWrapper(processor));
 
-//article processors
+
 var article_processor = require('../handlers/article')
 article_processor = _.mapValues(article_processor,(processor)=>asyncRequestWrapper(processor))
+
+/**
+ * article processors
+ */
 var article_findOne_processor = article_processor.findOne_processor
     ,article_search_processor = article_processor.search_processor
     ,article_findAll_processor = article_processor.findAll_processor
@@ -15,9 +19,16 @@ var article_findOne_processor = article_processor.findOne_processor
     ,article_post_processor = article_processor.post_processor
     ,article_put_processor = article_processor.put_processor
     ,article_delete_processor = article_processor.delete_processor
-    ,timeline_processor = article_processor.timeline_processor
 
-//article score processors
+/**
+ * article timeline processors
+ */
+var article_timeline_search_processor = article_processor.timeline_search_processor
+    ,article_timeline_update_processor = article_processor.timeline_update_processor
+
+/**
+ * article score processors
+ */
 var article_score_processor = require('../handlers/article_score');
 var {score_processor,aggregate_processor} = _.mapValues(article_score_processor,(processor)=>asyncRequestWrapper(processor));
 
@@ -37,7 +48,8 @@ var route_article = (app) => {
     app.all(`${article_base_url}/search`,article_search_processor);
     app.post(`${article_base_url}/:uuid/score`,score_processor);
     app.get(`${article_base_url}/:uuid/score/aggregate`,aggregate_processor);
-    app.get(`${article_base_url}/:article_id/timeline`,timeline_processor);
+    app.post(`${article_base_url}/history/timeline`,article_timeline_search_processor);
+    app.put(`${article_base_url}/history/timeline/:uuid`,article_timeline_update_processor);
 };
 
 var route_discussion = (app) => {
