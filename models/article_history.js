@@ -5,9 +5,9 @@ module.exports = function (sequelize, DataTypes) {
             article_id:{type: DataTypes.UUID, allowNull: false},
             user_id:{type: DataTypes.INTEGER,allowNull: false},
             action:{type: DataTypes.STRING, allowNull: false},
-            original_data:{type: DataTypes.JSONB},
-            new_data:{type: DataTypes.JSONB},
-            update_data:{type: DataTypes.JSONB}
+            old:{type: DataTypes.JSONB},
+            new:{type: DataTypes.JSONB},
+            update:{type: DataTypes.JSONB}
         });
     return ArticleHistory;
 };

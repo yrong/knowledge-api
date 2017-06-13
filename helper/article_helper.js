@@ -12,19 +12,27 @@ var findITServiceItemByID = function(uuid,it_services){
     })
 };
 
-var serviceMapping = function(results,it_services){
-    results = _.map(results,function(result){
-        if(result.it_service){
-            var it_services_items = [];
-            _.each(result.it_service,function(uuid){
-                it_services_items.push(findITServiceItemByID(uuid,it_services));
-            });
-            result.it_service = it_services_items;
-        }
-        return result;
+var articlesMapping = function(articles,it_services){
+    articles = _.map(articles,function(article){
+        articleMapping(article,it_services)
+        articleMapping(article.old,it_services)
+        articleMapping(article.new,it_services)
+        articleMapping(article.update,it_services)
+        return article;
     })
-    return results;
+    return articles;
 };
+
+var articleMapping = function(article,it_services) {
+    if(article&&article.it_service){
+        let it_services_items = []
+        _.each(article.it_service,function(it_service_uuid){
+            it_services_items.push(findITServiceItemByID(it_service_uuid,it_services));
+        });
+        article.it_service = it_services_items;
+    }
+    return article
+}
 
 var containsITService = (filter) => {
     let services = jp.query(filter,'$..it_service')
@@ -82,10 +90,21 @@ var queryArticlesV1AndMappingWithITService = async function(querys){
 };
 
 var articlesMappingWithITService = async function(articles){
-    let it_service_uuids = _.uniq(_.map(articles,(article)=>{return article.it_service}))
+    let it_service_uuids  = [],result
+    _.each(articles,(article)=>{
+        if(article.it_service)
+            it_service_uuids = it_service_uuids.concat(article.it_service)
+        if(article.old&&article.old.it_service)
+            it_service_uuids = it_service_uuids.concat(article.old.it_service)
+        if(article.new&&article.new.it_service)
+            it_service_uuids = it_service_uuids.concat(article.new.it_service)
+        if(article.update&&article.update.it_service)
+            it_service_uuids = it_service_uuids.concat(article.update.it_service)
+    })
+    it_service_uuids = _.uniq(it_service_uuids)
     if(it_service_uuids.length){
-        let result = await cmdb_api_helper.getITServices({uuids:it_service_uuids.join()})
-        articles = serviceMapping(articles,result.data)
+        result = await cmdb_api_helper.getITServices({uuids:it_service_uuids.join()})
+        articles = articlesMapping(articles,result.data)
     }
     return articles
 };
@@ -167,8 +186,7 @@ var countArticlesAndDiscussionsByITServiceGroups = async function(querys){
     return await countArticlesAndDiscussionsByITServiceGroup(querys,it_service_groups)
 };
 
-module.exports.articlesMappingWithITService = articlesMappingWithITService;
-module.exports.articlesSearchByITServiceKeyword = articlesSearchByITServiceKeyword;
-module.exports.countArticlesAndDiscussionsByITServiceKeyword = countArticlesAndDiscussionsByITServiceKeyword;
-module.exports.countArticlesAndDiscussionsByITServiceGroups = countArticlesAndDiscussionsByITServiceGroups;
+
+module.exports = {articlesMappingWithITService,articlesSearchByITServiceKeyword,
+    countArticlesAndDiscussionsByITServiceKeyword,countArticlesAndDiscussionsByITServiceGroups}
 

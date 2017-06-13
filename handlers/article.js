@@ -52,7 +52,7 @@ module.exports = {
     post_processor: async function(req, res, next) {
         let obj=req.body,user_id = req.local.userid
         let created_obj = await models['Article'].create(obj),article_id=created_obj.uuid
-        let history_obj = {article_id,user_id,action:'CREATE',new_data:_.omit(obj,'token')}
+        let history_obj = {article_id,user_id,action:'CREATE',new:_.omit(obj,'token')}
         await models['ArticleHistory'].create(history_obj);
         responseSender(req,res,{uuid: article_id})
     },
@@ -61,7 +61,7 @@ module.exports = {
         let toDeleteRawObj = await BasicHandler.findOne(req)
         let toDeleteObj = await BasicHandler.findOne(req,false)
         await(toDeleteObj.destroy())
-        let history_obj = {article_id:req.params.uuid,user_id,action:'DELETE',original_data:toDeleteRawObj}
+        let history_obj = {article_id:req.params.uuid,user_id,action:'DELETE',old:toDeleteRawObj}
         await models['ArticleHistory'].create(history_obj)
         responseSender(req,res)
     },
@@ -71,8 +71,15 @@ module.exports = {
         let toUpdateObj = await BasicHandler.findOne(req,false)
         await(toUpdateObj.update(obj))
         let updatedRawObj = await BasicHandler.findOne(req)
-        let history_obj = {article_id:req.params.uuid,user_id,action:'UPDATE',original_data:toUpdateRawObj,update_data:_.omit(obj,'token'),new_data:updatedRawObj}
+        let history_obj = {article_id:req.params.uuid,user_id,action:'UPDATE',old:toUpdateRawObj,update:_.omit(obj,'token'),new:updatedRawObj}
         await models['ArticleHistory'].create(history_obj)
         responseSender(req,res)
+    },
+    timeline_processor: async function(req,res,next) {
+        let query = {filter:{article_id: req.params.article_id}}
+        query = dbHelper.buildQueryCondition(query)
+        let results = await models['ArticleHistory'].findAll(query)
+        results = await articleHelper.articlesMappingWithITService(results)
+        responseSender(req,res,results)
     }
 }

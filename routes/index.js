@@ -15,6 +15,7 @@ var article_findOne_processor = article_processor.findOne_processor
     ,article_post_processor = article_processor.post_processor
     ,article_put_processor = article_processor.put_processor
     ,article_delete_processor = article_processor.delete_processor
+    ,timeline_processor = article_processor.timeline_processor
 
 //article score processors
 var article_score_processor = require('../handlers/article_score');
@@ -36,6 +37,7 @@ var route_article = (app) => {
     app.all(`${article_base_url}/search`,article_search_processor);
     app.post(`${article_base_url}/:uuid/score`,score_processor);
     app.get(`${article_base_url}/:uuid/score/aggregate`,aggregate_processor);
+    app.get(`${article_base_url}/:article_id/timeline`,timeline_processor);
 };
 
 var route_discussion = (app) => {
