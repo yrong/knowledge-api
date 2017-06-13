@@ -4,7 +4,7 @@
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/articles/search",
     "body": {
-      "toke": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
+      "toke": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
       "filter": {
         "author": "随机"
       },
@@ -19,10 +19,10 @@
       "filter": {
         "$or": [
           {
-            "uuid": "d14fb5b9-6aed-4c95-aeea-248d8c2111ad"
+            "uuid": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
           },
           {
-            "reply_id": "d14fb5b9-6aed-4c95-aeea-248d8c2111ad"
+            "reply_id": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
           }
         ]
       },
@@ -38,7 +38,7 @@
     "url": "http://localhost:3000/KB/API/v1/discussions/search",
     "body": {
       "filter": {
-        "article_id": "26c36825-4405-40f6-bf72-9ef5855f270c",
+        "article_id": "9a3678f0-0204-47a8-b59f-e0249cbf5d32",
         "type": "reply"
       },
       "page": 1,
@@ -52,7 +52,7 @@
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/articles/search",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
       "filter": {
         "type": "",
         "it_service": {
@@ -86,7 +86,7 @@
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/articles/search",
     "body": {
-      "toke": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
+      "toke": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
       "filter": {
         "type": "Troubleshooting",
         "it_service": {
@@ -151,21 +151,21 @@
     "method": "DELETE",
     "url": "http://localhost:3000/KB/API/v1/synergy",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI"
     }
   },
   {
     "name": "aggregate article 2",
     "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/articles/c5e7ae79-de51-440d-9705-13c6e6f5af21/score/aggregate"
+    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02/score/aggregate"
   },
   {
     "name": "reply topic 1",
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/discussions",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
-      "article_id": "26c36825-4405-40f6-bf72-9ef5855f270c",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "article_id": "9a3678f0-0204-47a8-b59f-e0249cbf5d32",
       "from": "li_si",
       "to": [
         "zhang_san",
@@ -173,7 +173,7 @@
       ],
       "content": "测试内容水电费释放",
       "type": "reply",
-      "reply_id": "d14fb5b9-6aed-4c95-aeea-248d8c2111ad"
+      "reply_id": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
     }
   },
   {
@@ -182,7 +182,7 @@
     "url": "http://localhost:3000/KB/API/v1/discussions/search",
     "body": {
       "filter": {
-        "reply_id": "d14fb5b9-6aed-4c95-aeea-248d8c2111ad"
+        "reply_id": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
       },
       "page": 1,
       "per_page": 2,
@@ -193,9 +193,9 @@
   {
     "name": "delete article 1_1",
     "method": "DELETE",
-    "url": "http://localhost:3000/KB/API/v1/articles/5a55394c-0f67-4403-8e14-aa3786051bb6",
+    "url": "http://localhost:3000/KB/API/v1/articles/c0377091-fa7d-4216-a1a3-a5c0d808360a",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI"
     }
   },
   {
@@ -204,7 +204,7 @@
     "url": "http://localhost:3000/KB/API/v1/discussions/search",
     "body": {
       "filter": {
-        "article_id": "26c36825-4405-40f6-bf72-9ef5855f270c"
+        "article_id": "9a3678f0-0204-47a8-b59f-e0249cbf5d32"
       },
       "page": 1,
       "per_page": 2,
@@ -224,9 +224,9 @@
   {
     "name": "score article 2",
     "method": "POST",
-    "url": "http://localhost:3000/KB/API/v1/articles/c5e7ae79-de51-440d-9705-13c6e6f5af21/score",
+    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02/score",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
       "score": 5
     }
   },
@@ -235,8 +235,8 @@
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/discussions",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
-      "article_id": "26c36825-4405-40f6-bf72-9ef5855f270c",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
+      "article_id": "9a3678f0-0204-47a8-b59f-e0249cbf5d32",
       "from": "zhang_san",
       "to": [
         "li_si",
@@ -261,10 +261,10 @@
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/articles",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
       "title": "煤气费",
       "it_service": [
-        "edbe7890-435a-11e7-b003-9b56a61a678b"
+        "69979820-4e8c-11e7-99ba-f58a828fd519"
       ],
       "tag": [
         "测试",
@@ -289,7 +289,7 @@
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/articles",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
       "title": "水电费",
       "it_service": [
         "b1844cb0-4bde-11e7-84a3-c1203c9549ce"
@@ -313,33 +313,23 @@
     }
   },
   {
-    "name": "get article 2",
+    "name": "article timeline",
     "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/articles/c5e7ae79-de51-440d-9705-13c6e6f5af21?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s"
+    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02/timeline"
   },
   {
-    "name": "modify article 2",
+    "name": "get article 2",
+    "method": "GET",
+    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI"
+  },
+  {
+    "name": "patch article 2",
     "method": "PUT",
-    "url": "http://localhost:3000/KB/API/v1/articles/c5e7ae79-de51-440d-9705-13c6e6f5af21",
+    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
       "title": "煤气费",
-      "tag": [
-        "测试",
-        "随机"
-      ],
-      "author": "随机",
-      "ref_links": [
-        "https://www.baidu.com"
-      ],
-      "tasks": "测试插入",
-      "type": "Troubleshooting",
-      "content": {
-        "description": "煤气费",
-        "analysis": "煤气费",
-        "solution": "前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了",
-        "workaround": "煤气费"
-      }
+      "author": "张三"
     }
   },
   {
@@ -422,9 +412,9 @@
   {
     "name": "patch article 2",
     "method": "PATCH",
-    "url": "http://localhost:3000/KB/API/v1/articles/c5e7ae79-de51-440d-9705-13c6e6f5af21",
+    "url": "http://localhost:3000/KB/API/v1/articles/3ad888a9-c204-44cd-b6f4-c267496a8c02",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
       "title": "停车费"
     }
   },
@@ -438,10 +428,10 @@
     "method": "POST",
     "url": "http://localhost:3000/KB/API/v1/articles",
     "body": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YmY0MzZlZi05Nzg2LTRlMTgtYmJhNy04Nzg3ZDU0NDNmODAiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcwODAwOTh9.vvjqlJ4Tpd5GpDmeHN8KiyLw5wisb0kU1E1iEzxPo6s",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MGZlNDNmYi03NGM2LTRmNjUtODdiNS1hZWQ5MWMyZTViMmMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTcyNjk0MTB9.zmraZwYDBm_B7By3Rc8h-5lpCqkQyQGN43DMuTWHFMI",
       "title": "水电费",
       "it_service": [
-        "dfbef1c0-435a-11e7-b003-9b56a61a678b"
+        "687deac0-4e8c-11e7-99ba-f58a828fd519"
       ],
       "tag": [
         "测试",
@@ -478,7 +468,7 @@
   {
     "name": "get topic 1",
     "method": "GET",
-    "url": "http://localhost:3000/KB/API/v1/discussions/d14fb5b9-6aed-4c95-aeea-248d8c2111ad"
+    "url": "http://localhost:3000/KB/API/v1/discussions/6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
   },
   {
     "name": "search reply by topic id",
@@ -486,7 +476,7 @@
     "url": "http://localhost:3000/KB/API/v1/discussions/search",
     "body": {
       "filter": {
-        "uuid": "d14fb5b9-6aed-4c95-aeea-248d8c2111ad"
+        "uuid": "6ccd6b54-b37a-4bcc-85b2-0283eecc4799"
       },
       "page": 1,
       "per_page": 2,
