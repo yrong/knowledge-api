@@ -28,6 +28,17 @@ DROP TRIGGER IF EXISTS article_vector_update on "Articles";
 
 CREATE TRIGGER article_vector_update BEFORE INSERT OR UPDATE ON "Articles" FOR EACH ROW EXECUTE PROCEDURE article_vector_trigger();
 
+
+DO $$ 
+        BEGIN
+            BEGIN
+                ALTER TABLE "Articles" ADD COLUMN "discussion_count" INTEGER DEFAULT 0;                
+            EXCEPTION
+                WHEN duplicate_column THEN RAISE NOTICE 'column "discussion_count" already exists in Articles.';
+            END;
+        END;
+  $$;  
+
 `
 
 
@@ -43,7 +54,8 @@ module.exports = function (sequelize, DataTypes) {
             tasks: {type: DataTypes.TEXT},
             type: {type: DataTypes.ENUM('Free', 'Guide', 'Share', 'Troubleshooting')},
             content: {type: DataTypes.JSONB},
-            migrate:{type: DataTypes.BOOLEAN,defaultValue:false}
+            migrate:{type: DataTypes.BOOLEAN,defaultValue:false},
+            discussion_count:{type:DataTypes.INTEGER,defaultValue:0}
         });
     Article.initsql = initSql;
     return Article;

@@ -33,6 +33,19 @@
     }
   },
   {
+    "name": "search articles  order by discussion_count",
+    "method": "POST",
+    "url": "{{url}}/v1/articles/search",
+    "body": {
+      "token": "{{token}}",
+      "filter": {},
+      "page": 1,
+      "per_page": 2,
+      "sortby": "discussion_count",
+      "order": "desc"
+    }
+  },
+  {
     "name": "search replies by article id",
     "method": "POST",
     "url": "{{url}}/v1/discussions/search",
@@ -151,7 +164,7 @@
     "method": "POST",
     "url": "{{url}}/v1/articles/history/timeline",
     "body": {
-      "toke": "{{token}}",
+      "token": "{{token}}",
       "filter": {
         "status": 0
       }
@@ -214,7 +227,7 @@
     }
   },
   {
-    "name": "search topics and replies  by article id ",
+    "name": "search discussions  by article id",
     "method": "POST",
     "url": "{{url}}/v1/discussions/search",
     "body": {
@@ -332,7 +345,7 @@
     "method": "POST",
     "url": "{{url}}/v1/articles/history/timeline",
     "body": {
-      "toke": "{{token}}",
+      "token": "{{token}}",
       "filter": {
         "article_id": "{{article_2_id}}"
       }
@@ -449,7 +462,7 @@
     "method": "PUT",
     "url": "{{url}}/v1/articles/history/timeline/{{article_timeline_uuid}}",
     "body": {
-      "toke": "{{token}}",
+      "token": "{{token}}",
       "status": 1
     }
   },

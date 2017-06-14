@@ -30,6 +30,7 @@
 		"1ee8d5a2-cd83-435f-1624-ae41c7ee987d",
 		"a97ba26c-187c-d4fa-d73c-5f3f9a774993",
 		"153abf41-fd36-419e-b98b-f4fad21e1b8e",
+		"102def39-c859-356e-c6c7-dafa4ff88955",
 		"19c85a89-27b2-b0c2-22a3-906011df324a",
 		"636a6414-b7d9-07ae-4947-fcd25581f476",
 		"748f6be1-959f-e8b4-4761-f3ee359c4632",
@@ -103,6 +104,40 @@
 			"rawModeData": "\n{\n  \"filter\":\n  {\n    \"$or\":[\n   {\"uuid\":\"{{discussion_1_id}}\"},\n   {\"reply_id\":\"{{discussion_1_id}}\"}\n    ]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
 		},
 		{
+			"id": "102def39-c859-356e-c6c7-dafa4ff88955",
+			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Cookie",
+					"value": "token={{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{url}}/v1/articles/search",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497411670951,
+			"name": "search articles  order by discussion_count",
+			"description": "",
+			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":{},\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"discussion_count\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+		},
+		{
 			"folder": null,
 			"id": "130152ec-8f70-6105-7341-36f0b4d9636b",
 			"name": "search replies by article id",
@@ -152,7 +187,7 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1497269497055,
+			"time": 1497411096604,
 			"name": "search articles  by filter with empty fields",
 			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
@@ -228,17 +263,11 @@
 		},
 		{
 			"id": "2b3d764e-8bb0-96bb-39de-e944c45b054b",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headers": "Content-Type: application/json\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
 					"value": "application/json",
-					"description": "",
-					"enabled": true
-				},
-				{
-					"key": "Cookie",
-					"value": "token={{token}}",
 					"description": "",
 					"enabled": true
 				}
@@ -254,11 +283,11 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.length >= 1)\npostman.setEnvironmentVariable(\"article_timeline_uuid\", jsonData.data[0].uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1497346063338,
+			"time": 1497411377985,
 			"name": "article timeline search by status",
 			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "\n{\n  \"toke\":\"{{token}}\",\n  \"filter\":\n  {\n    \"status\": 0\n  }\n}\n"
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"status\": 0\n  }\n}\n"
 		},
 		{
 			"folder": null,
@@ -373,7 +402,7 @@
 		{
 			"folder": null,
 			"id": "52d59786-85bd-abd2-4dbd-fa3e3697bdc4",
-			"name": "search topics and replies  by article id ",
+			"name": "search discussions  by article id",
 			"dataMode": "raw",
 			"data": [],
 			"descriptionFormat": null,
@@ -574,17 +603,11 @@
 		},
 		{
 			"id": "7e44ec0e-b8c9-e4d1-0f35-ba3392d01127",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headers": "Content-Type: application/json\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
 					"value": "application/json",
-					"description": "",
-					"enabled": true
-				},
-				{
-					"key": "Cookie",
-					"value": "token={{token}}",
 					"description": "",
 					"enabled": true
 				}
@@ -600,11 +623,11 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.length >= 1)",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1497345938323,
+			"time": 1497411366891,
 			"name": "article timeline search by article_id",
 			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "\n{\n\t\"toke\":\"{{token}}\",\n  \"filter\":\n  {\n    \"article_id\": \"{{article_2_id}}\"\n  }\n}\n"
+			"rawModeData": "\n{\n\t\"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"article_id\": \"{{article_2_id}}\"\n  }\n}\n"
 		},
 		{
 			"id": "867afdbf-715a-99e0-841a-369824a436b7",
@@ -784,11 +807,11 @@
 		},
 		{
 			"id": "bfecf9ff-cac9-dd8d-9489-a2b2523b49cd",
-			"headers": "Cookie: token={{token}}\nContent-Type: application/json\n",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
 			"headerData": [
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				},
@@ -810,7 +833,7 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article found\"] = jsonData.data.count >= 1",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1497076829765,
+			"time": 1497406360418,
 			"name": "get all articles",
 			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8"
@@ -861,17 +884,11 @@
 		},
 		{
 			"id": "c9859f6b-545c-b7c7-4af0-c7cf63712eeb",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headers": "Content-Type: application/json\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
 					"value": "application/json",
-					"description": "",
-					"enabled": true
-				},
-				{
-					"key": "Cookie",
-					"value": "token={{token}}",
 					"description": "",
 					"enabled": true
 				}
@@ -887,11 +904,11 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"update timeline status\"] = (jsonData.status === 'ok')",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1497346714226,
+			"time": 1497411391841,
 			"name": "article timeline update status",
 			"description": "",
 			"collectionId": "122ec0d1-b570-885b-4ae8-7c394c036ff8",
-			"rawModeData": "\n{\n  \"toke\":\"{{token}}\",\n  \"status\": 1\n}\n"
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"status\": 1\n}\n"
 		},
 		{
 			"folder": null,

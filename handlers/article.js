@@ -10,7 +10,6 @@ module.exports = {
         let article = await BasicHandler.findOne(req)
         let result = await articleHelper.articlesMappingWithITService([article])
         article = result[0]
-        article.discussion_count = await models['Discussion'].count({where:{article_id:article.uuid}})
         responseSender(req,res,article)
     },
     search_processor: async function(req, res) {
@@ -29,11 +28,6 @@ module.exports = {
         }
         else{
             result = await articleHelper.articlesSearchByITServiceKeyword(querys)
-            if(_.isArray(result)){
-                for(let article of result){
-                    article.discussion_count = await models['Discussion'].count({where:{article_id:article.uuid}})
-                }
-            }
         }
         responseSender(req,res,result)
     },
@@ -44,9 +38,6 @@ module.exports = {
     findAll_processor: async function(req, res) {
         let query = req.method === 'GET'?req.query:req.body;
         let articles = await models['Article'].findAndCountAll(dbHelper.buildQueryCondition(query));
-        for(let article of articles.rows){
-            article.discussion_count = await models['Discussion'].count({where:{article_id:article.uuid}})
-        }
         responseSender(req,res,articles)
     },
     post_processor: async function(req, res, next) {
