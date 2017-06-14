@@ -37,8 +37,15 @@ DO $$
                 WHEN duplicate_column THEN RAISE NOTICE 'column "discussion_count" already exists in Articles.';
             END;
         END;
-  $$;  
-
+  $$; 
+  
+DO $$ 
+        BEGIN   
+            UPDATE "Articles" set discussion_count = article_discussion_count.cnt from 
+            (select article_id,count(*) as cnt from "Discussions" group by article_id) as article_discussion_count         
+            WHERE  "Articles".uuid=article_discussion_count.article_id; 
+        END;
+$$;  
 `
 
 
