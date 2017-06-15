@@ -67,7 +67,7 @@ module.exports = {
         responseSender(req,res)
     },
     timeline_search_processor: async function(req, res, next) {
-        query = dbHelper.buildQueryCondition(req.body)
+        let query = dbHelper.buildQueryCondition(req.body)
         let results = await models['ArticleHistory'].findAll(query)
         results = await articleHelper.articlesMappingWithITService(results)
         responseSender(req,res,results)
