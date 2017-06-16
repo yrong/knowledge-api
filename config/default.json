@@ -1,41 +1,44 @@
 {
-  "config": {
-    "port":3000,
-    "perPageSize":2000,
-    "logger":{
-      "appenders": [
-        {
-          "type": "console"
-        },
-        {
-          "type": "file",
-          "filename": "kb-api.log",
-          "maxLogSize": 20480,
-          "numBackups": 5,
-          "category": "kb-api"
-        }
-      ],
-      "replaceConsole": true,
-      "defaultLevel":"DEBUG",
-      "defaultCategory":"kb-api"
-    },
-    "postgres": {
-      "host": "localhost",
-      "port": 5432,
-      "database": "test",
-      "user": "postgres",
-      "password": "postgres",
-      "max": 50,
-      "idleTimeoutMillis": 3000,
-      "zhparser":"knowledge_zhcfg"
-    },
-    "cmdb":{
-      "base_url":"http://localhost:3001"
-    },
-    "auth":{
-      "base_url":"http://localhost:3002/auth",
-      "token_check_path":"/check",
-      "token_name":"token"
-    }
+  "name": "kb-api",
+  "port":3000,
+  "perPageSize":2000,
+  "logger":{
+    "appenders": [
+      {
+        "type": "console"
+      },
+      {
+        "type": "file",
+        "filename": "kb-api.log",
+        "maxLogSize": 20480,
+        "numBackups": 5
+      }
+    ],
+    "replaceConsole": true,
+    "defaultLevel":"INFO"
+  },
+  "postgres": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "test",
+    "user": "postgres",
+    "password": "postgres",
+    "max": 50,
+    "idleTimeoutMillis": 3000,
+    "zhparser":"knowledge_zhcfg"
+  },
+  "cmdb":{
+    "base_url":"http://localhost:3001"
+  },
+  "auth":{
+    "base_url":"http://localhost:3002",
+    "token_check_path":"/auth/check",
+    "token_name":"token"
+  },
+  "nextcloud":{
+    "host":"http://localhost:8089/FileStore",
+    "adminuser":"admin",
+    "password":"admin",
+    "group":"share"
   }
 }

@@ -3,7 +3,6 @@ const cmdb_api_helper = require('./cmdb_api_helper');
 const dbHelper = require('../helper/db_helper');
 const {article_table_alias,discussion_table_alias} = dbHelper
 const models = require('../models');
-const logger = require('../logger');
 const jp = require('jsonpath');
 
 var findITServiceItemByID = function(uuid,it_services){

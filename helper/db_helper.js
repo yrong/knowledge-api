@@ -1,16 +1,14 @@
 var Pool = require('pg-pool')
 var config = require('config')
-var pg_config=config.get('config.postgres');//pg的连接参数
+var pg_config=config.get('postgres');//pg的连接参数
 var pool = new Pool(pg_config);
 var _ = require('lodash');
-const PageSize = config.get('config.perPageSize');
+const PageSize = config.get('perPageSize');
 var deepEqual = require('deep-equal')
-var logger = require('../logger')
 
 module.exports.pool = pool;
 
 var countBySql = async function(sql){
-    logger.info("countBySql:"+sql)
     let result = await pool.query(sql)
     let count= parseInt(result.rows[0].count)
     return count

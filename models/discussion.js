@@ -1,5 +1,5 @@
 const config = require('config')
-var zhparser=config.get('config.postgres.zhparser')
+var zhparser=config.get('postgres.zhparser')
 
 var initsql = `
 DO $$ 

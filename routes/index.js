@@ -1,79 +1,17 @@
-var _ = require('lodash')
-var asyncRequestWrapper = require('../helper/asyncRequestWrapper');
-
-//basic processors
-var basic_handler_processor = require('../handlers/basic_handler')
-var {post_processor,delete_processor,findAll_processor,search_processor,findOne_processor,put_processor} = _.mapValues(basic_handler_processor,(processor)=>asyncRequestWrapper(processor));
-
-
-var article_processor = require('../handlers/article')
-article_processor = _.mapValues(article_processor,(processor)=>asyncRequestWrapper(processor))
-
-/**
- * article processors
- */
-var article_findOne_processor = article_processor.findOne_processor
-    ,article_search_processor = article_processor.search_processor
-    ,article_findAll_processor = article_processor.findAll_processor
-    ,tag_processor = article_processor.tag_processor
-    ,article_post_processor = article_processor.post_processor
-    ,article_put_processor = article_processor.put_processor
-    ,article_delete_processor = article_processor.delete_processor
-
-/**
- * article timeline processors
- */
-var article_timeline_search_processor = article_processor.timeline_search_processor
-    ,article_timeline_update_processor = article_processor.timeline_update_processor
-
-/**
- * article score processors
- */
-var article_score_processor = require('../handlers/article_score');
-var {score_processor,aggregate_processor} = _.mapValues(article_score_processor,(processor)=>asyncRequestWrapper(processor));
-
+const _ = require('lodash')
+const dbHelper = require('../helper/db_helper');
 const base_route = '/KB/API/v1';
-var dbHelper = require('../helper/db_helper');
-var responseSender = require('../helper/responseSender');
+const Router = require('koa-router')
+const articles = require('./article')
+const discussions = require('./discussion')
+const router = new Router();
+router.use(`${base_route}/articles`,  articles.routes(),articles.allowedMethods())
+router.use(`${base_route}/discussions`,  discussions.routes(),discussions.allowedMethods())
+router.del(`${base_route}/synergy`,async function(ctx) {
+    await(dbHelper.pool.query(`delete from "Articles"`));
+    await(dbHelper.pool.query(`delete from "Discussions"`));
+    await(dbHelper.pool.query(`delete from "ArticleScores"`));
+    ctx.body = {}
+})
 
-var route_article = (app) => {
-    let article_base_url = `${base_route}/articles`
-    app.post(`${article_base_url}`,article_post_processor);
-    app.delete(`${article_base_url}/:uuid`,article_delete_processor);
-    app.get(`${article_base_url}`,article_findAll_processor);
-    app.get(`${article_base_url}/tag`,tag_processor);
-    app.get(`${article_base_url}/:uuid`,article_findOne_processor);
-    app.put(`${article_base_url}/:uuid`,article_put_processor);
-    app.patch(`${article_base_url}/:uuid`,article_put_processor);
-    app.all(`${article_base_url}/search`,article_search_processor);
-    app.post(`${article_base_url}/:uuid/score`,score_processor);
-    app.get(`${article_base_url}/:uuid/score/aggregate`,aggregate_processor);
-    app.post(`${article_base_url}/history/timeline`,article_timeline_search_processor);
-    app.put(`${article_base_url}/history/timeline/:uuid`,article_timeline_update_processor);
-};
-
-var route_discussion = (app) => {
-    let discussion_base_url = `${base_route}/discussions`
-    app.post(`${discussion_base_url}`,post_processor);
-    app.delete(`${discussion_base_url}/:uuid`,delete_processor);
-    app.get(`${discussion_base_url}/:uuid`,findOne_processor);
-    app.all(`${discussion_base_url}`,findAll_processor);
-    app.all(`${discussion_base_url}/search`,search_processor);
-};
-
-var route_deleteAll = (app) => {
-    app.delete(`${base_route}/synergy`,async function(req, res) {
-        await(dbHelper.pool.query(`delete from "Articles"`));
-        await(dbHelper.pool.query(`delete from "Discussions"`));
-        await(dbHelper.pool.query(`delete from "ArticleScores"`));
-        responseSender(req,res)
-    })
-};
-
-module.exports= {
-    route_init:(app) => {
-        route_article(app);
-        route_discussion(app);
-        route_deleteAll(app);
-    }
-};
+module.exports = router

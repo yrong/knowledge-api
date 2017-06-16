@@ -2,8 +2,7 @@
 <html>
 <head>
 
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="plugin/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
         function test () {
             $('#log').append('开始请求...')
@@ -28,5 +27,13 @@
 <body>
 <a href="javascript:void(0)" onclick="test()">测试cors请求</a>
 <div id="log"></div>
+<form
+      id='uploadForm'
+      action='/upload?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0ZmZjMzBlZC1kMzE0LTRhNWEtYmFkYi1hYWYwZWU0N2I5ZjMiLCJ1c2VyIjp7ImlkIjo0MzUsInBhc3N3ZCI6ImFkbWluIiwic3VybmFtZSI6IiIsIm5hbWUiOiJhZG1pbiIsImFsaWFzIjoiYWRtaW4iLCJ0aGVtZSI6ImRlZmF1bHQiLCJ0eXBlIjoxLCJsYW5nIjoiZW5fR0IiLCJjYXRlZ29yeSI6IlVzZXIiLCJhdHRlbXB0X2lwIjoiMTAuNTAuMTMuNjkiLCJ1c2VyaWQiOjIsInV1aWQiOjJ9LCJpYXQiOjE0OTc0NDk0NzF9.Q17RjboZo0zVRgjIN691ymqY_Rs-a-lrz5dl9-ZOGO4'
+      method='post'
+      encType="multipart/form-data">
+    <input type="file" name="file" />
+    <input type='submit' value='Upload!' />
+</form>
 </body>
 </html>
