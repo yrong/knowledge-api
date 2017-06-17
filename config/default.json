@@ -31,14 +31,17 @@
     "base_url":"http://localhost:3001"
   },
   "auth":{
-    "base_url":"http://localhost:3002",
-    "token_check_path":"/auth/check",
-    "token_name":"token"
+    "check_token_url":"http://localhost:3002/auth/check"
   },
-  "nextcloud":{
-    "host":"http://localhost:8089/FileStore",
-    "adminuser":"admin",
-    "password":"admin",
-    "group":"share"
+  "upload": {
+    "attachment": {
+      "url": "/api/upload/nc",
+      "provider": "nc",
+      "folder": "public/upload",
+      "nc_host":"http://localhost:8089/FileStore",
+      "nc_admin_user":"admin",
+      "nc_admin_password":"admin",
+      "nc_public_group":"share"
+    }
   }
 }
