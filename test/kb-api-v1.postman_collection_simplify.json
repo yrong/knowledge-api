@@ -447,7 +447,10 @@
     "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/dd78dfca-1edf-47c6-98b8-7b2073100dcb",
     "body": {
       "token": "{{token}}",
-      "title": "停车费"
+      "title": "停车费",
+      "attachment": [
+        "http://locahost/hello.txt"
+      ]
     }
   },
   {

@@ -45,7 +45,18 @@ DO $$
             (select article_id,count(*) as cnt from "Discussions" group by article_id) as article_discussion_count         
             WHERE  "Articles".uuid=article_discussion_count.article_id; 
         END;
-$$;  
+$$;
+
+DO $$ 
+        BEGIN
+            BEGIN
+                ALTER TABLE "Articles" ADD COLUMN "attachment" text[];                
+            EXCEPTION
+                WHEN duplicate_column THEN RAISE NOTICE 'column "attachment" already exists in Articles.';
+            END;
+        END;
+  $$;   
+  
 `
 
 
@@ -62,7 +73,8 @@ module.exports = function (sequelize, DataTypes) {
             type: {type: DataTypes.ENUM('Free', 'Guide', 'Share', 'Troubleshooting')},
             content: {type: DataTypes.JSONB},
             migrate:{type: DataTypes.BOOLEAN,defaultValue:false},
-            discussion_count:{type:DataTypes.INTEGER,defaultValue:0}
+            discussion_count:{type:DataTypes.INTEGER,defaultValue:0},
+            attachment:{type: DataTypes.ARRAY(DataTypes.TEXT)}
         });
     Article.initsql = initSql;
     return Article;
