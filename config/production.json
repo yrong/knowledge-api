@@ -1,0 +1,12 @@
+{
+  "postgres": {
+    "host": "localhost",
+    "port": 5433,
+    "database": "test",
+    "user": "postgres",
+    "password": "postgres",
+    "max": 50,
+    "idleTimeoutMillis": 3000,
+    "zhparser": "knowledge_zhcfg"
+  }
+}

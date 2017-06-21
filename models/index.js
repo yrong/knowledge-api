@@ -9,6 +9,7 @@ const logger = Log.getLogger()
 const pg_config = config.get('postgres')
 const sequelize = new Sequelize(pg_config.database, pg_config.user, pg_config.password, {
     host: pg_config.host,
+    port: pg_config.port,
     dialect: 'postgres',
     pool: {
         max: pg_config.max,
