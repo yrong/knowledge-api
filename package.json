@@ -7,7 +7,7 @@
     "start-production": "NODE_ENV=production node --harmony ./app.js",
     "test": "mocha",
     "migrate": "node --harmony ./migrate/index.js",
-    "generate_simplified_postman_collection": "postman_simplify ./test/kb-api-v1.postman_collection.json ./test/knowledge.postman_environment.json"
+    "generate_simplified_postman_collection": "postman_simplify ./test/kb-api.postman_collection.json ./test/knowledge.postman_environment.json"
   },
   "dependencies": {
     "config": "^1.25.1",
@@ -20,7 +20,7 @@
     "koa-logger": "^2.0.0",
     "koa-mount": "^2.0.0",
     "koa-passport": "^2.2.2",
-    "koa-response-wrapper": "^1.0.3",
+    "koa-response-wrapper": "^1.0.3-beta.2",
     "koa-router": "^7.0.1",
     "koa-socket": "^4.4.0",
     "koa-static": "^2.1.0",
