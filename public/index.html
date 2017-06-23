@@ -29,9 +29,18 @@
 <div id="log"></div>
 <form
       id='uploadForm'
-      action='/api/upload/nc?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMWM3OGIzYy1mNjczLTRkZGMtYWJlYi04MDRhOWVlMWZhZTEiLCJ1c2VyIjp7ImlkIjo3MTYsInBlcl9wYWdlIjo5MCwiYXZhdGFyIjoiL3VwbG9hZC9hdmF0YXIvY2E5MmQ1NjAtMDVhNi0xMWU3LTk4YmEtZTFkMDhkZjlhMjVmIiwidHlwZSI6MSwiYXR0ZW1wdF9pcCI6IjEwLjUwLjEzLjY5IiwidXNlcmlkIjoxMDAsInV1aWQiOjEwMCwicGFzc3dkIjoiYWRtaW4iLCJzdXJuYW1lIjoiIiwibmFtZSI6ImFkbWluIiwiYWxpYXMiOiJhZG1pbiIsInRoZW1lIjoiZGVmYXVsdCIsImxhbmciOiJlbl9HQiIsImNhdGVnb3J5IjoiVXNlciJ9LCJpYXQiOjE0OTc2NzU3ODZ9.Snku022CtE4enqEOg8cxxDLZo0Q5fjX8h8h691KPNII'
+      action='/api/upload/share?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NTM1ZDU4Zi04NTkxLTQzZjQtYTcwZS1jMmNhMzZlMWMwMzciLCJ1c2VyIjp7ImlkIjo3MTYsInBlcl9wYWdlIjo5MCwiYXZhdGFyIjoiL3VwbG9hZC9hdmF0YXIvY2E5MmQ1NjAtMDVhNi0xMWU3LTk4YmEtZTFkMDhkZjlhMjVmIiwidHlwZSI6MSwiYXR0ZW1wdF9pcCI6IjEwLjUwLjEzLjY5IiwidXNlcmlkIjoxMDAsInV1aWQiOjEwMCwicGFzc3dkIjoiYWRtaW4iLCJzdXJuYW1lIjoiIiwibmFtZSI6ImFkbWluIiwiYWxpYXMiOiJhZG1pbiIsInRoZW1lIjoiZGVmYXVsdCIsImxhbmciOiJlbl9HQiIsImNhdGVnb3J5IjoiVXNlciJ9LCJpYXQiOjE0OTgyMTI3ODB9.Dtj-cCpfvqqE5UT3zJ2XDea3Vc6_m0FARPq2qBCzOH8'
       method='post'
       encType="multipart/form-data">
+    <input type="file" name="file" />
+    <input type='submit' value='Upload!' />
+</form>
+
+<form
+        id='imageUploadForm'
+        action='/api/upload/images?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NTM1ZDU4Zi04NTkxLTQzZjQtYTcwZS1jMmNhMzZlMWMwMzciLCJ1c2VyIjp7ImlkIjo3MTYsInBlcl9wYWdlIjo5MCwiYXZhdGFyIjoiL3VwbG9hZC9hdmF0YXIvY2E5MmQ1NjAtMDVhNi0xMWU3LTk4YmEtZTFkMDhkZjlhMjVmIiwidHlwZSI6MSwiYXR0ZW1wdF9pcCI6IjEwLjUwLjEzLjY5IiwidXNlcmlkIjoxMDAsInV1aWQiOjEwMCwicGFzc3dkIjoiYWRtaW4iLCJzdXJuYW1lIjoiIiwibmFtZSI6ImFkbWluIiwiYWxpYXMiOiJhZG1pbiIsInRoZW1lIjoiZGVmYXVsdCIsImxhbmciOiJlbl9HQiIsImNhdGVnb3J5IjoiVXNlciJ9LCJpYXQiOjE0OTgyMTI3ODB9.Dtj-cCpfvqqE5UT3zJ2XDea3Vc6_m0FARPq2qBCzOH8'
+        method='post'
+        encType="multipart/form-data">
     <input type="file" name="file" />
     <input type='submit' value='Upload!' />
 </form>
