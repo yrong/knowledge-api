@@ -157,18 +157,20 @@ var countArticlesAndDiscussions = async function(querys){
 
 var countArticlesAndDiscussionsByITServiceGroup = async function(querys,it_service_groups){
     var groups = [],services,countInfo
-    for(let group of it_service_groups){
-        services=[];
-        _.each(group.members,(service)=>{
-            services.push(service.uuid);
-        });
-        querys.filter = querys.filter ||{};
-        querys.filter.it_service = {};
-        setITServiceValues(querys,services);
-        delete querys.countBy;
-        countInfo = await countArticlesAndDiscussions(querys)
-        group.count=countInfo;
-        groups.push(group);
+    if(_.isArray(it_service_groups)){
+        for(let group of it_service_groups){
+            services=[];
+            _.each(group.members,(service)=>{
+                services.push(service.uuid);
+            });
+            querys.filter = querys.filter ||{};
+            querys.filter.it_service = {};
+            setITServiceValues(querys,services);
+            delete querys.countBy;
+            countInfo = await countArticlesAndDiscussions(querys)
+            group.count=countInfo;
+            groups.push(group);
+        }
     }
     return groups
 }
@@ -178,7 +180,7 @@ var countArticlesAndDiscussionsByITServiceGroups = async function(querys){
     let result,it_service_groups
     checkQuery(querys)
     result = await cmdb_api_helper.getITServiceGroups(querys)
-    if(!result||!_.isArray(result.data)){
+    if(!result||!(result.data)){
         throw new Error('find it service group from cmdb error!')
     }
     it_service_groups = result.data
