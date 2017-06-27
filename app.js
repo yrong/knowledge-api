@@ -63,6 +63,10 @@ if(process.env.RebuildSchema){
  */
 app.use(router.routes())
 
+const IO = require( 'koa-socket' )
+const article_history_io = new IO('article_history')
+article_history_io.attach(app)
+
 /**
  * start server
  */

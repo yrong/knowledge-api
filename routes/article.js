@@ -5,6 +5,8 @@ let dbHelper = require('../helper/db_helper')
 let models = require('../models');
 const Router = require('koa-router')
 
+const Msg_ArticleNotification = 'ArticleNotification'
+
 const article_processors = {
     findOne_processor: async (ctx) => {
         let article = await common_processor.findOne(ctx)
@@ -41,6 +43,7 @@ const article_processors = {
         let created_obj = await models['Article'].create(obj),article_id=created_obj.uuid
         let history_obj = {article_id,user_id,action:'CREATE',new:_.omit(obj,'token')}
         await models['ArticleHistory'].create(history_obj);
+        ctx.app.article_history.broadcast(Msg_ArticleNotification,history_obj)
         ctx.body = {uuid: article_id}
     },
     delete_processor: async function(ctx) {
@@ -50,6 +53,7 @@ const article_processors = {
         await(toDeleteObj.destroy())
         let history_obj = {article_id:ctx.params.uuid,user_id,action:'DELETE',old:toDeleteRawObj}
         await models['ArticleHistory'].create(history_obj)
+        ctx.app.article_history.broadcast(Msg_ArticleNotification,history_obj)
         ctx.body = {}
     },
     put_processor: async function(ctx) {
@@ -60,6 +64,7 @@ const article_processors = {
         let updatedRawObj = await common_processor.findOne(ctx)
         let history_obj = {article_id:ctx.params.uuid,user_id,action:'UPDATE',old:toUpdateRawObj,update:_.omit(obj,'token'),new:updatedRawObj}
         await models['ArticleHistory'].create(history_obj)
+        ctx.app.article_history.broadcast(Msg_ArticleNotification,history_obj)
         ctx.body = {}
     },
     timeline_search_processor: async function(ctx) {
