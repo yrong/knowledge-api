@@ -2,8 +2,9 @@
 
 
 const test = function() {
+    let auth_host = $('#authhost').val()|| window.location.hostname;
     $.ajax({
-        url: 'http://localhost:3002/auth/login',
+        url: `http://${auth_host}:3002/auth/login`,
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
