@@ -37,15 +37,18 @@
     "attachment": {
       "url": "/api/upload/share",
       "provider": "nc",
-      "nc_host":"http://192.168.0.100:10080/FileStore",
+      "nc_host":"http://localhost:8089/FileStore",
       "nc_admin_user":"admin",
       "nc_admin_password":"admin",
-      "nc_share_path":"/share"
+      "nc_share_path":"/share",
+      "limits":{
+        "fileSize":10000
+      }
     },
     "images": {
       "url": "/api/upload/images",
       "provider": "nc",
-      "nc_host":"http://192.168.0.100:10080/FileStore",
+      "nc_host":"http://localhost:8089/FileStore",
       "nc_admin_user":"admin",
       "nc_admin_password":"admin",
       "nc_share_path":"/share/images",
