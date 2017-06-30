@@ -201,17 +201,7 @@
     "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/dd78dfca-1edf-47c6-98b8-7b2073100dcb",
     "body": {
       "token": "{{token}}",
-      "title": "停车费",
-      "attachment": [
-        {
-          "url": "http://locahost/hello.txt",
-          "size": 100
-        },
-        {
-          "url": "http://locahost/hello1.txt",
-          "size": 100
-        }
-      ]
+      "title": "停车费"
     }
   },
   {
@@ -357,7 +347,7 @@
     }
   },
   {
-    "name": "add article 2 with token in cookie",
+    "name": "add article 2",
     "method": "POST",
     "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
     "body": {
@@ -381,7 +371,19 @@
         "analysis": "煤气费",
         "solution": "前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了",
         "workaround": "煤气费"
-      }
+      },
+      "attachment": [
+        {
+          "href": "http://locahost/hello.txt",
+          "size": 100,
+          "name": "hello"
+        },
+        {
+          "href": "http://locahost/test.txt",
+          "size": 100,
+          "name": "test"
+        }
+      ]
     }
   },
   {
