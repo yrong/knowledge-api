@@ -50,7 +50,7 @@ $$;
 DO $$ 
         BEGIN
             BEGIN
-                ALTER TABLE "Articles" ADD COLUMN "attachment" text[];                
+                ALTER TABLE "Articles" ADD COLUMN "attachment" jsonb[];                
             EXCEPTION
                 WHEN duplicate_column THEN RAISE NOTICE 'column "attachment" already exists in Articles.';
             END;
@@ -74,7 +74,7 @@ module.exports = function (sequelize, DataTypes) {
             content: {type: DataTypes.JSONB},
             migrate:{type: DataTypes.BOOLEAN,defaultValue:false},
             discussion_count:{type:DataTypes.INTEGER,defaultValue:0},
-            attachment:{type: DataTypes.ARRAY(DataTypes.TEXT)}
+            attachment:{type: DataTypes.ARRAY(DataTypes.JSONB)}
         });
     Article.initsql = initSql;
     Article.trace_history = true

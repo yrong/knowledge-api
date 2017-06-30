@@ -203,7 +203,14 @@
       "token": "{{token}}",
       "title": "停车费",
       "attachment": [
-        "http://locahost/hello.txt"
+        {
+          "url": "http://locahost/hello.txt",
+          "size": 100
+        },
+        {
+          "url": "http://locahost/hello1.txt",
+          "size": 100
+        }
       ]
     }
   },
