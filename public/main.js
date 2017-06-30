@@ -17,7 +17,7 @@ const test = function() {
         $('#token').val(res.data.token)
         let token = res.data.token
         $("#attachment").fileinput({
-            uploadUrl: '/api/upload/share?token='+token,
+            uploadUrl: '/api/upload/images?token='+token,
             overwriteInitial: false,
             maxFilesNum: 1,
             maxFileCount: 1,
