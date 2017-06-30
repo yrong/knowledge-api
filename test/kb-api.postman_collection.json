@@ -703,23 +703,8 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "7daee126-7c6c-8a0f-93ef-eafa1674739f",
-			"name": "article timeline search by status",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"status\": 0\n  }\n}\n",
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.length >= 1)\npostman.setEnvironmentVariable(\"article_timeline_uuid\", jsonData.data[0].uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -728,9 +713,23 @@
 					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.rows.length >= 1)\npostman.setEnvironmentVariable(\"article_timeline_uuid\", jsonData.data.rows[0].uuid);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498812247806,
+			"name": "article timeline search by status",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"status\": 0\n  },\n   \"page\":1,\n  \"per_page\":2\n}\n"
 		},
 		{
 			"folder": null,
@@ -1131,23 +1130,8 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "bb3ea953-f4a2-c391-aa25-12521406723f",
-			"name": "article timeline search by article_id",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"article_id\": \"{{article_2_id}}\"\n  },\n  \"page\":1,\n  \"per_page\":1\n}\n",
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.length >= 1)",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -1156,9 +1140,23 @@
 					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.rows.length >= 1)",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1498812325107,
+			"name": "article timeline search by article_id",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"$or\": [{\"new.uuid\": \"{{article_2_id}}\"},{\"old.uuid\": \"{{article_2_id}}\"}]\n    \n  },\n  \"page\":1,\n  \"per_page\":3\n}\n"
 		},
 		{
 			"folder": null,

@@ -38,7 +38,7 @@ const article_processors = {
     },
     timeline_search_processor: async function(ctx) {
         let query = dbHelper.buildQueryCondition(ctx.request.body)
-        let results = await models['ArticleHistory'].findAll(query)
+        let results = await models['ArticleHistory'].findAndCountAll(query)
         results = await articleHelper.articlesMappingWithITService(results)
         ctx.body = results
     },
