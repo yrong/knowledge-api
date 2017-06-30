@@ -49,5 +49,6 @@ module.exports = function (sequelize, DataTypes) {
             migrate:{type:DataTypes.BOOLEAN,defaultValue:false}
         });
     Discussion.initsql = initsql;
+    Discussion.trace_history = true
     return Discussion;
 };

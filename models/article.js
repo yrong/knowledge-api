@@ -77,5 +77,6 @@ module.exports = function (sequelize, DataTypes) {
             attachment:{type: DataTypes.ARRAY(DataTypes.TEXT)}
         });
     Article.initsql = initSql;
+    Article.trace_history = true
     return Article;
 };

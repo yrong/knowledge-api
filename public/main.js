@@ -35,15 +35,19 @@ $('#attachment').on('fileuploaded', function (event, data, previewId, index) {
     $('#uploaded_fileUrl').text(filelink)
 });
 
-var article_history_io = io( '/article_history' )
-
-article_history_io.on( 'ArticleNotification', function( event ) {
+const showNotification = (event)=>{
     var options = {message:JSON.stringify(event,null,'\t')}
     var settings = {
         icon: 'fa fa-paw',
         type: 'success'
     }
     $.notify(options,settings);
-})
+}
+
+var article_history_io = io( '/ArticleHistory' )
+article_history_io.on( 'ArticleHistory', showNotification)
+
+var discussion_history_io = io( '/DiscussionHistory' )
+discussion_history_io.on( 'DiscussionHistory', showNotification)
 
 
