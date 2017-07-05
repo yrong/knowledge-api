@@ -234,6 +234,34 @@
     }
   },
   {
+    "name": "add article free",
+    "method": "POST",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+    "body": {
+      "token": "{{token}}",
+      "title": "水电费",
+      "it_service": [
+        "b1844cb0-4bde-11e7-84a3-c1203c9549ce"
+      ],
+      "tag": [
+        "测试",
+        "随机"
+      ],
+      "author": "随机",
+      "ref_links": [
+        "https://www.baidu.com/"
+      ],
+      "tasks": "测试插入",
+      "type": "Free",
+      "content": {
+        "description": "水电费",
+        "analysis": "水电费",
+        "solution": "前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了",
+        "workaround": "水电费"
+      }
+    }
+  },
+  {
     "name": "search reply by topic id",
     "method": "POST",
     "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
@@ -495,6 +523,62 @@
     "body": {
       "token": "{{token}}",
       "status": 1
+    }
+  },
+  {
+    "name": "add article guide",
+    "method": "POST",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+    "body": {
+      "token": "{{token}}",
+      "title": "水电费",
+      "it_service": [
+        "b1844cb0-4bde-11e7-84a3-c1203c9549ce"
+      ],
+      "tag": [
+        "测试",
+        "随机"
+      ],
+      "author": "随机",
+      "ref_links": [
+        "https://www.baidu.com/"
+      ],
+      "tasks": "测试插入",
+      "type": "Guide",
+      "content": {
+        "description": "水电费",
+        "analysis": "水电费",
+        "solution": "前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了",
+        "workaround": "水电费"
+      }
+    }
+  },
+  {
+    "name": "add article share",
+    "method": "POST",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+    "body": {
+      "token": "{{token}}",
+      "title": "水电费",
+      "it_service": [
+        "b1844cb0-4bde-11e7-84a3-c1203c9549ce"
+      ],
+      "tag": [
+        "测试",
+        "随机"
+      ],
+      "author": "随机",
+      "ref_links": [
+        "https://www.baidu.com/"
+      ],
+      "tasks": "测试插入",
+      "type": "Share",
+      "content": {
+        "description": "水电费",
+        "analysis": "水电费",
+        "solution": "前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了",
+        "workaround": "水电费"
+      }
     }
   },
   {
