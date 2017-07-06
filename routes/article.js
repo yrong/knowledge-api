@@ -36,22 +36,6 @@ const article_processors = {
         let articles = await models['Article'].findAndCountAll(dbHelper.buildQueryCondition(query));
         ctx.body = articles
     },
-    timeline_search_processor: async function(ctx) {
-        let query = dbHelper.buildQueryCondition(ctx.request.body)
-        let results = await models['ArticleHistory'].findAndCountAll(query)
-        results = await articleHelper.articlesMappingWithITService(results)
-        ctx.body = results
-    },
-    timeline_update_processor: async function(ctx) {
-        let obj = ctx.request.body
-        let toUpdateObj = await models['ArticleHistory'].findOne({
-            where: {
-                uuid: ctx.params.uuid
-            }
-        })
-        await(toUpdateObj.update(obj))
-        ctx.body = {}
-    },
     score_processor: async function(ctx){
         let user_id = ctx.local.userid
         let article_id = ctx.params.uuid
@@ -86,7 +70,7 @@ articles.put('/:uuid',common_processor.put_processor)
 articles.patch('/:uuid',common_processor.put_processor)
 articles.post('/:uuid/score',article_processors.score_processor)
 articles.get('/:uuid/score/aggregate',article_processors.aggregate_processor)
-articles.post('/history/timeline',article_processors.timeline_search_processor)
-articles.put('/history/timeline/:uuid',article_processors.timeline_update_processor)
+articles.post('/history/timeline',common_processor.timeline_search_processor)
+articles.put('/history/timeline/:uuid',common_processor.timeline_update_processor)
 
 module.exports = articles

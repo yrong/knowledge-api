@@ -38,23 +38,15 @@ for(let option of _.values(config.get('upload'))){
 /**
  * init orm
  */
-let cleandb = async ()=>{
-    await dbHelper.pool.query(`DROP TABLE IF EXISTS "Articles"`)
-    await dbHelper.pool.query(`DROP TABLE IF EXISTS "Discussions"`)
-    await dbHelper.pool.query(`DROP TABLE IF EXISTS "ArticleScores"`)
-    await dbHelper.pool.query(`DROP TABLE IF EXISTS "ArticleHistories"`)
-}
-let init_orm = ()=>{
-    models.sequelize.sync().then(function(){
+
+if(process.env.RebuildSchema){
+    models.sequelize.sync({force: true}).then(function(){
         models.dbInit();
     })
-}
-if(process.env.RebuildSchema){
-    cleandb().then(()=>{
-        init_orm()
+}else if(process.env.upgradeSchema){
+    models.sequelize.sync({force: false}).then(function(){
+        models.dbInit();
     })
-}else{
-    init_orm()
 }
 
 

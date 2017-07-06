@@ -55,7 +55,17 @@ DO $$
                 WHEN duplicate_column THEN RAISE NOTICE 'column "attachment" already exists in Articles.';
             END;
         END;
-  $$;   
+  $$;
+     
+DO $$ 
+        BEGIN
+            BEGIN
+                ALTER TABLE "ArticleHistories" ADD COLUMN "notified_user" integer[];                
+            EXCEPTION
+                WHEN duplicate_column THEN RAISE NOTICE 'column "notified_user" already exists in ArticleHistories.';
+            END;
+        END;
+  $$;     
   
 `
 

@@ -43,7 +43,11 @@
 		"f9e3e3bf-6e8b-7914-024b-80885e598fed",
 		"bb3ea953-f4a2-c391-aa25-12521406723f",
 		"7daee126-7c6c-8a0f-93ef-eafa1674739f",
-		"bff515aa-b632-104f-0df8-f8daa657a63e"
+		"bff515aa-b632-104f-0df8-f8daa657a63e",
+		"d0ce0bc4-f910-2c3a-4953-ef67abc92418",
+		"4742816e-6cf2-464a-c9b8-0fce008339f2",
+		"314b5b12-dc7a-a77c-250a-12e469076ce1",
+		"f4012111-9b60-a629-a8fc-6ef78e60370d"
 	],
 	"folders": [],
 	"timestamp": 0,
@@ -400,6 +404,35 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
+			"id": "314b5b12-dc7a-a77c-250a-12e469076ce1",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/history/timeline/{{discussion_timeline_uuid}}",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"update timeline status\"] = (jsonData.status === 'ok')",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1499329938871,
+			"name": "discussion timeline update status to read",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
+			"responses": [],
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"read\":true\n}\n"
+		},
+		{
 			"folder": null,
 			"id": "3338ccd8-8402-2e12-9d95-47440e398208",
 			"name": "search discussions  by article id",
@@ -499,6 +532,35 @@
 			"pathVariableData": [],
 			"responses": [],
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+		},
+		{
+			"id": "4742816e-6cf2-464a-c9b8-0fce008339f2",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/history/timeline",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.rows.length >= 1)\npostman.setEnvironmentVariable(\"discussion_timeline_uuid\", jsonData.data.rows[0].uuid);\npostman.setEnvironmentVariable(\"discussion_timeline_unread_count\", jsonData.data.count);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1499329916086,
+			"name": "discussion timeline search unread",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
+			"responses": [],
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"read\":false,\n  \"filter\":\n  {\n  },\n   \"page\":1,\n  \"per_page\":2\n}\n"
 		},
 		{
 			"folder": null,
@@ -757,15 +819,15 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.rows.length >= 1)\npostman.setEnvironmentVariable(\"article_timeline_uuid\", jsonData.data.rows[0].uuid);",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.rows.length >= 1)\npostman.setEnvironmentVariable(\"article_timeline_uuid\", jsonData.data.rows[0].uuid);\npostman.setEnvironmentVariable(\"article_timeline_unread_count\", jsonData.data.count);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1498812247806,
-			"name": "article timeline search by status",
+			"time": 1499329863211,
+			"name": "article timeline search unread",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"status\": 0\n  },\n   \"page\":1,\n  \"per_page\":2\n}\n"
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"read\":false,\n  \"filter\":\n  {\n  },\n   \"page\":1,\n  \"per_page\":2\n}\n"
 		},
 		{
 			"folder": null,
@@ -1187,7 +1249,7 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.rows.length >= 1)",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1498812325107,
+			"time": 1499249217204,
 			"name": "article timeline search by article_id",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
@@ -1195,23 +1257,8 @@
 			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"$or\": [{\"new.uuid\": \"{{article_2_id}}\"},{\"old.uuid\": \"{{article_2_id}}\"}]\n    \n  },\n  \"page\":1,\n  \"per_page\":3\n}\n"
 		},
 		{
-			"folder": null,
 			"id": "bff515aa-b632-104f-0df8-f8daa657a63e",
-			"name": "article timeline update status",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"status\": 1\n}\n",
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Content-Type: application/json\n",
-			"method": "PUT",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline/{{article_timeline_uuid}}",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"update timeline status\"] = (jsonData.status === 'ok')",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -1220,9 +1267,23 @@
 					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline/{{article_timeline_uuid}}",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"update timeline status\"] = (jsonData.status === 'ok')",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1499329724840,
+			"name": "article timeline update status to read",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"read\":true\n}\n"
 		},
 		{
 			"id": "c5a1d2ce-e005-82c7-6b66-01ea46c967cc",
@@ -1258,6 +1319,35 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
 			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Guide\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+		},
+		{
+			"id": "d0ce0bc4-f910-2c3a-4953-ef67abc92418",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.count == environment[\"article_timeline_unread_count\"]-1)\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1499329905512,
+			"name": "article timeline search unread count=count--",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
+			"responses": [],
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"read\":false,\n  \"filter\":\n  {\n  },\n   \"page\":1,\n  \"per_page\":2\n}\n"
 		},
 		{
 			"id": "d6c2dfe1-7353-0425-6381-cbb54e8942c1",
@@ -1431,6 +1521,35 @@
 			"pathVariableData": [],
 			"responses": [],
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+		},
+		{
+			"id": "f4012111-9b60-a629-a8fc-6ef78e60370d",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/history/timeline",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.count == environment[\"discussion_timeline_unread_count\"]-1)\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1499329949662,
+			"name": "discussion timeline search unread count=count--",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
+			"responses": [],
+			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"read\":false,\n  \"filter\":\n  {\n  },\n   \"page\":1,\n  \"per_page\":2\n}\n"
 		},
 		{
 			"id": "f9e3e3bf-6e8b-7914-024b-80885e598fed",

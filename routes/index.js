@@ -11,6 +11,8 @@ router.del(`${base_route}/synergy`,async function(ctx) {
     await(dbHelper.pool.query(`delete from "Articles"`));
     await(dbHelper.pool.query(`delete from "Discussions"`));
     await(dbHelper.pool.query(`delete from "ArticleScores"`));
+    await(dbHelper.pool.query(`delete from "ArticleHistories"`));
+    await(dbHelper.pool.query(`delete from "DiscussionHistories"`));
     ctx.body = {}
 })
 

@@ -2,9 +2,20 @@ const uuid=require('uuid');
 const models = require('../models');
 const _ = require('lodash');
 const dbHelper = require('../helper/db_helper');
+const articleHelper = require('../helper/article_helper');
 
 const getModelFromRoute = (url)=>{
-    return models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
+    let model
+    if(url.includes('/articles/history'))
+        model = models['ArticleHistory']
+    else if(url.includes(('/discussions/history')))
+        model = models['DiscussionHistory']
+    else
+        model = models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
+    if(!model){
+        throw new Error('can not find sequelize model from url:' + url)
+    }
+    return model
 }
 
 const findOne = async (ctx,raw=true)=>{
@@ -76,5 +87,31 @@ module.exports = {
         let result = await model.findAndCountAll(dbHelper.buildQueryCondition(query));
         ctx.body = result
     },
-    findOne
+    findOne,
+    timeline_search_processor: async function(ctx) {
+        let user_id = ctx.local.userid,model=getModelFromRoute(ctx.url),query,results
+        if(ctx.request.body.read == false){
+            ctx.request.body.filter = _.merge(ctx.request.body.filter,{$not:{notified_user:{$contains:[user_id]}}})
+        }
+        query = dbHelper.buildQueryCondition(ctx.request.body)
+        results = await model.findAndCountAll(query)
+        if(model.name === 'ArticleHistory')
+            results = await articleHelper.articlesMappingWithITService(results)
+        ctx.body = results
+    },
+    timeline_update_processor: async function(ctx) {
+        let user_id = ctx.local.userid,notified_user,obj,model=getModelFromRoute(ctx.url),update_obj = ctx.request.body
+        obj = await model.findOne({
+            where: {
+                uuid: ctx.params.uuid
+            }
+        })
+        if(update_obj.read){
+            notified_user = _.clone(obj.notified_user)||[]
+            notified_user = _.uniq(_.concat(notified_user,[user_id]))
+            update_obj.notified_user = notified_user
+        }
+        await(obj.update(update_obj))
+        ctx.body = {}
+    },
 }

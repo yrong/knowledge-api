@@ -28,10 +28,10 @@ fs
         return (file.indexOf(".") !== 0) && (file !== "index.js");
     })
     .forEach(function(file) {
-        var model = sequelize.import(path.join(__dirname, file));
+        var model = sequelize.import(path.join(__dirname, file)),modelHistoryName = `${model.name}History`
         db[model.name] = model;
         if(db[model.name].trace_history) {
-            db[`${model.name}History`] = sequelize.define(`${model.name}History`,
+            db[modelHistoryName] = sequelize.define(modelHistoryName,
                 {
                     uuid: {type: Sequelize.UUID, allowNull: false, primaryKey: true,defaultValue: Sequelize.UUIDV4},
                     user_id:{type: Sequelize.INTEGER,allowNull: false},
@@ -39,7 +39,8 @@ fs
                     old:{type: Sequelize.JSONB},
                     new:{type: Sequelize.JSONB},
                     update:{type: Sequelize.JSONB},
-                    status:{type: Sequelize.INTEGER,allowNull: false,defaultValue:0}
+                    status:{type: Sequelize.INTEGER,allowNull: false,defaultValue:0},
+                    notified_user:{type:Sequelize.ARRAY(Sequelize.INTEGER),defaultValue:[-1]}
                 }
             )
         }
