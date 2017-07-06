@@ -20,7 +20,7 @@ const sequelize = new Sequelize(pg_config.database, pg_config.user, pg_config.pa
     regconfig:pg_config.zhparser
 });
 
-let db  = {};
+let db  = {},model;
 
 fs
     .readdirSync(__dirname)
@@ -28,22 +28,8 @@ fs
         return (file.indexOf(".") !== 0) && (file !== "index.js");
     })
     .forEach(function(file) {
-        var model = sequelize.import(path.join(__dirname, file)),modelHistoryName = `${model.name}History`
-        db[model.name] = model;
-        if(db[model.name].trace_history) {
-            db[modelHistoryName] = sequelize.define(modelHistoryName,
-                {
-                    uuid: {type: Sequelize.UUID, allowNull: false, primaryKey: true,defaultValue: Sequelize.UUIDV4},
-                    user_id:{type: Sequelize.INTEGER,allowNull: false},
-                    action:{type: Sequelize.STRING, allowNull: false},
-                    old:{type: Sequelize.JSONB},
-                    new:{type: Sequelize.JSONB},
-                    update:{type: Sequelize.JSONB},
-                    status:{type: Sequelize.INTEGER,allowNull: false,defaultValue:0},
-                    notified_user:{type:Sequelize.ARRAY(Sequelize.INTEGER),defaultValue:[-1]}
-                }
-            )
-        }
+        model = sequelize.import(path.join(__dirname, file))
+        db[model.name] = model
     });
 
 db.sequelize = sequelize;
@@ -55,4 +41,7 @@ db.dbInit = function(){
         }
     });
 }
+
+db.NotificationName = 'Notification'
+
 module.exports = db;

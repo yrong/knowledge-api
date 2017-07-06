@@ -5,13 +5,7 @@ const dbHelper = require('../helper/db_helper');
 const articleHelper = require('../helper/article_helper');
 
 const getModelFromRoute = (url)=>{
-    let model
-    if(url.includes('/articles/history'))
-        model = models['ArticleHistory']
-    else if(url.includes(('/discussions/history')))
-        model = models['DiscussionHistory']
-    else
-        model = models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
+    let model = models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
     if(!model){
         throw new Error('can not find sequelize model from url:' + url)
     }
@@ -32,42 +26,41 @@ const findOne = async (ctx,raw=true)=>{
     return obj;
 };
 
+const Notification = models.NotificationName
+
 module.exports = {
     post_processor: async function(ctx) {
         let obj=ctx.request.body,user_id = ctx.local.userid,
-            model=getModelFromRoute(ctx.url),history_model_name=`${model.name}History`,
-            history_obj,new_obj;
+            model=getModelFromRoute(ctx.url), notification_obj,new_obj;
         new_obj = await model.create(obj);
         if(model.trace_history){
-            history_obj = {user_id,action:'CREATE',new:new_obj}
-            await models[history_model_name].create(history_obj);
-            ctx.app[history_model_name].broadcast(history_model_name,history_obj)
+            notification_obj = {type:model.name,user_id,action:'CREATE',new:new_obj}
+            await models[Notification].create(notification_obj);
+            ctx.app[Notification].broadcast(Notification,notification_obj)
         }
         ctx.body = {uuid: new_obj.uuid}
     },
     delete_processor: async function(ctx) {
-        let obj,user_id = ctx.local.userid, model=getModelFromRoute(ctx.url),
-            history_model_name=`${model.name}History`, history_obj;
+        let obj,user_id = ctx.local.userid, model=getModelFromRoute(ctx.url), notification_obj;
         obj = await findOne(ctx,false)
         await(obj.destroy())
         if(model.trace_history){
-            history_obj = {user_id,action:'DELETE',old:obj}
-            await models[history_model_name].create(history_obj)
-            ctx.app[history_model_name].broadcast(history_model_name,history_obj)
+            notification_obj = {type:model.name,user_id,action:'DELETE',old:obj}
+            await models[Notification].create(notification_obj)
+            ctx.app[Notification].broadcast(Notification,notification_obj)
         }
         ctx.body = {}
     },
     put_processor: async function(ctx) {
         let obj=ctx.request.body,user_id = ctx.local.userid,
-            model=getModelFromRoute(ctx.url),history_model_name=`${model.name}History`,
-            history_obj,old_obj,update_obj;
+            model=getModelFromRoute(ctx.url), notification_obj,old_obj,update_obj;
         old_obj = await findOne(ctx)
         update_obj = await findOne(ctx,false)
         await(update_obj.update(obj))
         if(model.trace_history){
-            history_obj = {article_id:ctx.params.uuid,user_id,action:'UPDATE',old:old_obj,update:_.omit(obj,'token'),new:update_obj}
-            await models[history_model_name].create(history_obj)
-            ctx.app[history_model_name].broadcast(history_model_name,history_obj)
+            notification_obj = {type:model.name,article_id:ctx.params.uuid,user_id,action:'UPDATE',old:old_obj,update:_.omit(obj,'token'),new:update_obj}
+            await models[Notification].create(notification_obj)
+            ctx.app[Notification].broadcast(Notification,notification_obj)
         }
         ctx.body = {}
     },
@@ -95,8 +88,7 @@ module.exports = {
         }
         query = dbHelper.buildQueryCondition(ctx.request.body)
         results = await model.findAndCountAll(query)
-        if(model.name === 'ArticleHistory')
-            results = await articleHelper.articlesMappingWithITService(results)
+        results.rows = _.map(results.rows,(row)=>_.omit(row,['notified_user']))
         ctx.body = results
     },
     timeline_update_processor: async function(ctx) {

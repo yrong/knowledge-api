@@ -33,16 +33,7 @@ DROP TRIGGER IF EXISTS update_article_discussion_count_trigger on "Discussions";
 
 CREATE TRIGGER update_article_discussion_count_trigger AFTER INSERT OR DELETE ON "Discussions" FOR EACH ROW
 EXECUTE PROCEDURE update_article_discussion_count();
-
-DO $$ 
-        BEGIN
-            BEGIN
-                ALTER TABLE "DiscussionHistories" ADD COLUMN "notified_user" integer[];                
-            EXCEPTION
-                WHEN duplicate_column THEN RAISE NOTICE 'column "notified_user" already exists in DiscussionHistories.';
-            END;
-        END;
-  $$;  
+ 
 `;
 
 module.exports = function (sequelize, DataTypes) {

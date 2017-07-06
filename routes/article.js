@@ -70,7 +70,5 @@ articles.put('/:uuid',common_processor.put_processor)
 articles.patch('/:uuid',common_processor.put_processor)
 articles.post('/:uuid/score',article_processors.score_processor)
 articles.get('/:uuid/score/aggregate',article_processors.aggregate_processor)
-articles.post('/history/timeline',common_processor.timeline_search_processor)
-articles.put('/history/timeline/:uuid',common_processor.timeline_update_processor)
 
 module.exports = articles

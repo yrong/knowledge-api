@@ -181,15 +181,6 @@
     }
   },
   {
-    "name": "discussion timeline update status to read",
-    "method": "PUT",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/history/timeline/{{discussion_timeline_uuid}}",
-    "body": {
-      "token": "{{token}}",
-      "read": true
-    }
-  },
-  {
     "name": "search discussions  by article id",
     "method": "POST",
     "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
@@ -217,18 +208,6 @@
     "name": "aggregate article 2",
     "method": "GET",
     "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/dd78dfca-1edf-47c6-98b8-7b2073100dcb/score/aggregate"
-  },
-  {
-    "name": "discussion timeline search unread",
-    "method": "POST",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/history/timeline",
-    "body": {
-      "token": "{{token}}",
-      "read": false,
-      "filter": {},
-      "page": 1,
-      "per_page": 2
-    }
   },
   {
     "name": "search articles  by filter with author",
@@ -336,9 +315,9 @@
     "url": "http://{{cmdb_api_host}}:{{cmdb_api_port}}/api/it_services/service/"
   },
   {
-    "name": "article timeline search unread",
+    "name": "notification timeline search unread",
     "method": "POST",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline",
     "body": {
       "token": "{{token}}",
       "read": false,
@@ -517,9 +496,9 @@
     }
   },
   {
-    "name": "article timeline search by article_id",
+    "name": "notification timeline search by article_id",
     "method": "POST",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline",
     "body": {
       "token": "{{token}}",
       "filter": {
@@ -537,9 +516,9 @@
     }
   },
   {
-    "name": "article timeline update status to read",
+    "name": "notification timeline update status to read",
     "method": "PUT",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline/f7d02afb-65b5-465a-bf07-c175286eeba1",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline/f7d02afb-65b5-465a-bf07-c175286eeba1",
     "body": {
       "token": "{{token}}",
       "read": true
@@ -574,9 +553,9 @@
     }
   },
   {
-    "name": "article timeline search unread count=count--",
+    "name": "notification timeline search unread count=count--",
     "method": "POST",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/history/timeline",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline",
     "body": {
       "token": "{{token}}",
       "read": false,
@@ -681,18 +660,6 @@
       "per_page": 2,
       "sortby": "createdAt",
       "order": "desc"
-    }
-  },
-  {
-    "name": "discussion timeline search unread count=count--",
-    "method": "POST",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/history/timeline",
-    "body": {
-      "token": "{{token}}",
-      "read": false,
-      "filter": {},
-      "page": 1,
-      "per_page": 2
     }
   },
   {

@@ -44,10 +44,8 @@ const showNotification = (event)=>{
     $.notify(options,settings);
 }
 
-var article_history_io = io( '/ArticleHistory' )
-article_history_io.on( 'ArticleHistory', showNotification)
+var notification_io = io( '/Notification' )
+notification_io.on( 'Notification', showNotification)
 
-var discussion_history_io = io( '/DiscussionHistory' )
-discussion_history_io.on( 'DiscussionHistory', showNotification)
 
 
