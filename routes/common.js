@@ -82,14 +82,15 @@ module.exports = {
     },
     findOne,
     timeline_search_processor: async function(ctx) {
-        let user_id = ctx.local.userid,model=getModelFromRoute(ctx.url),query,results
+        let user_id = ctx.local.userid,model=getModelFromRoute(ctx.url),query,result
         if(ctx.request.body.read == false){
             ctx.request.body.filter = _.merge(ctx.request.body.filter,{$not:{notified_user:{$contains:[user_id]}}})
         }
         query = dbHelper.buildQueryCondition(ctx.request.body)
-        results = await model.findAndCountAll(query)
-        results.rows = _.map(results.rows,(row)=>_.omit(row,['notified_user']))
-        ctx.body = results
+        result = await model.findAndCountAll(query)
+        result.rows = await articleHelper.articlesMapping(result.rows)
+        result.rows = _.map(result.rows,(row)=>_.omit(row,['notified_user']))
+        ctx.body = result
     },
     timeline_update_processor: async function(ctx) {
         let user_id = ctx.local.userid,notified_user,obj,model=getModelFromRoute(ctx.url),update_obj = ctx.request.body

@@ -4,31 +4,30 @@ const dbHelper = require('../helper/db_helper');
 const {article_table_alias,discussion_table_alias} = dbHelper
 const models = require('../models');
 const jp = require('jsonpath');
+const cmdb_cache = require('cmdb-cache')
 
-var findITServiceItemByID = function(uuid,it_services){
-    return _.find(it_services,function(it_service){
-        return it_service.service.uuid === uuid;
-    })
-};
-
-var articlesMapping = function(articles,it_services){
+var articlesMapping = function(articles){
     articles = _.map(articles,function(article){
-        articleMapping(article,it_services)
-        articleMapping(article.old,it_services)
-        articleMapping(article.new,it_services)
-        articleMapping(article.update,it_services)
+        articleMapping(article)
+        articleMapping(article.old)
+        articleMapping(article.new)
+        articleMapping(article.update)
         return article;
     })
     return articles;
 };
 
-var articleMapping = function(article,it_services) {
+var articleMapping = function(article) {
+    let it_services_items = [],user_item
     if(article&&article.it_service){
-        let it_services_items = []
         _.each(article.it_service,function(it_service_uuid){
-            it_services_items.push(findITServiceItemByID(it_service_uuid,it_services));
+            it_services_items.push(cmdb_cache.getItemByCategoryAndID('ITService',it_service_uuid));
         });
-        article.it_service = it_services_items;
+        article.it_service = _.isEmpty(it_services_items)?article.it_service:it_services_items
+    }
+    if(article&&article.user_id){
+        user_item = cmdb_cache.getItemByCategoryAndID('User',article.user_id)
+        article.user_id = user_item || article.user_id
     }
     return article
 }
@@ -84,29 +83,10 @@ var constructWherePart = function(querys){
 var queryArticlesV1AndMappingWithITService = async function(querys){
     let condition = dbHelper.buildQueryCondition(querys)
     let articles  = await models['Article'].findAndCountAll(condition)
-    articles.rows = await articlesMappingWithITService(articles.rows)
+    articles.rows = await articlesMapping(articles.rows)
     return articles
 };
 
-var articlesMappingWithITService = async function(articles){
-    let it_service_uuids  = [],result
-    _.each(articles,(article)=>{
-        if(article.it_service)
-            it_service_uuids = it_service_uuids.concat(article.it_service)
-        if(article.old&&article.old.it_service)
-            it_service_uuids = it_service_uuids.concat(article.old.it_service)
-        if(article.new&&article.new.it_service)
-            it_service_uuids = it_service_uuids.concat(article.new.it_service)
-        if(article.update&&article.update.it_service)
-            it_service_uuids = it_service_uuids.concat(article.update.it_service)
-    })
-    it_service_uuids = _.uniq(it_service_uuids)
-    if(it_service_uuids.length){
-        result = await cmdb_api_helper.getITServices({uuids:it_service_uuids.join()})
-        articles = articlesMapping(articles,result.data)
-    }
-    return articles
-};
 
 var articlesSearchByITServiceKeyword = async function(querys) {
     checkQuery(querys)
@@ -188,6 +168,6 @@ var countArticlesAndDiscussionsByITServiceGroups = async function(querys){
 };
 
 
-module.exports = {articlesMappingWithITService,articlesSearchByITServiceKeyword,
+module.exports = {articlesMapping,articlesSearchByITServiceKeyword,
     countArticlesAndDiscussionsByITServiceKeyword,countArticlesAndDiscussionsByITServiceGroups}
 

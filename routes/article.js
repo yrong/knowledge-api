@@ -8,7 +8,7 @@ const Router = require('koa-router')
 const article_processors = {
     findOne_processor: async (ctx) => {
         let article = await common_processor.findOne(ctx)
-        let result = await articleHelper.articlesMappingWithITService([article])
+        let result = await articleHelper.articlesMapping([article])
         article = result[0]
         ctx.body = article
     },
@@ -34,6 +34,7 @@ const article_processors = {
     findAll_processor: async function(ctx) {
         let query = _.assign({},ctx.params,ctx.query,ctx.request.body)
         let articles = await models['Article'].findAndCountAll(dbHelper.buildQueryCondition(query));
+        articles.rows = await articleHelper.articlesMapping(articles.rows)
         ctx.body = articles
     },
     score_processor: async function(ctx){

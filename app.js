@@ -16,9 +16,9 @@ const mount = require('koa-mount')
 const bodyParser = require('koa-bodyparser')
 const responseWrapper = require('koa-response-wrapper')
 const check_token = require('koa-token-checker')
-const dbHelper = require('./helper/db_helper')
 const models = require('./models')
 const router = require('./routes')
+const cmdb_cache = require('cmdb-cache')
 
 
 /**
@@ -62,5 +62,8 @@ notification_io.attach(app)
 /**
  * start server
  */
-app.listen(config.get('port'), () => console.log('server started'))
+app.listen(config.get('port'), () => {
+    console.log('server started')
+    cmdb_cache.loadAll(config.get('cmdb.base_url')+'/api')
+})
 
