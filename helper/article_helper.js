@@ -27,7 +27,7 @@ var articleMapping = function(article) {
     }
     if(article&&article.user_id){
         user_item = cmdb_cache.getItemByCategoryAndID('User',article.user_id)
-        article.user_id = user_item || article.user_id
+        article.actor = user_item || article.user_id
     }
     return article
 }
