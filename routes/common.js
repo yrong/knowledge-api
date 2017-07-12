@@ -34,7 +34,7 @@ module.exports = {
             model=getModelFromRoute(ctx.url), notification_obj,new_obj;
         new_obj = await model.create(obj);
         if(model.trace_history){
-            notification_obj = {type:model.name,user_id,action:'CREATE',new:new_obj}
+            notification_obj = {type:model.name,user_id,action:'CREATE',new:new_obj,avatar:ctx.local.avatar}
             await models[Notification].create(notification_obj);
             ctx.app[Notification].broadcast(Notification,notification_obj)
         }
@@ -45,7 +45,7 @@ module.exports = {
         obj = await findOne(ctx,false)
         await(obj.destroy())
         if(model.trace_history){
-            notification_obj = {type:model.name,user_id,action:'DELETE',old:obj}
+            notification_obj = {type:model.name,user_id,action:'DELETE',old:obj,avatar:ctx.local.avatar}
             await models[Notification].create(notification_obj)
             ctx.app[Notification].broadcast(Notification,notification_obj)
         }
@@ -58,7 +58,7 @@ module.exports = {
         update_obj = await findOne(ctx,false)
         await(update_obj.update(obj))
         if(model.trace_history){
-            notification_obj = {type:model.name,article_id:ctx.params.uuid,user_id,action:'UPDATE',old:old_obj,update:_.omit(obj,'token'),new:update_obj}
+            notification_obj = {type:model.name,article_id:ctx.params.uuid,user_id,action:'UPDATE',old:old_obj,update:_.omit(obj,'token'),new:update_obj,avatar:ctx.local.avatar}
             await models[Notification].create(notification_obj)
             ctx.app[Notification].broadcast(Notification,notification_obj)
         }

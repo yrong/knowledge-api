@@ -1,3 +1,14 @@
+var initsql = `DO $$
+BEGIN
+    BEGIN
+        ALTER TABLE "Notifications" ADD COLUMN "avatar" text;
+        EXCEPTION
+        WHEN duplicate_column THEN RAISE NOTICE 'column "avatar" already exists in Notifications.';
+    END;
+END;
+$$;
+`
+
 module.exports = function (sequelize, DataTypes) {
     var Nofification = sequelize.define("Notification",
         {
@@ -8,7 +19,9 @@ module.exports = function (sequelize, DataTypes) {
             new:{type: DataTypes.JSONB},
             update:{type: DataTypes.JSONB},
             type:{type:DataTypes.STRING,allowNull: false},
-            notified_user:{type:DataTypes.ARRAY(DataTypes.INTEGER),defaultValue:[-1]}
+            notified_user:{type:DataTypes.ARRAY(DataTypes.INTEGER),defaultValue:[-1]},
+            avatar:{type:DataTypes.STRING}
         });
+    Nofification.initsql = initsql;
     return Nofification;
 };

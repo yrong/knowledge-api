@@ -1,7 +1,7 @@
 const config = require('config')
 var zhparser=config.get('postgres.zhparser')
 
-var initSql = `
+var initsql = `
 
 DO $$ 
         BEGIN
@@ -28,17 +28,6 @@ DROP TRIGGER IF EXISTS article_vector_update on "Articles";
 
 CREATE TRIGGER article_vector_update BEFORE INSERT OR UPDATE ON "Articles" FOR EACH ROW EXECUTE PROCEDURE article_vector_trigger();
 
-
-DO $$ 
-        BEGIN
-            BEGIN
-                ALTER TABLE "Articles" ADD COLUMN "discussion_count" INTEGER DEFAULT 0;                
-            EXCEPTION
-                WHEN duplicate_column THEN RAISE NOTICE 'column "discussion_count" already exists in Articles.';
-            END;
-        END;
-  $$; 
-  
 DO $$ 
         BEGIN   
             UPDATE "Articles" set discussion_count = article_discussion_count.cnt from 
@@ -66,7 +55,7 @@ module.exports = function (sequelize, DataTypes) {
             discussion_count:{type:DataTypes.INTEGER,defaultValue:0},
             attachment:{type: DataTypes.ARRAY(DataTypes.JSONB)}
         });
-    Article.initsql = initSql;
+    Article.initsql = initsql;
     Article.trace_history = true
     return Article;
 };
