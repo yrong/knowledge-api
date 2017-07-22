@@ -35,17 +35,6 @@ $('#attachment').on('fileuploaded', function (event, data, previewId, index) {
     $('#uploaded_fileUrl').text(filelink)
 });
 
-const showNotification = (event)=>{
-    var options = {message:JSON.stringify(event,null,'\t')}
-    var settings = {
-        icon: 'fa fa-paw',
-        type: 'success'
-    }
-    $.notify(options,settings);
-}
-
-var notification_io = io( '/Notification' )
-notification_io.on( 'Notification', showNotification)
 
 
 

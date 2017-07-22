@@ -45,16 +45,18 @@
         "fileSize":10000
       }
     },
-//    "images": {
-//      "url": "/api/upload/images",
-//      "provider": "nc",
-//      "nc_host":"http://localhost:8089/FileStore",
-//      "nc_admin_user":"admin",
-//      "nc_admin_password":"admin",
-//      "nc_share_path":"/share/images",
-//      "nc_image_preview": true,
-//      "mimetypes": ["image/png","image/bmp","image/jpeg"]
-//    }
+    /*
+    "images": {
+      "url": "/api/upload/images",
+      "provider": "nc",
+      "nc_host":"http://localhost:8089/FileStore",
+      "nc_admin_user":"admin",
+      "nc_admin_password":"admin",
+      "nc_share_path":"/share/images",
+      "nc_image_preview": true,
+      "mimetypes": ["image/png","image/bmp","image/jpeg"]
+    }
+    */
     "images": {
       "url": "/api/upload/images",
       "provider": "local",
@@ -64,5 +66,8 @@
       "urlPath": "upload",
       "mimetypes": ["image/png","image/bmp","image/jpeg"]
     }
+  },
+  "notifier":{
+    "base_url":"http://localhost:3004/api/notifications"
   }
 }

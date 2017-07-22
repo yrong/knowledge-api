@@ -55,9 +55,6 @@ if(process.env.RebuildSchema){
  */
 app.use(router.routes())
 
-const IO = require( 'koa-socket' )
-const notification_io = new IO(models.NotificationName)
-notification_io.attach(app)
 
 /**
  * start server

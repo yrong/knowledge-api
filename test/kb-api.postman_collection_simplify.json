@@ -2,7 +2,7 @@
   {
     "name": "get article 2",
     "method": "GET",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/dd78dfca-1edf-47c6-98b8-7b2073100dcb?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMWVlMWY1Mi03Y2Y0LTRmZjMtOTNjNS04YTdhMzI5YTA4MGYiLCJ1c2VyIjp7ImlkIjo2NTEsInBlcl9wYWdlIjo5MCwiYXZhdGFyIjoiL3VwbG9hZC9hdmF0YXIvY2E5MmQ1NjAtMDVhNi0xMWU3LTk4YmEtZTFkMDhkZjlhMjVmIiwidHlwZSI6MSwiYXR0ZW1wdF9pcCI6IjEwLjUwLjEzLjY5IiwidXNlcmlkIjoxMDAsInV1aWQiOjEwMCwicGFzc3dkIjoiYWRtaW4iLCJzdXJuYW1lIjoiIiwibmFtZSI6ImFkbWluIiwiYWxpYXMiOiJhZG1pbiIsInRoZW1lIjoiZGVmYXVsdCIsImxhbmciOiJlbl9HQiIsImNhdGVnb3J5IjoiVXNlciJ9LCJpYXQiOjE0OTc1MTU5MDZ9.fi7hf5TlbdaIKzmCzeFh7NnIktdJQyUD2hWKS90Km9s"
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}?token={{token}}"
   },
   {
     "name": "search articles  by filter with name of ITServiceGroup",
@@ -198,7 +198,7 @@
   {
     "name": "patch article 2",
     "method": "PATCH",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/dd78dfca-1edf-47c6-98b8-7b2073100dcb",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}",
     "body": {
       "token": "{{token}}",
       "title": "停车费"
@@ -207,7 +207,7 @@
   {
     "name": "aggregate article 2",
     "method": "GET",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/dd78dfca-1edf-47c6-98b8-7b2073100dcb/score/aggregate"
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}/score/aggregate"
   },
   {
     "name": "search articles  by filter with author",
@@ -226,7 +226,7 @@
   {
     "name": "patch article 2",
     "method": "PUT",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/dd78dfca-1edf-47c6-98b8-7b2073100dcb",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}",
     "body": {
       "token": "{{token}}",
       "title": "煤气费",
@@ -329,7 +329,7 @@
   {
     "name": "get topic 1",
     "method": "GET",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/6c7d174b-7bb6-47ae-8d18-1ca5732a298b"
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/{{discussion_1_id}}"
   },
   {
     "name": " count articles and discussions by it service group and filter by keyword",
@@ -348,7 +348,7 @@
   {
     "name": "delete article 1_1",
     "method": "DELETE",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/9a5c74e8-3ec9-46d4-b043-8a7207780955",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_1_1_id}}",
     "body": {
       "token": "{{token}}"
     }
@@ -423,7 +423,7 @@
   {
     "name": "score article 2",
     "method": "POST",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/dd78dfca-1edf-47c6-98b8-7b2073100dcb/score",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}/score",
     "body": {
       "token": "{{token}}",
       "score": 5
@@ -518,7 +518,7 @@
   {
     "name": "notification timeline update status to read",
     "method": "PUT",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline/f7d02afb-65b5-465a-bf07-c175286eeba1",
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline/{{article_timeline_uuid}}",
     "body": {
       "token": "{{token}}",
       "read": true

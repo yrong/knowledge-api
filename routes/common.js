@@ -1,8 +1,9 @@
-const uuid=require('uuid');
-const models = require('../models');
-const _ = require('lodash');
-const dbHelper = require('../helper/db_helper');
-const articleHelper = require('../helper/article_helper');
+const uuid=require('uuid')
+const models = require('../models')
+const _ = require('lodash')
+const common = require('scirichon-common')
+const config = require('config')
+const notifier_api_config = config.get('notifier')
 
 const getModelFromRoute = (url)=>{
     let model = models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
@@ -26,7 +27,9 @@ const findOne = async (ctx,raw=true)=>{
     return obj;
 };
 
-const Notification = models.NotificationName
+const addNotification = async (notification)=>{
+    return common.apiInvoker('POST',notifier_api_config.base_url,'','',notification)
+}
 
 module.exports = {
     post_processor: async function(ctx) {
@@ -34,9 +37,8 @@ module.exports = {
             model=getModelFromRoute(ctx.url), notification_obj,new_obj;
         new_obj = await model.create(obj);
         if(model.trace_history){
-            notification_obj = {type:model.name,user_id,action:'CREATE',new:new_obj,avatar:ctx.local.avatar}
-            await models[Notification].create(notification_obj);
-            ctx.app[Notification].broadcast(Notification,notification_obj)
+            notification_obj = {type:model.name,user_id,action:'CREATE',new:new_obj,avatar:ctx.local.avatar,token:ctx.token}
+            await addNotification(notification_obj)
         }
         ctx.body = {uuid: new_obj.uuid}
     },
@@ -45,9 +47,8 @@ module.exports = {
         obj = await findOne(ctx,false)
         await(obj.destroy())
         if(model.trace_history){
-            notification_obj = {type:model.name,user_id,action:'DELETE',old:obj,avatar:ctx.local.avatar}
-            await models[Notification].create(notification_obj)
-            ctx.app[Notification].broadcast(Notification,notification_obj)
+            notification_obj = {type:model.name,user_id,action:'DELETE',old:obj,avatar:ctx.local.avatar,token:ctx.token}
+            await addNotification(notification_obj)
         }
         ctx.body = {}
     },
@@ -58,9 +59,9 @@ module.exports = {
         update_obj = await findOne(ctx,false)
         await(update_obj.update(obj))
         if(model.trace_history){
-            notification_obj = {type:model.name,article_id:ctx.params.uuid,user_id,action:'UPDATE',old:old_obj,update:_.omit(obj,'token'),new:update_obj,avatar:ctx.local.avatar}
-            await models[Notification].create(notification_obj)
-            ctx.app[Notification].broadcast(Notification,notification_obj)
+            notification_obj = {type:model.name,article_id:ctx.params.uuid,user_id,action:'UPDATE',old:old_obj,
+                update:_.omit(obj,'token'),new:update_obj,avatar:ctx.local.avatar,token:ctx.token}
+            await addNotification(notification_obj)
         }
         ctx.body = {}
     },
@@ -71,40 +72,14 @@ module.exports = {
     findAll_processor: async function(ctx) {
         let model = getModelFromRoute(ctx.url);
         let query = _.assign({},ctx.params,ctx.query,ctx.request.body);
-        let result = await model.findAndCountAll(dbHelper.buildQueryCondition(query));
+        let result = await model.findAndCountAll(common.buildQueryCondition(query));
         ctx.body = result
     },
     search_processor: async function(ctx) {
         let model = getModelFromRoute(ctx.url);
         let query = _.assign({},ctx.params,ctx.query,ctx.request.body)
-        let result = await model.findAndCountAll(dbHelper.buildQueryCondition(query));
+        let result = await model.findAndCountAll(common.buildQueryCondition(query));
         ctx.body = result
     },
-    findOne,
-    timeline_search_processor: async function(ctx) {
-        let user_id = ctx.local.userid,model=getModelFromRoute(ctx.url),query,result
-        if(ctx.request.body.read == false){
-            ctx.request.body.filter = _.merge(ctx.request.body.filter,{$not:{notified_user:{$contains:[user_id]}}})
-        }
-        query = dbHelper.buildQueryCondition(ctx.request.body)
-        result = await model.findAndCountAll(query)
-        result.rows = await articleHelper.articlesMapping(result.rows)
-        result.rows = _.map(result.rows,(row)=>_.omit(row,['notified_user']))
-        ctx.body = result
-    },
-    timeline_update_processor: async function(ctx) {
-        let user_id = ctx.local.userid,notified_user,obj,model=getModelFromRoute(ctx.url),update_obj = ctx.request.body
-        obj = await model.findOne({
-            where: {
-                uuid: ctx.params.uuid
-            }
-        })
-        if(update_obj.read){
-            notified_user = _.clone(obj.notified_user)||[]
-            notified_user = _.uniq(_.concat(notified_user,[user_id]))
-            update_obj.notified_user = notified_user
-        }
-        await(obj.update(update_obj))
-        ctx.body = {}
-    },
+    findOne
 }

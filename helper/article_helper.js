@@ -1,10 +1,12 @@
 const _ = require('lodash');
-const cmdb_api_helper = require('./cmdb_api_helper');
 const dbHelper = require('../helper/db_helper');
 const {article_table_alias,discussion_table_alias} = dbHelper
 const models = require('../models');
 const jp = require('jsonpath');
 const cmdb_cache = require('cmdb-cache')
+const common = require('scirichon-common')
+const config = require('config')
+const cmdb_api_config = config.get('cmdb')
 
 var articlesMapping = function(articles){
     articles = _.map(articles,function(article){
@@ -69,7 +71,7 @@ var setITServiceValues = function(querys,result) {
 
 var searchITServicesByKeyword = async function(querys){
     let search = getITServiceValues(querys).join()
-    let result = await cmdb_api_helper.getITServices({search:search})
+    let result = await common.apiInvoker('GET',cmdb_api_config.base_url,'/api/it_services/service',{search})
     setITServiceValues(querys,result.data)
 };
 
@@ -81,7 +83,7 @@ var constructWherePart = function(querys){
 };
 
 var queryArticlesV1AndMappingWithITService = async function(querys){
-    let condition = dbHelper.buildQueryCondition(querys)
+    let condition = common.buildQueryCondition(querys)
     let articles  = await models['Article'].findAndCountAll(condition)
     articles.rows = await articlesMapping(articles.rows)
     return articles
@@ -159,7 +161,7 @@ var countArticlesAndDiscussionsByITServiceGroup = async function(querys,it_servi
 var countArticlesAndDiscussionsByITServiceGroups = async function(querys){
     let result,it_service_groups
     checkQuery(querys)
-    result = await cmdb_api_helper.getITServiceGroups(querys)
+    result = await common.apiInvoker('GET',cmdb_api_config.base_url,'/api/it_services/group')
     if(!result||!(result.data)){
         throw new Error('find it service group from cmdb error!')
     }

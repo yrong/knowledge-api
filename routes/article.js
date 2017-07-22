@@ -4,6 +4,7 @@ let _ = require('lodash');
 let dbHelper = require('../helper/db_helper')
 let models = require('../models');
 const Router = require('koa-router')
+const common = require('scirichon-common')
 
 const article_processors = {
     findOne_processor: async (ctx) => {
@@ -14,8 +15,7 @@ const article_processors = {
     },
     search_processor: async function(ctx) {
         let query = _.assign({},ctx.params,ctx.query,ctx.request.body),result
-        if(query.filter)
-            query.filter = dbHelper.removeEmptyFieldsInQueryFilter(query.filter)
+        query.filter = common.pruneEmpty(query.filter)
         if(query.countBy){
             result = await articleHelper.countArticlesAndDiscussionsByITServiceGroups(query);
         }else if(query.countOnly){
@@ -33,7 +33,7 @@ const article_processors = {
     },
     findAll_processor: async function(ctx) {
         let query = _.assign({},ctx.params,ctx.query,ctx.request.body)
-        let articles = await models['Article'].findAndCountAll(dbHelper.buildQueryCondition(query));
+        let articles = await models['Article'].findAndCountAll(common.buildQueryCondition(query));
         articles.rows = await articleHelper.articlesMapping(articles.rows)
         ctx.body = articles
     },

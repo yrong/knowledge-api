@@ -8,35 +8,24 @@
     "start-production-schema-init": "NODE_ENV=production upgradeSchema=true node --harmony ./app.js",
     "test": "mocha",
     "migrate": "node --harmony ./migrate/index.js",
-    "generate_simplified_postman_collection": "postman_simplify ./test/kb-api.postman_collection.json ./test/knowledge.postman_environment.json"
+    "generate_simplified_postman_collection": "postman_simplify ./test/kb-api.postman_collection.json"
   },
   "dependencies": {
-    "cmdb-cache": "1.0.0-beta.3",
-    "config": "^1.25.1",
-    "deep-equal": "^1.0.1",
-    "jsonpath": "^0.2.11",
+    "cmdb-cache": "1.0.1-beta.1",
     "kcors": "^2.1.1",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
     "koa-file-upload-fork": "1.0.0-beta.6",
-    "koa-logger": "^2.0.0",
     "koa-mount": "^2.0.0",
-    "koa-passport": "^2.2.2",
     "koa-response-wrapper": "1.0.3-beta.4",
     "koa-router": "^7.0.1",
     "koa-socket": "^4.4.0",
     "koa-static": "^2.1.0",
-    "koa-token-checker": "^1.0.1",
-    "lodash": "^4.17.3",
-    "moment": "^2.13.0",
+    "koa-token-checker": "1.0.2-beta.4",
     "pg": "^6.1.0",
     "pg-pool": "^1.6.0",
-    "query-string": "^4.2.3",
-    "request": "^2.79.0",
-    "request-promise": "^4.1.1",
-    "sequelize-fulltext-search": "^4.1.0",
-    "uuid": "^3.0.0",
-    "validator": "^6.2.0"
+    "scirichon-common": "1.0.0-beta.6",
+    "sequelize-fulltext-search": "^4.1.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -64,7 +53,7 @@
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "newman": "^3.3.1",
-    "postman_simplify": "^1.0.5",
+    "postman_simplify": "1.0.0-beta.1",
     "webpack": "^2.2.1"
   }
 }
