@@ -24,7 +24,7 @@
     "koa-token-checker": "1.0.2-beta.4",
     "pg": "^6.1.0",
     "pg-pool": "^1.6.0",
-    "scirichon-common": "1.0.0-beta.6",
+    "scirichon-common": "1.0.0-beta.7",
     "sequelize-fulltext-search": "^4.1.0"
   },
   "devDependencies": {
