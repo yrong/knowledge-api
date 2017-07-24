@@ -33,34 +33,34 @@ const addNotification = async (notification)=>{
 
 module.exports = {
     post_processor: async function(ctx) {
-        let obj=ctx.request.body,user_id = ctx.local.userid,
+        let obj=ctx.request.body,user=_.pick(ctx.local,['alias','userid','avatar']),
             model=getModelFromRoute(ctx.url), notification_obj,new_obj;
         new_obj = await model.create(obj);
         if(model.trace_history){
-            notification_obj = {type:model.name,user_id,action:'CREATE',new:new_obj,avatar:ctx.local.avatar,token:ctx.token}
+            notification_obj = {type:model.name,user,action:'CREATE',new:new_obj,token:ctx.token}
             await addNotification(notification_obj)
         }
         ctx.body = {uuid: new_obj.uuid}
     },
     delete_processor: async function(ctx) {
-        let obj,user_id = ctx.local.userid, model=getModelFromRoute(ctx.url), notification_obj;
+        let obj,user=_.pick(ctx.local,['alias','userid','avatar']), model=getModelFromRoute(ctx.url), notification_obj;
         obj = await findOne(ctx,false)
         await(obj.destroy())
         if(model.trace_history){
-            notification_obj = {type:model.name,user_id,action:'DELETE',old:obj,avatar:ctx.local.avatar,token:ctx.token}
+            notification_obj = {type:model.name,user,action:'DELETE',old:obj,token:ctx.token}
             await addNotification(notification_obj)
         }
         ctx.body = {}
     },
     put_processor: async function(ctx) {
-        let obj=ctx.request.body,user_id = ctx.local.userid,
+        let obj=ctx.request.body,user=_.pick(ctx.local,['alias','userid','avatar']),
             model=getModelFromRoute(ctx.url), notification_obj,old_obj,update_obj;
         old_obj = await findOne(ctx)
         update_obj = await findOne(ctx,false)
         await(update_obj.update(obj))
         if(model.trace_history){
-            notification_obj = {type:model.name,article_id:ctx.params.uuid,user_id,action:'UPDATE',old:old_obj,
-                update:_.omit(obj,'token'),new:update_obj,avatar:ctx.local.avatar,token:ctx.token}
+            notification_obj = {type:model.name,user,action:'UPDATE',old:old_obj,
+                update:_.omit(obj,'token'),new:update_obj,token:ctx.token}
             await addNotification(notification_obj)
         }
         ctx.body = {}
