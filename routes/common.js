@@ -37,7 +37,7 @@ module.exports = {
             model=getModelFromRoute(ctx.url), notification_obj,new_obj;
         new_obj = await model.create(obj);
         if(model.trace_history){
-            notification_obj = {type:model.name,user,action:'CREATE',new:new_obj,token:ctx.token}
+            notification_obj = {type:model.name,user,action:'CREATE',new:new_obj,token:ctx.token,source:'kb'}
             await addNotification(notification_obj)
         }
         ctx.body = {uuid: new_obj.uuid}
@@ -47,7 +47,7 @@ module.exports = {
         obj = await findOne(ctx,false)
         await(obj.destroy())
         if(model.trace_history){
-            notification_obj = {type:model.name,user,action:'DELETE',old:obj,token:ctx.token}
+            notification_obj = {type:model.name,user,action:'DELETE',old:obj,token:ctx.token,source:'kb'}
             await addNotification(notification_obj)
         }
         ctx.body = {}
@@ -60,7 +60,7 @@ module.exports = {
         await(update_obj.update(obj))
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'UPDATE',old:old_obj,
-                update:_.omit(obj,'token'),new:update_obj,token:ctx.token}
+                update:_.omit(obj,'token'),new:update_obj,token:ctx.token,source:'kb'}
             await addNotification(notification_obj)
         }
         ctx.body = {}
