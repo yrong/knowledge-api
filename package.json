@@ -51,9 +51,13 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.7.2",
     "chai": "^3.5.0",
+    "clean-webpack-plugin": "^0.1.16",
+    "copy-webpack-plugin": "^4.0.1",
+    "git-revision-webpack-plugin": "^2.4.1",
     "mocha": "^3.2.0",
     "newman": "^3.3.1",
     "postman_simplify": "1.0.0-beta.1",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "webpack-shell-plugin": "^0.5.0"
   }
 }

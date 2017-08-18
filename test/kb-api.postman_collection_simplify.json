@@ -241,7 +241,7 @@
       "token": "{{token}}",
       "title": "水电费",
       "it_service": [
-        "b1844cb0-4bde-11e7-84a3-c1203c9549ce"
+        "{{service_email_uuid}}"
       ],
       "tag": [
         "测试",
@@ -315,18 +315,6 @@
     "url": "http://{{cmdb_api_host}}:{{cmdb_api_port}}/api/it_services/service/"
   },
   {
-    "name": "notification timeline search unread",
-    "method": "POST",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline",
-    "body": {
-      "token": "{{token}}",
-      "read": false,
-      "filter": {},
-      "page": 1,
-      "per_page": 2
-    }
-  },
-  {
     "name": "get topic 1",
     "method": "GET",
     "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/{{discussion_1_id}}"
@@ -343,7 +331,7 @@
   {
     "name": "get all articles",
     "method": "GET",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles?page=1&per_page=1"
+    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles?page=1&per_page=2"
   },
   {
     "name": "delete article 1_1",
@@ -496,35 +484,6 @@
     }
   },
   {
-    "name": "notification timeline search by article_id",
-    "method": "POST",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline",
-    "body": {
-      "token": "{{token}}",
-      "filter": {
-        "$or": [
-          {
-            "new.uuid": "{{article_2_id}}"
-          },
-          {
-            "old.uuid": "{{article_2_id}}"
-          }
-        ]
-      },
-      "page": 1,
-      "per_page": 3
-    }
-  },
-  {
-    "name": "notification timeline update status to read",
-    "method": "PUT",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline/{{article_timeline_uuid}}",
-    "body": {
-      "token": "{{token}}",
-      "read": true
-    }
-  },
-  {
     "name": "add article guide",
     "method": "POST",
     "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
@@ -532,7 +491,7 @@
       "token": "{{token}}",
       "title": "水电费",
       "it_service": [
-        "b1844cb0-4bde-11e7-84a3-c1203c9549ce"
+        "{{service_pop3_uuid}}"
       ],
       "tag": [
         "测试",
@@ -553,18 +512,6 @@
     }
   },
   {
-    "name": "notification timeline search unread count=count--",
-    "method": "POST",
-    "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline",
-    "body": {
-      "token": "{{token}}",
-      "read": false,
-      "filter": {},
-      "page": 1,
-      "per_page": 2
-    }
-  },
-  {
     "name": "add article share",
     "method": "POST",
     "url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
@@ -572,7 +519,7 @@
       "token": "{{token}}",
       "title": "水电费",
       "it_service": [
-        "b1844cb0-4bde-11e7-84a3-c1203c9549ce"
+        "{{service_email_uuid}}"
       ],
       "tag": [
         "测试",

@@ -40,34 +40,26 @@
 		"b162a9d7-d7ee-b660-3b2a-dbe6847ed5f5",
 		"3ffb421a-8fa5-21db-b49f-f8715bf6120e",
 		"50b0929b-b809-abf8-7a51-7d095adadc0f",
-		"f9e3e3bf-6e8b-7914-024b-80885e598fed",
-		"bb3ea953-f4a2-c391-aa25-12521406723f",
-		"7daee126-7c6c-8a0f-93ef-eafa1674739f",
-		"bff515aa-b632-104f-0df8-f8daa657a63e",
-		"d0ce0bc4-f910-2c3a-4953-ef67abc92418"
+		"f9e3e3bf-6e8b-7914-024b-80885e598fed"
 	],
 	"folders": [],
+	"folders_order": [],
 	"timestamp": 0,
 	"owner": "2263720",
 	"public": false,
 	"requests": [
 		{
-			"folder": null,
 			"id": "01288bf8-6641-8bc1-0cd3-d6b85606f7a7",
-			"name": "get article 2",
-			"dataMode": "params",
-			"data": [],
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Cookie: token={{token}}\n",
-			"method": "GET",
-			"pathVariables": {},
+			"headers": "token: {{token}}\n",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}?token={{token}}",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article found\"] = jsonData.data.uuid === environment['article_2_id']",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
 			"queryParams": [
 				{
 					"key": "token",
@@ -77,17 +69,20 @@
 					"enabled": true
 				}
 			],
-			"headerData": [
-				{
-					"key": "Cookie",
-					"value": "token={{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article found\"] = jsonData.data.uuid === environment['article_2_id']",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500866800896,
+			"name": "get article 2",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
+			"responses": []
 		},
 		{
 			"folder": null,
@@ -162,23 +157,8 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "151cd209-6bd3-48da-858d-d5df7a486872",
-			"name": "add article 1_1",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_1_id\", jsonData.data.uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -187,15 +167,29 @@
 					"enabled": true
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_1_id\", jsonData.data.uuid);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500866715260,
+			"name": "add article 1_1",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"folder": null,
@@ -234,63 +228,61 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "17d040bb-b8e4-b839-a8c7-b6452a6031ac",
-			"name": "add article 1",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_id\", jsonData.data.uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
+			"headers": "Content-Type: application/json\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
 					"value": "application/json",
 					"description": "",
 					"enabled": true
-				},
+				}
+			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_id\", jsonData.data.uuid);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500552263937,
+			"name": "add article 1",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
+			"responses": [],
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+		},
+		{
+			"id": "1d9c57e7-40b9-82d3-8c6f-314637178f0c",
+			"headers": "token: {{token}}\n",
+			"headerData": [
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				}
 			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"folder": null,
-			"id": "1d9c57e7-40b9-82d3-8c6f-314637178f0c",
-			"name": "query it service group from cmdb-api",
-			"dataMode": "params",
-			"data": null,
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "",
-			"method": "GET",
-			"pathVariables": {},
 			"url": "http://{{cmdb_api_host}}:{{cmdb_api_port}}/api/it_services/group/",
+			"queryParams": [],
 			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"2 ITServiceGroup instances ready\"] = (jsonData.data.length ==2)\nvar service_group_uuids = [];\njsonData.data.forEach(function(result){\n    service_group_uuids.push(result.uuid);\n    postman.setEnvironmentVariable(\"group_\"+result.name+\"_uuid\",result.uuid);\n})\npostman.setEnvironmentVariable(\"service_group_uuids\", JSON.stringify(service_group_uuids));",
 			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"helperAttributes": {},
+			"time": 1500559828771,
+			"name": "query it service group from cmdb-api",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
+			"responses": []
 		},
 		{
 			"folder": null,
@@ -432,7 +424,7 @@
 		},
 		{
 			"id": "3c2a3535-dae5-c30a-ba0b-f3456150a2ff",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -441,8 +433,8 @@
 					"enabled": true
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				}
@@ -458,7 +450,7 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article patched\"] = jsonData.status === 'ok';",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1498807108805,
+			"time": 1500866748054,
 			"name": "patch article 2",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
@@ -538,23 +530,8 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "5da07da8-f42c-34ce-6499-c0ab12f7c788",
-			"name": "patch article 2",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n   \"title\": \"煤气费\",\n   \"author\": \"张三\"\n }\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "PUT",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article updated\"] = jsonData.status === 'ok';",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -563,19 +540,33 @@
 					"enabled": true
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article updated\"] = jsonData.status === 'ok';",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500866756867,
+			"name": "patch article 2",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n   \"title\": \"煤气费\",\n   \"author\": \"张三\"\n }\n\n"
 		},
 		{
 			"id": "5df7ba82-8845-8e44-fd45-dc7401ab0b59",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -584,8 +575,8 @@
 					"enabled": true
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				}
@@ -601,12 +592,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1499236709278,
+			"time": 1500866770380,
 			"name": "add article free",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Free\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Free\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"folder": null,
@@ -645,40 +636,33 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "66a3d175-1c2e-3cc6-e3f4-fd0ca055f4e7",
-			"name": "reply topic 1",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"li_si\",\n      \"to\": [\"zhang_san\",\"wang_wu\"],\n       \"content\": \"测试内容水电费释放\",\n     \"type\": \"reply\",\n     \"reply_id\":\"{{discussion_1_id}}\"\n   }\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"discussion_2_id\", jsonData.data.uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
+			"headers": "Content-Type: application/json\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
 					"value": "application/json",
 					"description": "",
 					"enabled": true
-				},
-				{
-					"key": "Cookie",
-					"value": "token={{token}}",
-					"description": "",
-					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"discussion_2_id\", jsonData.data.uuid);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500866842734,
+			"name": "reply topic 1",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"li_si\",\n      \"to\": [\"zhang_san\",\"wang_wu\"],\n       \"content\": \"测试内容水电费释放\",\n     \"type\": \"reply\",\n     \"reply_id\":\"{{discussion_1_id}}\"\n   }\n\n"
 		},
 		{
 			"folder": null,
@@ -717,56 +701,32 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "6f129cb8-1b7b-4164-f2ca-8d7ca47684a8",
-			"name": "query it service from cmdb-api",
-			"dataMode": "params",
-			"data": null,
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "http://{{cmdb_api_host}}:{{cmdb_api_port}}/api/it_services/service/",
-			"preRequestScript": null,
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"2 ITService instances ready\"] = (jsonData.data.length >=2)\nvar service_uuids = [];\njsonData.data.forEach(function(result){\n    service_uuids.push(result.uuid);\n    postman.setEnvironmentVariable(\"service_\"+result.name+\"_uuid\",result.uuid);\n})\npostman.setEnvironmentVariable(\"service_uuids\", JSON.stringify(service_uuids));",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "7daee126-7c6c-8a0f-93ef-eafa1674739f",
-			"headers": "Content-Type: application/json\n",
+			"headers": "token: {{token}}\n",
 			"headerData": [
 				{
-					"key": "Content-Type",
-					"value": "application/json",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				}
 			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline",
+			"url": "http://{{cmdb_api_host}}:{{cmdb_api_port}}/api/it_services/service/",
 			"queryParams": [],
-			"preRequestScript": "",
+			"preRequestScript": null,
 			"pathVariables": {},
 			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.rows.length >= 1)\npostman.setEnvironmentVariable(\"article_timeline_uuid\", jsonData.data.rows[0].uuid);\npostman.setEnvironmentVariable(\"article_timeline_unread_count\", jsonData.data.count);",
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"2 ITService instances ready\"] = (jsonData.data.length >=2)\nvar service_uuids = [];\njsonData.data.forEach(function(result){\n    service_uuids.push(result.uuid);\n    postman.setEnvironmentVariable(\"service_\"+result.name+\"_uuid\",result.uuid);\n})\npostman.setEnvironmentVariable(\"service_uuids\", JSON.stringify(service_uuids));",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1499344561722,
-			"name": "notification timeline search unread",
+			"time": 1500559821372,
+			"name": "query it service from cmdb-api",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"read\":false,\n  \"filter\":\n  {\n  },\n   \"page\":1,\n  \"per_page\":2\n}\n"
+			"responses": []
 		},
 		{
 			"folder": null,
@@ -799,23 +759,8 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "80ba2c8e-7117-1096-12de-dc38c7d15367",
-			"name": " count articles and discussions by it service group and filter by keyword",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":{},\n  \"countBy\":\"ITServiceGroup\"\n}\n",
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\n\njsonData.data.forEach(function(result){\n    if(result.name==='Infrastructure'){\n        tests[\"Infrastructure group has no article and discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 0)\n    }\n    if(result.name==='Messaging'){\n        tests[\"Messaging group has 1 article and 2 discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 2)\n    }\n})",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -830,27 +775,42 @@
 					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\n\njsonData.data.forEach(function(result){\n    if(result.name==='Infrastructure'){\n        tests[\"Infrastructure group has no article and discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 0)\n    }\n    if(result.name==='Messaging'){\n        tests[\"Messaging group has 1 article and 2 discussion\"] = (result.count.articlesCount === 4 &&result.count.discussionsCount === 2)\n    }\n})",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1499407864771,
+			"name": " count articles and discussions by it service group and filter by keyword",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "\n{\n  \"filter\":{},\n  \"countBy\":\"ITServiceGroup\"\n}\n"
 		},
 		{
-			"folder": null,
 			"id": "870db448-890a-af52-a642-50e8c3a93452",
-			"name": "get all articles",
-			"dataMode": "params",
-			"data": [],
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "token: {{token}}\nContent-Type: application/json\n",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles?page=1&per_page=1",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article found\"] = jsonData.data.count >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles?page=1&per_page=2",
 			"queryParams": [
 				{
 					"key": "page",
@@ -861,65 +821,61 @@
 				},
 				{
 					"key": "per_page",
-					"value": "1",
+					"value": "2",
 					"equals": true,
 					"description": "",
 					"enabled": true
 				}
 			],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article found\"] = jsonData.data.count >= 1",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1499346182537,
+			"name": "get all articles",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
+			"responses": []
+		},
+		{
+			"id": "9822b74e-df2a-bbf8-cbbb-7493b831bcba",
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
 			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
 				{
 					"key": "token",
 					"value": "{{token}}",
 					"description": "",
 					"enabled": true
-				},
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
 				}
 			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"folder": null,
-			"id": "9822b74e-df2a-bbf8-cbbb-7493b831bcba",
-			"name": "delete article 1_1",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\"\n}\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "DELETE",
-			"pathVariables": {},
 			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_1_1_id}}",
+			"queryParams": [],
 			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "raw",
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"delete success\"] = jsonData.status === 'ok'",
 			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				},
-				{
-					"key": "Cookie",
-					"value": "token={{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
+			"helperAttributes": {},
+			"time": 1500866725599,
+			"name": "delete article 1_1",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "{\n  \"token\":\"{{token}}\"\n}\n"
 		},
 		{
 			"folder": null,
@@ -987,23 +943,8 @@
 			"rawModeData": "{\n    \"token\":\"{{token}}\",\n    \"title\": \"煤气费\",\n    \"it_service\": [\"{{service_dns_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"},\n  \"attachment\":[{\"href\":\"http://locahost/hello.txt\",\"size\":100,\"name\":\"hello\"},{\"href\":\"http://locahost/test.txt\",\"size\":100,\"name\":\"test\"}]\n }\n\n"
 		},
 		{
-			"folder": null,
 			"id": "adbe4d3a-2c27-63ee-a0f3-0458a776640c",
-			"name": "get all tags",
-			"dataMode": "params",
-			"data": [],
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/tag",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\nvar arraysEqual = function (a, b) {\n  if (a === b) return true;\n  if (a == null || b == null) return false;\n  if (a.length != b.length) return false;\n  for (var i = 0; i < a.length; ++i) {\n    if (a[i] !== b[i]) return false;\n  }\n  return true;\n}\ntests[\"all tags found\"] = arraysEqual(jsonData.data,[\"测试\",\"随机\"]); ",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -1018,9 +959,22 @@
 					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/tag",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar arraysEqual = function (a, b) {\n  if (a === b) return true;\n  if (a == null || b == null) return false;\n  if (a.length != b.length) return false;\n  for (var i = 0; i < a.length; ++i) {\n    if (a[i] !== b[i]) return false;\n  }\n  return true;\n}\ntests[\"all tags found\"] = arraysEqual(jsonData.data,[\"随机\",\"测试\"]); ",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1503065844965,
+			"name": "get all tags",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
+			"responses": []
 		},
 		{
 			"folder": null,
@@ -1167,66 +1121,8 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"id": "bb3ea953-f4a2-c391-aa25-12521406723f",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.rows.length >= 1)",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1499344553391,
-			"name": "notification timeline search by article_id",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"$or\": [{\"new.uuid\": \"{{article_2_id}}\"},{\"old.uuid\": \"{{article_2_id}}\"}]\n    \n  },\n  \"page\":1,\n  \"per_page\":3\n}\n"
-		},
-		{
-			"id": "bff515aa-b632-104f-0df8-f8daa657a63e",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline/{{article_timeline_uuid}}",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "PUT",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"update timeline status\"] = (jsonData.status === 'ok')",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1499344570588,
-			"name": "notification timeline update status to read",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"read\":true\n}\n"
-		},
-		{
 			"id": "c5a1d2ce-e005-82c7-6b66-01ea46c967cc",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -1235,8 +1131,8 @@
 					"enabled": true
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				}
@@ -1252,45 +1148,16 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1499236724826,
+			"time": 1500866779310,
 			"name": "add article guide",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Guide\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
-		},
-		{
-			"id": "d0ce0bc4-f910-2c3a-4953-ef67abc92418",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/notifications/timeline",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article timeline found\"] = (jsonData.data.count == environment[\"article_timeline_unread_count\"]-1)\n",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1499344586768,
-			"name": "notification timeline search unread count=count--",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"read\":false,\n  \"filter\":\n  {\n  },\n   \"page\":1,\n  \"per_page\":2\n}\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_pop3_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Guide\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"id": "d6c2dfe1-7353-0425-6381-cbb54e8942c1",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -1299,8 +1166,8 @@
 					"enabled": true
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				}
@@ -1316,12 +1183,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1499236739283,
+			"time": 1500866788744,
 			"name": "add article share",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Share\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Share\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"folder": null,
@@ -1390,23 +1257,8 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "e510ba4d-54a8-dbdd-9b4c-c201f21b5f84",
-			"name": "add topic 1",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"zhang_san\",\n      \"to\": [\"li_si\",\"wang_wu\"],\n       \"content\": \"评论的测试内容水电费释放但\",\n     \"type\": \"topic\"\n   }\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"discussion_1_id\", jsonData.data.uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -1415,15 +1267,29 @@
 					"enabled": true
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
+					"key": "token",
+					"value": "{{token}}",
 					"description": "",
 					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"discussion_1_id\", jsonData.data.uuid);",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1500866814639,
+			"name": "add topic 1",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"zhang_san\",\n      \"to\": [\"li_si\",\"wang_wu\"],\n       \"content\": \"评论的测试内容水电费释放但\",\n     \"type\": \"topic\"\n   }\n\n"
 		},
 		{
 			"folder": null,
