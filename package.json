@@ -8,7 +8,8 @@
     "start-production-schema-init": "NODE_ENV=production upgradeSchema=true node --harmony ./app.js",
     "test": "mocha",
     "migrate": "node --harmony ./migrate/index.js",
-    "generate_simplified_postman_collection": "postman_simplify ./test/kb-api.postman_collection.json"
+    "generate_simplified_postman_collection": "postman_simplify ./test/kb-api.postman_collection.json",
+    "build": "webpack"
   },
   "dependencies": {
     "cmdb-cache": "1.0.1-beta.1",
