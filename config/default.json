@@ -27,6 +27,10 @@
     "idleTimeoutMillis": 3000,
     "zhparser":"knowledge_zhcfg"
   },
+  "redis": {
+    "host": "localhost",
+    "port": 6379
+  },
   "cmdb":{
     "base_url":"http://localhost:3001"
   },

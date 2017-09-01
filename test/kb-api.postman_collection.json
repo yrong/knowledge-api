@@ -184,12 +184,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_1_id\", jsonData.data.uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1500866715260,
+			"time": 1504232442015,
 			"name": "add article 1_1",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"folder": null,
@@ -249,12 +249,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_id\", jsonData.data.uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1500552263937,
+			"time": 1504232437792,
 			"name": "add article 1",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"id": "1d9c57e7-40b9-82d3-8c6f-314637178f0c",
@@ -450,12 +450,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article patched\"] = jsonData.status === 'ok';",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1500866748054,
+			"time": 1504232460479,
 			"name": "patch article 2",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n      \"title\": \"停车费\"\n   }\n\n"
+			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n      \"title\": \"停车费\",\n     \"author\": \"{{auth_user_id}}\"\n   }\n\n"
 		},
 		{
 			"folder": null,
@@ -494,23 +494,8 @@
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
 		},
 		{
-			"folder": null,
 			"id": "50b0929b-b809-abf8-7a51-7d095adadc0f",
-			"name": "search articles  by filter with author",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"author\": \"随机\"\n  },\n  \"page\":1,\n  \"per_page\":1,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n",
-			"descriptionFormat": null,
-			"description": "",
 			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
 			"headerData": [
 				{
 					"key": "Content-Type",
@@ -525,9 +510,23 @@
 					"enabled": true
 				}
 			],
+			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
+			"queryParams": [],
+			"preRequestScript": "",
+			"pathVariables": {},
 			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1504230978585,
+			"name": "search articles  by filter with author",
+			"description": "",
+			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"author\": \"{{auth_user_id}}\"\n  },\n  \"page\":1,\n  \"per_page\":1,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n"
 		},
 		{
 			"id": "5da07da8-f42c-34ce-6499-c0ab12f7c788",
@@ -557,12 +556,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article updated\"] = jsonData.status === 'ok';",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1500866756867,
+			"time": 1504232466272,
 			"name": "patch article 2",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n   \"title\": \"煤气费\",\n   \"author\": \"张三\"\n }\n\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n   \"title\": \"煤气费\",\n   \"author\": \"{{auth_user_id}}\"\n }\n\n"
 		},
 		{
 			"id": "5df7ba82-8845-8e44-fd45-dc7401ab0b59",
@@ -592,12 +591,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1500866770380,
+			"time": 1504232471103,
 			"name": "add article free",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Free\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Free\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"folder": null,
@@ -870,12 +869,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"delete success\"] = jsonData.status === 'ok'",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1500866725599,
+			"time": 1504232449407,
 			"name": "delete article 1_1",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\"\n}\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n  \"author\": \"{{auth_user_id}}\"\n}\n"
 		},
 		{
 			"folder": null,
@@ -935,12 +934,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_2_id\", jsonData.data.uuid);",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1498807197048,
+			"time": 1504232454559,
 			"name": "add article 2",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n    \"token\":\"{{token}}\",\n    \"title\": \"煤气费\",\n    \"it_service\": [\"{{service_dns_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"},\n  \"attachment\":[{\"href\":\"http://locahost/hello.txt\",\"size\":100,\"name\":\"hello\"},{\"href\":\"http://locahost/test.txt\",\"size\":100,\"name\":\"test\"}]\n }\n\n"
+			"rawModeData": "{\n    \"token\":\"{{token}}\",\n    \"title\": \"煤气费\",\n    \"it_service\": [\"{{service_dns_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"},\n  \"attachment\":[{\"href\":\"http://locahost/hello.txt\",\"size\":100,\"name\":\"hello\"},{\"href\":\"http://locahost/test.txt\",\"size\":100,\"name\":\"test\"}]\n }\n\n"
 		},
 		{
 			"id": "adbe4d3a-2c27-63ee-a0f3-0458a776640c",
@@ -967,10 +966,10 @@
 			"method": "GET",
 			"data": [],
 			"dataMode": "params",
-			"tests": "var jsonData = JSON.parse(responseBody);\nvar arraysEqual = function (a, b) {\n  if (a === b) return true;\n  if (a == null || b == null) return false;\n  if (a.length != b.length) return false;\n  for (var i = 0; i < a.length; ++i) {\n    if (a[i] !== b[i]) return false;\n  }\n  return true;\n}\ntests[\"all tags found\"] = arraysEqual(jsonData.data,[\"随机\",\"测试\"]); ",
+			"tests": "var jsonData = JSON.parse(responseBody);\nvar arraysEqual = function (a, b) {\n  if (a === b) return true;\n  if (a == null || b == null) return false;\n  if (a.length != b.length) return false;\n  for (var i = 0; i < a.length; ++i) {\n    if (a[i] !== b[i]) return false;\n  }\n  return true;\n}\ntests[\"all tags found\"] = arraysEqual(jsonData.data,[\"测试\",\"随机\"]); ",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1503065844965,
+			"time": 1504167129842,
 			"name": "get all tags",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
@@ -1148,12 +1147,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1500866779310,
+			"time": 1504232476848,
 			"name": "add article guide",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_pop3_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Guide\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_pop3_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Guide\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"id": "d6c2dfe1-7353-0425-6381-cbb54e8942c1",
@@ -1183,12 +1182,12 @@
 			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1500866788744,
+			"time": 1504232482127,
 			"name": "add article share",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"随机\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Share\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Share\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
 		},
 		{
 			"folder": null,
@@ -1352,15 +1351,15 @@
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"1 article and 2 discussions found\"] = (jsonData.data.articlesCount === 4 && jsonData.data.discussionsCount === 2)",
+			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"1 article and 2 discussions found\"] = (jsonData.data.articlesCount === 5 && jsonData.data.discussionsCount === 2)",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1499236830675,
+			"time": 1504231278666,
 			"name": "count articles and discussions by keyword author",
 			"description": "",
 			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
 			"responses": [],
-			"rawModeData": "\n{\n  \"toke\":\"{{token}}\",\n  \"filter\":\n  {\n    \"author\": \"随机\"\n  },\n  \"countOnly\":true\n}\n"
+			"rawModeData": "\n{\n  \"toke\":\"{{token}}\",\n  \"filter\":\n  {\n    \"author\": \"{{auth_user_id}}\"\n  },\n  \"countOnly\":true\n}\n"
 		}
 	]
 }

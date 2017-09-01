@@ -19,7 +19,7 @@ const check_token = require('koa-token-checker')
 const models = require('./models')
 const router = require('./routes')
 const cmdb_cache = require('cmdb-cache')
-
+const acl_checker = require('scirichon-acl-checker')
 
 /**
  * init middlewares
@@ -31,6 +31,7 @@ app.use(bodyParser())
 app.use(mount("/", convert(Static(__dirname + '/public'))))
 app.use(responseWrapper())
 app.use(check_token(config.get('auth')))
+app.use(acl_checker.middleware)
 const file_uploader = require('koa-file-upload-fork')
 for(let option of _.values(config.get('upload'))){
     app.use(mount(option.url,file_uploader(option).handler))
