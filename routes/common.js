@@ -4,6 +4,7 @@ const _ = require('lodash')
 const common = require('scirichon-common')
 const config = require('config')
 const notifier_api_config = config.get('notifier')
+const ScirichonError = common.ScirichonError
 
 const getModelFromRoute = (url)=>{
     let model = models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
@@ -22,7 +23,7 @@ const findOne = async (ctx,raw=true)=>{
         raw: raw
     }));
     if(!obj){
-        throw new Error(ctx.i18n.__('UUIDNotExistError'));
+        throw new ScirichonError(ctx.i18n.__('UUIDNotExistError'));
     }
     return obj;
 };
