@@ -22,7 +22,7 @@ const findOne = async (ctx,raw=true)=>{
         raw: raw
     }));
     if(!obj){
-        throw new Error('UUIDNotExistError');
+        throw new Error(ctx.i18n.__('UUIDNotExistError'));
     }
     return obj;
 };

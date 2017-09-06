@@ -20,12 +20,29 @@ const models = require('./models')
 const router = require('./routes')
 const cmdb_cache = require('cmdb-cache')
 const acl_checker = require('scirichon-acl-checker')
+const locale = require('koa-locale')
+const i18n = require('koa-i18n')
+
 
 /**
  * init middlewares
  */
 
-const app = new Koa();
+const app = new Koa()
+locale(app)
+app.use(i18n(app, {
+    locales: ['zh-CN', 'en-US'],
+    directory: './config/locales',
+    modes: [
+        'query',                //  optional detect querystring - `/?locale=en-US`
+        'subdomain',            //  optional detect subdomain   - `zh-CN.koajs.com`
+        'cookie',               //  optional detect cookie      - `Cookie: locale=zh-TW`
+        'header',               //  optional detect header      - `Accept-Language: zh-CN,zh;q=0.5`
+        'url',                  //  optional detect url         - `/en`
+        'tld'                  //  optional detect tld(the last domain) - `koajs.cn`
+    ],
+    "extension":".json"
+}))
 app.use(cors({ credentials: true }))
 app.use(bodyParser())
 app.use(mount("/", convert(Static(__dirname + '/public'))))
