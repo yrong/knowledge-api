@@ -12,7 +12,6 @@
     "build": "webpack"
   },
   "dependencies": {
-    "cmdb-cache": "1.0.1-beta.1",
     "kcors": "^2.1.1",
     "koa": "^2.0.0",
     "koa-bodyparser": "^3.2.0",
@@ -27,7 +26,8 @@
     "koa-token-checker": "1.0.2-beta.4",
     "pg": "^6.1.0",
     "pg-pool": "^1.6.0",
-    "scirichon-acl-checker": "1.0.0-beta.7",
+    "scirichon-acl-checker": "1.0.0-beta.8",
+    "scirichon-cache": "1.0.1-beta.5",
     "scirichon-common": "1.0.0-beta.8",
     "sequelize-fulltext-search": "^4.1.0"
   },
