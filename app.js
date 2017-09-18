@@ -22,7 +22,7 @@ const cmdb_cache = require('scirichon-cache')
 const acl_checker = require('scirichon-acl-checker')
 const locale = require('koa-locale')
 const i18n = require('koa-i18n')
-
+const path = require('path')
 
 /**
  * init middlewares
@@ -45,7 +45,7 @@ app.use(i18n(app, {
 }))
 app.use(cors({ credentials: true }))
 app.use(bodyParser())
-app.use(mount("/", convert(Static(__dirname + '/public'))))
+app.use(mount("/", convert(Static(path.join(__dirname, 'public')))))
 app.use(responseWrapper())
 app.use(check_token(config.get('auth')))
 app.use(acl_checker.middleware)
