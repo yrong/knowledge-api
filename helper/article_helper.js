@@ -8,27 +8,28 @@ const common = require('scirichon-common')
 const config = require('config')
 const cmdb_api_config = config.get('cmdb')
 
-var articlesMapping = function(articles){
-    articles = _.map(articles,function(article){
-        articleMapping(article)
-        articleMapping(article.old)
-        articleMapping(article.new)
-        articleMapping(article.update)
-        return article;
-    })
-    return articles;
+var articlesMapping = async (articles)=>{
+    let result = []
+    for(let article of articles){
+        await articleMapping(article)
+        await articleMapping(article.old)
+        await articleMapping(article.new)
+        await articleMapping(article.update)
+        result.push(article)
+    }
+    return result
 };
 
-var articleMapping = function(article) {
+var articleMapping = async (article)=> {
     let it_services_items = [],user_item
     if(article&&article.it_service){
-        _.each(article.it_service,function(it_service_uuid){
-            it_services_items.push(cmdb_cache.getItemByCategoryAndID('ITService',it_service_uuid));
-        });
+        for(let it_service_uuid of article.it_service){
+            it_services_items.push(await cmdb_cache.getItemByCategoryAndID('ITService',it_service_uuid));
+        }
         article.it_service = _.isEmpty(it_services_items)?article.it_service:it_services_items
     }
     if(article&&article.user_id){
-        user_item = cmdb_cache.getItemByCategoryAndID('User',article.user_id)
+        user_item = await cmdb_cache.getItemByCategoryAndID('User',article.user_id)
         article.actor = user_item || article.user_id
     }
     return article

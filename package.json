@@ -27,7 +27,7 @@
     "pg": "^6.1.0",
     "pg-pool": "^1.6.0",
     "scirichon-acl-checker": "1.0.0-beta.8",
-    "scirichon-cache": "1.0.1-beta.5",
+    "scirichon-cache": "1.0.1-beta.8",
     "scirichon-common": "1.0.0-beta.8",
     "sequelize-fulltext-search": "^4.1.0"
   },
