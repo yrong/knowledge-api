@@ -21,10 +21,12 @@ var articlesMapping = async (articles)=>{
 };
 
 var articleMapping = async (article)=> {
-    let it_services_items = [],user_item
+    let it_services_items = [],user_item,cached_itservice
     if(article&&article.it_service){
         for(let it_service_uuid of article.it_service){
-            it_services_items.push(await cmdb_cache.getItemByCategoryAndID('ITService',it_service_uuid));
+            cached_itservice = await cmdb_cache.getItemByCategoryAndID('ITService',it_service_uuid)
+            if(cached_itservice)
+                it_services_items.push(await cmdb_cache.getItemByCategoryAndID('ITService',it_service_uuid));
         }
         article.it_service = _.isEmpty(it_services_items)?article.it_service:it_services_items
     }
