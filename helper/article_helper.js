@@ -26,7 +26,7 @@ var articleMapping = async (article)=> {
         for(let it_service_uuid of article.it_service){
             cached_itservice = await cmdb_cache.getItemByCategoryAndID('ITService',it_service_uuid)
             if(cached_itservice)
-                it_services_items.push(await cmdb_cache.getItemByCategoryAndID('ITService',it_service_uuid));
+                it_services_items.push(cached_itservice)
         }
         article.it_service = _.isEmpty(it_services_items)?article.it_service:it_services_items
     }
