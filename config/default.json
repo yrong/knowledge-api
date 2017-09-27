@@ -15,7 +15,7 @@
       }
     ],
     "replaceConsole": true,
-    "defaultLevel":"DEBUG"
+    "defaultLevel":"INFO"
   },
   "postgres": {
     "host": "localhost",

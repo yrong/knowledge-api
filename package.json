@@ -6,7 +6,7 @@
     "start": "node --harmony ./app.js",
     "start-production": "NODE_ENV=production node --harmony ./app.js",
     "start-production-schema-init": "NODE_ENV=production upgradeSchema=true node --harmony ./app.js",
-    "test": "mocha",
+    "test": "ENVIRONMENT_FILE=../CMDB-API/test/globals.postman_globals.json mocha",
     "migrate": "node --harmony ./migrate/index.js",
     "generate_simplified_postman_collection": "postman_simplify ./test/kb-api.postman_collection.json",
     "build": "webpack"

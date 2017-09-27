@@ -73,8 +73,12 @@ var setITServiceValues = function(querys,result) {
 }
 
 var searchITServicesByKeyword = async function(querys){
-    let search = getITServiceValues(querys).join()
-    let result = await common.apiInvoker('GET',cmdb_api_config.base_url,'/api/it_services/service',{search})
+    let search = getITServiceValues(querys)
+    let result = await common.apiInvoker('POST',cmdb_api_config.base_url,'/api/searchByCypher',{
+        "category":"ITService",
+        "search":search,
+        "cypherQueryFile":"advanceSearchITService"
+    })
     setITServiceValues(querys,result.data)
 };
 

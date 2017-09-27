@@ -1,33 +1,20 @@
-require("babel-core/register")
-require("babel-polyfill")
 
-var newman = require('newman');
-var assert = require('chai').assert;
-var migrate = require('../migrate');
+const newman = require('newman');
+const assert = require('chai').assert;
+const fs = require('fs');
+
 describe("Kb-api Integration test suite", function() {
     this.timeout(15000)
 
     it('new api', function(done) {
         newman.run({
             collection: require('./kb-api.postman_collection.json'),
-            environment: require('./postman_environment.json'),
+            environment: JSON.parse(fs.readFileSync(process.env['ENVIRONMENT_FILE'], 'utf8')),
             reporters: 'cli'
         }, function (err) {
             if (err) { done(err)}
             console.log('new api run complete!');
             done();
         });
-    });
-
-    it('migrate db from legacy tables', function(done) {
-        console.time('kb-api-db-migrate')
-        migrate().then((result) => {
-            console.timeEnd('kb-api-db-migrate')
-            console.log(JSON.stringify(result, null, '\t'))
-            done();
-        }).catch((err) => {
-            console.log(err)
-            done();
-        })
     });
 })
