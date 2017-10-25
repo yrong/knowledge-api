@@ -5,6 +5,7 @@ let dbHelper = require('../helper/db_helper')
 let models = require('../models');
 const Router = require('koa-router')
 const common = require('scirichon-common')
+const ScirichonError = common.ScirichonError
 
 const article_processors = {
     findOne_processor: async (ctx) => {
@@ -38,7 +39,8 @@ const article_processors = {
         ctx.body = articles
     },
     score_processor: async function(ctx){
-        let user_id = ctx.local.userid
+        let token_user = ctx.cookies.get(common.TokenUserName)
+        let user_id = JSON.parse(token_user).userid
         let article_id = ctx.params.uuid
         let options = {article_id: article_id, user_id:user_id}
         let article_score = await(models['ArticleScore'].findOne({where:options}))
