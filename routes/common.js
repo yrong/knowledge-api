@@ -5,6 +5,7 @@ const common = require('scirichon-common')
 const config = require('config')
 const notifier_api_config = config.get('notifier')
 const ScirichonError = common.ScirichonError
+const ScirichonWarning = common.ScirichonWarning
 
 const getModelFromRoute = (url)=>{
     let model = models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
@@ -29,12 +30,16 @@ const findOne = async (ctx,raw=true)=>{
 };
 
 const addNotification = async (notification)=>{
-    return common.apiInvoker('POST',notifier_api_config.base_url,'','',notification)
+    try{
+        common.apiInvoker('POST',notifier_api_config.base_url,'','',notification)
+    }catch(err){
+        throw new ScirichonWarning('add notification failed,' + String(err))
+    }
 }
 
 module.exports = {
     post_processor: async function(ctx) {
-        let obj=ctx.request.body,user=JSON.parse(ctx.cookies.get(common.TokenUserName)),
+        let obj=ctx.request.body,user=ctx[common.TokenUserName],
             model=getModelFromRoute(ctx.url), notification_obj,new_obj;
         new_obj = await model.create(obj);
         if(model.trace_history){
@@ -44,7 +49,7 @@ module.exports = {
         ctx.body = {uuid: new_obj.uuid}
     },
     delete_processor: async function(ctx) {
-        let obj,user=JSON.parse(ctx.cookies.get(common.TokenUserName)), model=getModelFromRoute(ctx.url), notification_obj;
+        let obj,user=ctx[common.TokenUserName], model=getModelFromRoute(ctx.url), notification_obj;
         obj = await findOne(ctx,false)
         await(obj.destroy())
         if(model.trace_history){
@@ -54,7 +59,7 @@ module.exports = {
         ctx.body = {}
     },
     put_processor: async function(ctx) {
-        let obj=ctx.request.body,user=JSON.parse(ctx.cookies.get(common.TokenUserName)),
+        let obj=ctx.request.body,user=ctx[common.TokenUserName],
             model=getModelFromRoute(ctx.url), notification_obj,old_obj,update_obj;
         old_obj = await findOne(ctx)
         update_obj = await findOne(ctx,false)

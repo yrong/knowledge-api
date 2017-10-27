@@ -39,8 +39,8 @@ const article_processors = {
         ctx.body = articles
     },
     score_processor: async function(ctx){
-        let token_user = ctx.cookies.get(common.TokenUserName)
-        let user_id = JSON.parse(token_user).userid
+        let token_user = ctx[common.TokenUserName]
+        let user_id = token_user.userid
         let article_id = ctx.params.uuid
         let options = {article_id: article_id, user_id:user_id}
         let article_score = await(models['ArticleScore'].findOne({where:options}))
