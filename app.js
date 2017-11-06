@@ -9,10 +9,7 @@ logger.initialize(config.get('logger'))
 
 
 const Koa = require('koa')
-const convert = require('koa-convert')
 const cors = require('kcors')
-const Static = require('koa-static')
-const mount = require('koa-mount')
 const bodyParser = require('koa-bodyparser')
 const responseWrapper = require('scirichon-response-wrapper')
 const check_token = require('scirichon-token-checker')
@@ -21,7 +18,6 @@ const router = require('./routes')
 const acl_checker = require('scirichon-acl-checker')
 const locale = require('koa-locale')
 const i18n = require('koa-i18n')
-const path = require('path')
 
 /**
  * init middlewares
@@ -44,14 +40,9 @@ app.use(i18n(app, {
 }))
 app.use(cors({ credentials: true }))
 app.use(bodyParser())
-app.use(mount("/", convert(Static(path.join(__dirname, 'public')))))
 app.use(responseWrapper())
-app.use(check_token(config.get('auth')))
+app.use(check_token({check_token_url:`http://${config.get('privateIP')||'localhost'}:${config.get('auth.port')}/auth/check`}))
 app.use(acl_checker.middleware)
-const file_uploader = require('koa-file-upload-fork')
-for(let option of _.values(config.get('upload'))){
-    app.use(mount(option.url,file_uploader(option).handler))
-}
 /**
  * init orm
  */
@@ -76,7 +67,7 @@ app.use(router.routes())
 /**
  * start server
  */
-app.listen(config.get('port'), () => {
+app.listen(config.get('kb.port'), () => {
     console.log('server started')
 })
 

@@ -1,9 +1,7 @@
-const uuid=require('uuid')
 const models = require('../models')
 const _ = require('lodash')
 const common = require('scirichon-common')
 const config = require('config')
-const notifier_api_config = config.get('notifier')
 const ScirichonError = common.ScirichonError
 const ScirichonWarning = common.ScirichonWarning
 
@@ -31,7 +29,7 @@ const findOne = async (ctx,raw=true)=>{
 
 const addNotification = async (notification)=>{
     try{
-        common.apiInvoker('POST',notifier_api_config.base_url,'','',notification)
+        common.apiInvoker('POST',`http://${config.get('privateIP')||'localhost'}:${config.get('notifier.port')}/api/notifications`,'','',notification)
     }catch(err){
         throw new ScirichonWarning('add notification failed,' + String(err))
     }

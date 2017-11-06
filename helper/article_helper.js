@@ -6,7 +6,6 @@ const jp = require('jsonpath');
 const cmdb_cache = require('scirichon-cache')
 const common = require('scirichon-common')
 const config = require('config')
-const cmdb_api_config = config.get('cmdb')
 
 var articlesMapping = async (articles)=>{
     let result = []
@@ -74,12 +73,12 @@ var setITServiceValues = function(querys,result) {
 
 var searchITServicesByKeyword = async function(querys){
     let search = getITServiceValues(querys)
-    let result = await common.apiInvoker('POST',cmdb_api_config.base_url,'/api/searchByCypher',{
+    let result = await common.apiInvoker('POST',`http://${config.get('privateIP')||'localhost'}:${config.get('cmdb.port')}`,'/api/searchByCypher','',{
         "category":"ITService",
         "search":search,
         "cypherQueryFile":"advanceSearchITService"
     })
-    setITServiceValues(querys,result.data)
+    setITServiceValues(querys,result.data||result)
 };
 
 var constructWherePart = function(querys){
@@ -168,11 +167,8 @@ var countArticlesAndDiscussionsByITServiceGroup = async function(querys,it_servi
 var countArticlesAndDiscussionsByITServiceGroups = async function(querys){
     let result,it_service_groups
     checkQuery(querys)
-    result = await common.apiInvoker('GET',cmdb_api_config.base_url,'/api/it_services/group')
-    if(!result||!(result.data)){
-        throw new Error('find it service group from cmdb error!')
-    }
-    it_service_groups = result.data
+    result = await common.apiInvoker('GET',`http://${config.get('privateIP')||'localhost'}:${config.get('cmdb.port')}`,'/api/it_services/group')
+    it_service_groups = result.data||result
     return await countArticlesAndDiscussionsByITServiceGroup(querys,it_service_groups)
 };
 
