@@ -18,6 +18,8 @@ const router = require('./routes')
 const acl_checker = require('scirichon-acl-checker')
 const locale = require('koa-locale')
 const i18n = require('koa-i18n')
+const schema = require('redis-json-schema')
+const scirichon_cache = require('scirichon-cache')
 
 /**
  * init middlewares
@@ -67,7 +69,17 @@ app.use(router.routes())
 /**
  * start server
  */
-app.listen(config.get('kb.port'), () => {
-    console.log('server started')
+schema.loadSchemas().then((schemas)=>{
+    if(schemas&&schemas.length){
+        scirichon_cache.setLoadUrl({cmdb_url:`http://${config.get('privateIP')||'localhost'}:${config.get('cmdb.port')}/api`})
+        app.listen(config.get('kb.port'), () => {
+            console.log('server started')
+        })
+    }else{
+        logger.fatal(`load schema failed!`)
+        process.exit(-2)
+    }
+
 })
+
 

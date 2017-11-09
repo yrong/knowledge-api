@@ -3,7 +3,7 @@ const dbHelper = require('../helper/db_helper');
 const {article_table_alias,discussion_table_alias} = dbHelper
 const models = require('../models');
 const jp = require('jsonpath');
-const cmdb_cache = require('scirichon-cache')
+const scirichon_cache = require('scirichon-cache')
 const common = require('scirichon-common')
 const config = require('config')
 
@@ -23,14 +23,14 @@ var articleMapping = async (article)=> {
     let it_services_items = [],user_item,cached_itservice
     if(article&&article.it_service){
         for(let it_service_uuid of article.it_service){
-            cached_itservice = await cmdb_cache.getItemByCategoryAndID('ITService',it_service_uuid)
-            if(cached_itservice)
+            cached_itservice = await scirichon_cache.getItemByCategoryAndID('ITService',it_service_uuid)
+            if(!_.isEmpty(cached_itservice))
                 it_services_items.push(cached_itservice)
         }
         article.it_service = _.isEmpty(it_services_items)?article.it_service:it_services_items
     }
     if(article&&article.user_id){
-        user_item = await cmdb_cache.getItemByCategoryAndID('User',article.user_id)
+        user_item = await scirichon_cache.getItemByCategoryAndID('User',article.user_id)
         article.actor = user_item || article.user_id
     }
     return article
