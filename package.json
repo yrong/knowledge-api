@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production NODE_NAME=kb node ./app.js",
-    "start-production-schema-init": "NODE_ENV=production NODE_NAME=kbupgradeSchema=true node ./app.js",
+    "start": "NODE_ENV=production NODE_NAME=kb node ./server.js",
+    "start-production-schema-init": "NODE_ENV=production NODE_NAME=kb upgradeSchema=true node ./server.js",
     "test": "ENVIRONMENT_FILE=../CMDB-API/test/globals.postman_globals.json mocha",
     "migrate": "node --harmony ./migrate/index.js",
     "generate_simplified_postman_collection": "postman_simplify ./test/kb-api.postman_collection.json",
