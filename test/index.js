@@ -8,8 +8,8 @@ describe("Kb-api Integration test suite", function() {
 
     it('new api', function(done) {
         newman.run({
-            collection: require('./kb-api.postman_collection.json'),
-            environment: JSON.parse(fs.readFileSync(process.env['ENVIRONMENT_FILE'], 'utf8')),
+            collection: JSON.parse(fs.readFileSync('./test/kb-api.postman_collection.json','utf8')),
+            environment: JSON.parse(fs.readFileSync('./config/postman_globals.json', 'utf8')),
             reporters: 'cli'
         }, function (err) {
             if (err) { done(err)}

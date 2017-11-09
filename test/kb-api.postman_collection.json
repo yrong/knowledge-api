@@ -1,1365 +1,1651 @@
 {
-	"id": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-	"name": "kb-api",
-	"description": "",
-	"order": [
-		"badd6174-b1d7-97a3-95d7-9ce343f67ee8",
-		"2d72ba54-b888-cee1-8eef-396759351ced",
-		"6f129cb8-1b7b-4164-f2ca-8d7ca47684a8",
-		"1d9c57e7-40b9-82d3-8c6f-314637178f0c",
-		"17d040bb-b8e4-b839-a8c7-b6452a6031ac",
-		"151cd209-6bd3-48da-858d-d5df7a486872",
-		"9822b74e-df2a-bbf8-cbbb-7493b831bcba",
-		"a6685591-1126-eeeb-493e-5e4e0f8608e1",
-		"3c2a3535-dae5-c30a-ba0b-f3456150a2ff",
-		"5da07da8-f42c-34ce-6499-c0ab12f7c788",
-		"5df7ba82-8845-8e44-fd45-dc7401ab0b59",
-		"c5a1d2ce-e005-82c7-6b66-01ea46c967cc",
-		"d6c2dfe1-7353-0425-6381-cbb54e8942c1",
-		"01288bf8-6641-8bc1-0cd3-d6b85606f7a7",
-		"870db448-890a-af52-a642-50e8c3a93452",
-		"e510ba4d-54a8-dbdd-9b4c-c201f21b5f84",
-		"66a3d175-1c2e-3cc6-e3f4-fd0ca055f4e7",
-		"7e850aa7-14f6-3de1-2f00-699739983bcc",
-		"d99aa803-d96c-647b-67c7-0f11efe5d27d",
-		"3338ccd8-8402-2e12-9d95-47440e398208",
-		"9fc3fba9-0ab7-2d26-bf3f-fb78b774ed04",
-		"e90259e8-8909-4ba7-7997-e31f59a1e4e7",
-		"26aa3a5b-a6dc-4ada-7ac5-a2b0841a4e42",
-		"15e070ea-e2bf-fbd2-b79d-e48d30c340a2",
-		"68a58a4e-112c-c299-d203-87f6f1b72517",
-		"b4be6006-2c1b-d316-4945-7d375d3dacbf",
-		"66080f9e-00fa-adb9-f329-eda21b44aa9c",
-		"08250233-b2c3-0842-dc78-d2d981f1b3fd",
-		"dca42939-64af-f95b-f37e-3ebce0b3e1c8",
-		"b3786f1a-dc9e-b39b-8e95-77d46e8ea7d4",
-		"08bfd4e7-b709-1b30-f063-ab1554fae332",
-		"2b349038-4b7a-83fb-5404-ca173118af18",
-		"80ba2c8e-7117-1096-12de-dc38c7d15367",
-		"adbe4d3a-2c27-63ee-a0f3-0458a776640c",
-		"b162a9d7-d7ee-b660-3b2a-dbe6847ed5f5",
-		"3ffb421a-8fa5-21db-b49f-f8715bf6120e",
-		"50b0929b-b809-abf8-7a51-7d095adadc0f",
-		"f9e3e3bf-6e8b-7914-024b-80885e598fed"
-	],
-	"folders": [],
-	"folders_order": [],
-	"timestamp": 0,
-	"owner": "2263720",
-	"public": false,
-	"requests": [
+	"info": {
+		"name": "kb-api",
+		"_postman_id": "a30e07cb-a73c-bf99-7ac5-feb12f989e88",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
 		{
-			"id": "01288bf8-6641-8bc1-0cd3-d6b85606f7a7",
-			"headers": "token: {{token}}\n",
-			"headerData": [
-				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}?token={{token}}",
-			"queryParams": [
-				{
-					"key": "token",
-					"value": "{{token}}",
-					"equals": true,
-					"description": "",
-					"enabled": true
-				}
-			],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": [],
-			"dataMode": "params",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article found\"] = jsonData.data.uuid === environment['article_2_id']",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1500866800896,
-			"name": "get article 2",
+			"name": "0-prepare",
 			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": []
-		},
-		{
-			"folder": null,
-			"id": "08250233-b2c3-0842-dc78-d2d981f1b3fd",
-			"name": "search articles  by filter with name of ITServiceGroup",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"type\": \"\",\n    \"it_service\":{\"$overlap\":[\"Infrastructure\"]},\n     \"$or\": [{ \"tag\":{\"$overlap\":[\"测试\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
+			"item": [
 				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"token found\"] = jsonData.data.token;",
+									"postman.setEnvironmentVariable(\"token\", jsonData.data.token);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "token={{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\":\"{{auth_user}}\",\n  \"password\":\"{{auth_passwd}}\"\n}"
+						},
+						"url": {
+							"raw": "http://{{auth_api_host}}:{{auth_api_port}}/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{auth_api_host}}"
+							],
+							"port": "{{auth_api_port}}",
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
+					"name": "delete articles",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "token={{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n  {\n    \"token\":\"{{token}}\"\n   }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/synergy",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"synergy"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
+			]
 		},
 		{
-			"folder": null,
-			"id": "08bfd4e7-b709-1b30-f063-ab1554fae332",
-			"name": "search articles  order by discussion_count",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":{},\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"discussion_count\",\n  \"order\":\"desc\"\n}\n\n\n\n\n",
-			"descriptionFormat": null,
+			"name": "1-article",
 			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
+			"item": [
 				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "add article 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"postman.setEnvironmentVariable(\"article_1_id\", jsonData.uuid);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_id}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "151cd209-6bd3-48da-858d-d5df7a486872",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "add article 1_1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"postman.setEnvironmentVariable(\"article_1_1_id\", jsonData.uuid);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_1_id\", jsonData.data.uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504232442015,
-			"name": "add article 1_1",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"b1844cb0-4bde-11e7-84a3-c1203c9549ce\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
-		},
-		{
-			"folder": null,
-			"id": "15e070ea-e2bf-fbd2-b79d-e48d30c340a2",
-			"name": "search replies by article id",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"article_id\":\"{{article_1_id}}\",\n    \"type\":\"reply\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count == 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "delete article 1_1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"delete success\"] = responseCode.code == 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\":\"{{token}}\",\n  \"author\": \"{{auth_user_id}}\"\n}\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_1_1_id}}",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"{{article_1_1_id}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "17d040bb-b8e4-b839-a8c7-b6452a6031ac",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_1_id\", jsonData.data.uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504232437792,
-			"name": "add article 1",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
-		},
-		{
-			"id": "1d9c57e7-40b9-82d3-8c6f-314637178f0c",
-			"headers": "token: {{token}}\n",
-			"headerData": [
-				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{cmdb_api_host}}:{{cmdb_api_port}}/api/it_services/group/",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"2 ITServiceGroup instances ready\"] = (jsonData.data.length ==2)\nvar service_group_uuids = [];\njsonData.data.forEach(function(result){\n    service_group_uuids.push(result.uuid);\n    postman.setEnvironmentVariable(\"group_\"+result.name+\"_uuid\",result.uuid);\n})\npostman.setEnvironmentVariable(\"service_group_uuids\", JSON.stringify(service_group_uuids));",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1500559828771,
-			"name": "query it service group from cmdb-api",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": []
-		},
-		{
-			"folder": null,
-			"id": "26aa3a5b-a6dc-4ada-7ac5-a2b0841a4e42",
-			"name": "search replies by topic id",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"reply_id\":\"{{discussion_1_id}}\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count == 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "add article 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"postman.setEnvironmentVariable(\"article_2_id\", jsonData.uuid);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\":\"{{token}}\",\n    \"title\": \"煤气费\",\n    \"it_service\": [\"{{service_dns_id}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"},\n  \"attachment\":[{\"href\":\"http://locahost/hello.txt\",\"size\":100,\"name\":\"hello\"},{\"href\":\"http://locahost/test.txt\",\"size\":100,\"name\":\"test\"}]\n }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"folder": null,
-			"id": "2b349038-4b7a-83fb-5404-ca173118af18",
-			"name": "count articles and discussions by keyword",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"toke\":\"{{token}}\",\n  \"filter\":\n  {\n    \"type\": \"Troubleshooting\",\n  \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n  \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"countOnly\":true\n}\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"1 article and 2 discussions found\"] = (jsonData.data.articlesCount === 1 && jsonData.data.discussionsCount === 2)",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "patch article 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"article patched\"] =  responseCode.code == 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n  {\n    \"token\":\"{{token}}\",\n      \"title\": \"停车费\",\n     \"author\": \"{{auth_user_id}}\"\n   }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"{{article_2_id}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"folder": null,
-			"id": "2d72ba54-b888-cee1-8eef-396759351ced",
-			"name": "delete articles",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n  {\n    \"token\":\"{{token}}\"\n   }\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "DELETE",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/synergy",
-			"preRequestScript": "",
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "add article free",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_id}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Free\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"folder": null,
-			"id": "3338ccd8-8402-2e12-9d95-47440e398208",
-			"name": "search discussions  by article id",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n   \"article_id\":\"{{article_1_id}}\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count == 2",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "3c2a3535-dae5-c30a-ba0b-f3456150a2ff",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "add article guide",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_pop3_id}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Guide\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "PATCH",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article patched\"] = jsonData.status === 'ok';",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504232460479,
-			"name": "patch article 2",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n      \"title\": \"停车费\",\n     \"author\": \"{{auth_user_id}}\"\n   }\n\n"
-		},
-		{
-			"folder": null,
-			"id": "3ffb421a-8fa5-21db-b49f-f8715bf6120e",
-			"name": "aggregate article 2",
-			"dataMode": "params",
-			"data": [],
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}/score/aggregate",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"avg is 5\"] = jsonData.data.avg==5;",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "add article share",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_id}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Share\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "50b0929b-b809-abf8-7a51-7d095adadc0f",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "get article 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"article found\"] = jsonData.uuid === environment['article_2_id']"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}?token={{token}}",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"{{article_2_id}}"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504230978585,
-			"name": "search articles  by filter with author",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"author\": \"{{auth_user_id}}\"\n  },\n  \"page\":1,\n  \"per_page\":1,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n"
-		},
-		{
-			"id": "5da07da8-f42c-34ce-6499-c0ab12f7c788",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "get all articles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"article found\"] = jsonData.count >= 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles?page=1&per_page=2",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"equals": true
+								},
+								{
+									"key": "per_page",
+									"value": "2",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "PUT",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article updated\"] = jsonData.status === 'ok';",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504232466272,
-			"name": "patch article 2",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n   \"title\": \"煤气费\",\n   \"author\": \"{{auth_user_id}}\"\n }\n\n"
-		},
-		{
-			"id": "5df7ba82-8845-8e44-fd45-dc7401ab0b59",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "score article 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"operation success\"] = responseCode.code == 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n  {\n    \"token\":\"{{token}}\",\n      \"score\": 5\n   }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}/score",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"{{article_2_id}}",
+								"score"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
+					"name": "aggregate article 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"avg is 5\"] = jsonData.avg==5;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}/score/aggregate",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"{{article_2_id}}",
+								"score",
+								"aggregate"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504232471103,
-			"name": "add article free",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Free\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
+			]
 		},
 		{
-			"folder": null,
-			"id": "66080f9e-00fa-adb9-f329-eda21b44aa9c",
-			"name": "search reply by topic id",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"uuid\":\"{{discussion_1_id}}\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n",
-			"descriptionFormat": null,
+			"name": "2-discussion",
 			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count == 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
+			"item": [
 				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "add topic 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"postman.setEnvironmentVariable(\"discussion_1_id\", jsonData.uuid);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"zhang_san\",\n      \"to\": [\"li_si\",\"wang_wu\"],\n       \"content\": \"评论的测试内容水电费释放但\",\n     \"type\": \"topic\"\n   }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "66a3d175-1c2e-3cc6-e3f4-fd0ca055f4e7",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"discussion_2_id\", jsonData.data.uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1500866842734,
-			"name": "reply topic 1",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"li_si\",\n      \"to\": [\"zhang_san\",\"wang_wu\"],\n       \"content\": \"测试内容水电费释放\",\n     \"type\": \"reply\",\n     \"reply_id\":\"{{discussion_1_id}}\"\n   }\n\n"
-		},
-		{
-			"folder": null,
-			"id": "68a58a4e-112c-c299-d203-87f6f1b72517",
-			"name": "search discussions  by keyword and topic",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"type\": \"topic\",\n   \"keyword\":{\"$fulltext\":\"测试\"}\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count == 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "reply topic 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"postman.setEnvironmentVariable(\"discussion_2_id\", jsonData.uuid);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"li_si\",\n      \"to\": [\"zhang_san\",\"wang_wu\"],\n       \"content\": \"测试内容水电费释放\",\n     \"type\": \"reply\",\n     \"reply_id\":\"{{discussion_1_id}}\"\n   }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "6f129cb8-1b7b-4164-f2ca-8d7ca47684a8",
-			"headers": "token: {{token}}\n",
-			"headerData": [
-				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{cmdb_api_host}}:{{cmdb_api_port}}/api/it_services/service/",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": null,
-			"dataMode": "params",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"2 ITService instances ready\"] = (jsonData.data.length >=2)\nvar service_uuids = [];\njsonData.data.forEach(function(result){\n    service_uuids.push(result.uuid);\n    postman.setEnvironmentVariable(\"service_\"+result.name+\"_uuid\",result.uuid);\n})\npostman.setEnvironmentVariable(\"service_uuids\", JSON.stringify(service_uuids));",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1500559821372,
-			"name": "query it service from cmdb-api",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": []
-		},
-		{
-			"folder": null,
-			"id": "7e850aa7-14f6-3de1-2f00-699739983bcc",
-			"name": "get topic 1",
-			"dataMode": "params",
-			"data": [],
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "token: {{token}}\n",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/{{discussion_1_id}}",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussion found\"] = jsonData.data.uuid === environment['discussion_1_id']",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "80ba2c8e-7117-1096-12de-dc38c7d15367",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "get topic 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussion found\"] = jsonData.uuid === environment['discussion_1_id']"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/{{discussion_1_id}}",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"{{discussion_1_id}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
+					"name": "get all discussions ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count >= 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\n\njsonData.data.forEach(function(result){\n    if(result.name==='Infrastructure'){\n        tests[\"Infrastructure group has no article and discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 0)\n    }\n    if(result.name==='Messaging'){\n        tests[\"Messaging group has 1 article and 2 discussion\"] = (result.count.articlesCount === 4 &&result.count.discussionsCount === 2)\n    }\n})",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1499407864771,
-			"name": " count articles and discussions by it service group and filter by keyword",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n{\n  \"filter\":{},\n  \"countBy\":\"ITServiceGroup\"\n}\n"
+			]
 		},
 		{
-			"id": "870db448-890a-af52-a642-50e8c3a93452",
-			"headers": "token: {{token}}\nContent-Type: application/json\n",
-			"headerData": [
+			"name": "3-search&aggregate",
+			"description": "",
+			"item": [
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
+					"name": "search discussions  by article id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count == 2"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n   \"article_id\":\"{{article_1_id}}\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles?page=1&per_page=2",
-			"queryParams": [
-				{
-					"key": "page",
-					"value": "1",
-					"equals": true,
-					"description": "",
-					"enabled": true
+					"name": "search topic and related replies  by topic id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count == 2"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "token={{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n   \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"$or\":[\n   {\"uuid\":\"{{discussion_1_id}}\"},\n   {\"reply_id\":\"{{discussion_1_id}}\"}\n    ]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "per_page",
-					"value": "2",
-					"equals": true,
-					"description": "",
-					"enabled": true
-				}
-			],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": [],
-			"dataMode": "params",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"article found\"] = jsonData.data.count >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1499346182537,
-			"name": "get all articles",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": []
-		},
-		{
-			"id": "9822b74e-df2a-bbf8-cbbb-7493b831bcba",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search discussions  by topic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count == 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":\n  {\n   \"type\":\"topic\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_1_1_id}}",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "DELETE",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"delete success\"] = jsonData.status === 'ok'",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504232449407,
-			"name": "delete article 1_1",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n  \"author\": \"{{auth_user_id}}\"\n}\n"
-		},
-		{
-			"folder": null,
-			"id": "9fc3fba9-0ab7-2d26-bf3f-fb78b774ed04",
-			"name": "search topic and related replies  by topic id",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n   \"token\":\"{{token}}\",\n  \"filter\":\n  {\n    \"$or\":[\n   {\"uuid\":\"{{discussion_1_id}}\"},\n   {\"reply_id\":\"{{discussion_1_id}}\"}\n    ]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count == 2",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search replies by topic id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count == 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":\n  {\n   \"reply_id\":\"{{discussion_1_id}}\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "a6685591-1126-eeeb-493e-5e4e0f8608e1",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"article_2_id\", jsonData.data.uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504232454559,
-			"name": "add article 2",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "{\n    \"token\":\"{{token}}\",\n    \"title\": \"煤气费\",\n    \"it_service\": [\"{{service_dns_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Troubleshooting\",\n  \"content\":{\"description\": \"煤气费\", \"analysis\": \"煤气费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"煤气费\"},\n  \"attachment\":[{\"href\":\"http://locahost/hello.txt\",\"size\":100,\"name\":\"hello\"},{\"href\":\"http://locahost/test.txt\",\"size\":100,\"name\":\"test\"}]\n }\n\n"
-		},
-		{
-			"id": "adbe4d3a-2c27-63ee-a0f3-0458a776640c",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search replies by article id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count == 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":\n  {\n   \"article_id\":\"{{article_1_id}}\",\n    \"type\":\"reply\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/tag",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "GET",
-			"data": [],
-			"dataMode": "params",
-			"tests": "var jsonData = JSON.parse(responseBody);\nvar arraysEqual = function (a, b) {\n  if (a === b) return true;\n  if (a == null || b == null) return false;\n  if (a.length != b.length) return false;\n  for (var i = 0; i < a.length; ++i) {\n    if (a[i] !== b[i]) return false;\n  }\n  return true;\n}\ntests[\"all tags found\"] = arraysEqual(jsonData.data,[\"测试\",\"随机\"]); ",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504167129842,
-			"name": "get all tags",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": []
-		},
-		{
-			"folder": null,
-			"id": "b162a9d7-d7ee-b660-3b2a-dbe6847ed5f5",
-			"name": "score article 2",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n      \"score\": 5\n   }\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}/score",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"operation success\"] = jsonData.status==='ok';",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search discussions  by keyword and topic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count == 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":\n  {\n   \"type\": \"topic\",\n   \"keyword\":{\"$ts\":\"测试\"}\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"folder": null,
-			"id": "b3786f1a-dc9e-b39b-8e95-77d46e8ea7d4",
-			"name": "search articles  by filter with empty fields",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n   \"type\": \"\",\n    \"it_service\":{\"$overlap\":[\"\"]},\n     \"$or\": [{ \"tag\":{\"$overlap\":[\"\"]}},{\"keyword\":{\"$fulltext\":\"\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search discussions  by keyword or topic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count == 2"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":\n  {\n    \"$or\":[{\"type\": \"topic\"},{\"keyword\":{\"$ts\":\"测试\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"folder": null,
-			"id": "b4be6006-2c1b-d316-4945-7d375d3dacbf",
-			"name": "search discussions  by keyword or topic",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n    \"$or\":[{\"type\": \"topic\"},{\"keyword\":{\"$fulltext\":\"测试\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count == 2",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search reply by topic id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count == 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":\n  {\n   \"uuid\":\"{{discussion_1_id}}\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"folder": null,
-			"id": "badd6174-b1d7-97a3-95d7-9ce343f67ee8",
-			"name": "login",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "{\n  \"username\":\"{{auth_user}}\",\n  \"password\":\"{{auth_passwd}}\"\n}",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\nCookie: token={{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{auth_api_host}}:{{auth_api_port}}/auth/login",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"token found\"] = jsonData.data.token;\npostman.setEnvironmentVariable(\"token\", jsonData.data.token);\n",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search articles  by filter with author",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count >= 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":\n  {\n   \"author\": \"{{auth_user_id}}\",\n   \"keyword\":{\"$ts\":\"水电费\"}\n  },\n  \"page\":1,\n  \"per_page\":1,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "Cookie",
-					"value": "token={{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "c5a1d2ce-e005-82c7-6b66-01ea46c967cc",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search articles  by filter with empty fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count >= 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":\n  {\n   \"type\": \"\",\n    \"it_service\":{\"$overlap\":[\"\"]},\n     \"$or\": [{ \"tag\":{\"$overlap\":[\"\"]}},{\"keyword\":{\"$ts\":\"\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504232476848,
-			"name": "add article guide",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_pop3_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Guide\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
-		},
-		{
-			"id": "d6c2dfe1-7353-0425-6381-cbb54e8942c1",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search articles  by filter with name of ITService",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count >= 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":\n  {\n   \"type\": \"\",\n     \"$or\": [{\"it_service\":{\"$overlap\":[\"Messaging\"]}},{ \"tag\":{\"$overlap\":[\"测试\"]}},{\"keyword\":{\"$ts\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504232482127,
-			"name": "add article share",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "{\n  \"token\":\"{{token}}\",\n    \"title\": \"水电费\",\n    \"it_service\": [\"{{service_email_uuid}}\"],\n    \"tag\": [\"测试\",\"随机\"],\n  \"author\": \"{{auth_user_id}}\",\n  \"ref_links\": [\"https://www.baidu.com/\"],\n  \"tasks\": \"测试插入\",\n  \"type\":\"Share\",\n  \"content\":{\"description\": \"水电费\", \"analysis\": \"水电费\", \"solution\":\"前几天，我的邻居小伙伴突然在QQ上问我突然在不，她比我大几岁，平日里交集不算太多，这么冷不丁的来一句“在吗？”，让我误以为是骗子又来实施诈骗了\",\"workaround\": \"水电费\"}\n }\n\n"
-		},
-		{
-			"folder": null,
-			"id": "d99aa803-d96c-647b-67c7-0f11efe5d27d",
-			"name": "get all discussions ",
-			"dataMode": "params",
-			"data": [],
-			"rawModeData": null,
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "token: {{token}}\n",
-			"method": "GET",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"folder": null,
-			"id": "dca42939-64af-f95b-f37e-3ebce0b3e1c8",
-			"name": "search articles  by filter with name of ITService",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"type\": \"\",\n     \"$or\": [{\"it_service\":{\"$overlap\":[\"Messaging\"]}},{ \"tag\":{\"$overlap\":[\"测试\"]}},{\"keyword\":{\"$fulltext\":\"水电费\"}}]\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count >= 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "search articles  order by discussion_count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count >= 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"token\":\"{{token}}\",\n  \"filter\":{},\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"discussion_count\",\n  \"order\":\"desc\"\n}\n\n\n\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "e510ba4d-54a8-dbdd-9b4c-c201f21b5f84",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "count articles and discussions by keyword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"1 article and 2 discussions found\"] = (jsonData.articlesCount === 1 && jsonData.discussionsCount === 2)"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"toke\":\"{{token}}\",\n  \"filter\":\n  {\n    \"type\": \"Troubleshooting\",\n  \"it_service\":{\"$overlap\":[\"pop3\",\"email\"]},\n  \"$or\": [{ \"tag\":{\"$overlap\":[\"人生\"]}},{\"keyword\":{\"$ts\":\"水电费\"}}]\n  },\n  \"countOnly\":true\n}\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"uuid found\"] = jsonData.data.uuid;\npostman.setEnvironmentVariable(\"discussion_1_id\", jsonData.data.uuid);",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1500866814639,
-			"name": "add topic 1",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"zhang_san\",\n      \"to\": [\"li_si\",\"wang_wu\"],\n       \"content\": \"评论的测试内容水电费释放但\",\n     \"type\": \"topic\"\n   }\n\n"
-		},
-		{
-			"folder": null,
-			"id": "e90259e8-8909-4ba7-7997-e31f59a1e4e7",
-			"name": "search discussions  by topic",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "\n{\n  \"filter\":\n  {\n   \"type\":\"topic\"\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n\n",
-			"descriptionFormat": null,
-			"description": "",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"method": "POST",
-			"pathVariables": {},
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/search",
-			"preRequestScript": "",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"discussions found\"] = jsonData.data.count == 1",
-			"currentHelper": "normal",
-			"helperAttributes": "{}",
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": " count articles and discussions by it service group and filter by keyword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"jsonData.forEach(function(result){",
+									"    if(result.name==='Infrastructure'){",
+									"        tests[\"Infrastructure group has no article and discussion\"] = (result.count.articlesCount === 1 &&result.count.discussionsCount === 0)",
+									"    }",
+									"    if(result.name==='Messaging'){",
+									"        tests[\"Messaging group has 1 article and 2 discussion\"] = (result.count.articlesCount === 4 &&result.count.discussionsCount === 2)",
+									"    }",
+									"})"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":{},\n  \"countBy\":\"ITServiceGroup\"\n}\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				},
 				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
+					"name": "get all tags",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"var arraysEqual = function (a, b) {",
+									"  if (a === b) return true;",
+									"  if (a == null || b == null) return false;",
+									"  if (a.length != b.length) return false;",
+									"  for (var i = 0; i < a.length; ++i) {",
+									"    if (a[i] !== b[i]) return false;",
+									"  }",
+									"  return true;",
+									"}",
+									"tests[\"all tags found\"] = arraysEqual(jsonData,[\"测试\",\"随机\"]); "
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/tag",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"tag"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				}
-			],
-			"pathVariableData": [],
-			"responses": [],
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b"
-		},
-		{
-			"id": "f9e3e3bf-6e8b-7914-024b-80885e598fed",
-			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				},
-				{
-					"key": "token",
-					"value": "{{token}}",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
-			"queryParams": [],
-			"preRequestScript": "",
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": "var jsonData = JSON.parse(responseBody);\ntests[\"1 article and 2 discussions found\"] = (jsonData.data.articlesCount === 5 && jsonData.data.discussionsCount === 2)",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1504231278666,
-			"name": "count articles and discussions by keyword author",
-			"description": "",
-			"collectionId": "66dfbc8f-6f13-f8df-401d-2d750451357b",
-			"responses": [],
-			"rawModeData": "\n{\n  \"toke\":\"{{token}}\",\n  \"filter\":\n  {\n    \"author\": \"{{auth_user_id}}\"\n  },\n  \"countOnly\":true\n}\n"
+			]
 		}
 	]
 }
