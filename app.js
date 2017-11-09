@@ -1,12 +1,12 @@
 const _ = require('lodash')
 const config = require('config')
-const logger = require('log4js_wrapper')
+const Logger = require('log4js_wrapper')
 /**
  * init logger
  */
 
-logger.initialize(config.get('logger'))
-
+Logger.initialize(config.get('logger'))
+const logger = Logger.getLogger()
 
 const Koa = require('koa')
 const cors = require('kcors')
