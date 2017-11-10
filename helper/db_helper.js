@@ -1,6 +1,6 @@
 const Pool = require('pg-pool')
 const config = require('config')
-const pg_config=config.get('postgres');//pg的连接参数
+const pg_config=config.get('postgres-kb');//pg的连接参数
 const pool = new Pool(pg_config);
 const _ = require('lodash')
 const common = require('scirichon-common')

@@ -6,7 +6,7 @@ const Sequelize = require("sequelize-fulltext-search");
 const config = require('config');
 const Log = require('log4js_wrapper')
 const logger = Log.getLogger()
-const pg_config = config.get('postgres')
+const pg_config = config.get('postgres-kb')
 const sequelize = new Sequelize(pg_config.database, pg_config.user, pg_config.password, {
     host: pg_config.host,
     port: pg_config.port,
