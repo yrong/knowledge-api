@@ -15,7 +15,7 @@ fs.readdirSync("node_modules")
 
 var devtool = 'source-map'
 
-var entry = {server:'./app.js'}
+var entry = {server:'./app.js',sync:'./sync.js'}
 var packages = [
     {from:'config',to:'config'},{from:'models',to:'models'},
     {from:'test/*.json'},{from:'node_modules',to:'node_modules'}

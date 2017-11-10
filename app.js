@@ -18,7 +18,6 @@ const router = require('./routes')
 const acl_checker = require('scirichon-acl-checker')
 const locale = require('koa-locale')
 const i18n = require('koa-i18n')
-const schema = require('redis-json-schema')
 const scirichon_cache = require('scirichon-cache')
 
 /**
@@ -45,20 +44,6 @@ app.use(bodyParser())
 app.use(responseWrapper())
 app.use(check_token({check_token_url:`http://${config.get('privateIP')||'localhost'}:${config.get('auth.port')}/auth/check`}))
 app.use(acl_checker.middleware)
-/**
- * init orm
- */
-
-if(process.env.RebuildSchema){
-    models.sequelize.sync({force: true}).then(function(){
-        models.dbInit();
-    })
-}else if(process.env.upgradeSchema){
-    models.sequelize.sync({force: false}).then(function(){
-        models.dbInit();
-    })
-}
-
 
 /**
  * init routes
@@ -69,17 +54,15 @@ app.use(router.routes())
 /**
  * start server
  */
-schema.loadSchemas().then((schemas)=>{
-    if(schemas&&schemas.length){
-        scirichon_cache.setLoadUrl({cmdb_url:`http://${config.get('privateIP')||'localhost'}:${config.get('cmdb.port')}/api`})
+scirichon_cache.initialize({cmdb_url: `http://${config.get('privateIP') || 'localhost'}:${config.get('cmdb.port')}/api`}).then((schemas)=>{
+    if (schemas && schemas.length) {
         app.listen(config.get('kb.port'), () => {
-            console.log('server started')
+            logger.info('App started')
         })
     }else{
-        logger.fatal(`load schema failed!`)
+        logger.fatal(`no schemas found,npm run init in cmdb first!`)
         process.exit(-2)
     }
-
 })
 
 

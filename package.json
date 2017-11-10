@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production NODE_NAME=kb node ./server.js",
-    "start-production-schema-init": "NODE_ENV=production NODE_NAME=kb upgradeSchema=true node ./server.js",
     "test": "mocha",
     "migrate": "node ./migrate/index.js",
     "build": "webpack",
-    "prepare": "/bin/bash ./script/prepare.sh"
+    "prepare": "/bin/bash ./script/prepare.sh",
+    "sync-schema-rebuild": "SYNC_TYPE=rebuild node sync.js",
+    "sync-schema-upgrade": "SYNC_TYPE=upgrade node sync.js"
   },
   "dependencies": {
     "kcors": "^2.1.1",
@@ -29,7 +30,7 @@
     "uuid": "^3.0.0",
     "redis-json-schema": "1.0.0-beta.2",
     "scirichon-acl-checker": "1.0.1-beta.3",
-    "scirichon-cache": "1.0.3-beta.1",
+    "scirichon-cache": "1.0.3-beta.2",
     "scirichon-common": "1.0.1-beta.6",
     "scirichon-response-wrapper": "1.0.0-beta.5",
     "scirichon-token-checker": "1.0.0-beta.6",

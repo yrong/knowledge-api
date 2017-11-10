@@ -34,12 +34,12 @@ fs
 
 db.sequelize = sequelize;
 
-db.dbInit = function(){
-    Object.keys(db).forEach(function(modelName) {
-        if (db[modelName].initsql) {
-            db.sequelize.query(db[modelName].initsql).catch(logger.error);
+db.dbInit = async function(){
+    for(let key in db){
+        if (db[key].initsql) {
+            await db.sequelize.query(db[key].initsql);
         }
-    });
+    }
 }
 
 db.NotificationName = 'Notification'
