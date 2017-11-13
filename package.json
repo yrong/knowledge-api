@@ -22,7 +22,6 @@
     "pg": "^6.1.0",
     "pg-pool": "^1.6.0",
     "lodash": "^4.17.4",
-    "log4js_wrapper": "1.0.3-beta.4",
     "request": "^2.81.0",
     "request-promise": "^4.1.1",
     "config": "^1.25.1",
@@ -32,7 +31,7 @@
     "scirichon-acl-checker": "1.0.1-beta.3",
     "scirichon-cache": "1.0.3-beta.2",
     "scirichon-common": "1.0.1-beta.6",
-    "scirichon-response-wrapper": "1.0.0-beta.5",
+    "scirichon-response-wrapper": "1.0.0-beta.6",
     "scirichon-token-checker": "1.0.0-beta.6",
     "sequelize-fulltext-search": "4.22.5-beta.1"
   },
