@@ -1,5 +1,5 @@
 {
-  "name": "knowledge",
+  "name": "kb",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -7,8 +7,6 @@
     "test": "mocha",
     "migrate": "node ./migrate/index.js",
     "build": "webpack",
-    "prepare": "/bin/bash ./script/prepare.sh",
-    "sync-schema-rebuild": "SYNC_TYPE=rebuild node sync.js",
     "sync-schema-upgrade": "SYNC_TYPE=upgrade node sync.js"
   },
   "dependencies": {
