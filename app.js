@@ -17,6 +17,7 @@ const locale = require('koa-locale')
 const i18n = require('koa-i18n')
 const scirichon_cache = require('scirichon-cache')
 const router = require('./routes')
+const schema = require('redis-json-schema')
 
 /**
  * init middlewares
@@ -43,22 +44,25 @@ app.use(bodyParser())
 /**
  * scirichon middlewares
  */
+const redisOption = {host:`${process.env['REDIS_HOST']||config.get('redis.host')}`,port:config.get('redis.port')}
+const cache_loadUrl = {cmdb_url:`http://${config.get('privateIP') || 'localhost'}:${config.get('cmdb.port')}/api`}
 if(config.get('wrapResponse'))
     app.use(responseWrapper())
 app.use(check_token({check_token_url:`http://${config.get('privateIP')||'localhost'}:${config.get('auth.port')}/auth/check`}))
-app.use(acl_checker.middleware)
+app.use(acl_checker({redisOption}))
 
 /**
  * init routes and start server
  */
 app.use(router.routes())
-scirichon_cache.initialize({cmdb_url: `http://${config.get('privateIP') || 'localhost'}:${config.get('cmdb.port')}/api`}).then((schemas)=>{
+schema.loadSchemas({redisOption}).then((schemas)=>{
     if (schemas && schemas.length) {
+        scirichon_cache.initialize({loadUrl: cache_loadUrl,redisOption})
         app.listen(config.get('kb.port'), () => {
             logger.info('App started')
         })
     }else{
-        logger.fatal(`no schemas found,npm run init in cmdb first!`)
+        logger.fatal(`no schemas found,npm run init first!`)
         process.exit(-2)
     }
 })
