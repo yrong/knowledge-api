@@ -1,4 +1,4 @@
-const models = require('../models')
+const models = require('sequelize-wrapper-advanced').models
 const _ = require('lodash')
 const common = require('scirichon-common')
 const config = require('config')

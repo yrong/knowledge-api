@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production NODE_NAME=kb node ./server.js",
-    "test": "mocha",
-    "migrate": "node ./migrate/index.js",
+    "setenv": "source ../config/.env&&source .env",
+    "prebuild": "yarn install&&rm -rf build",
     "build": "webpack",
-    "sync-schema-upgrade": "SYNC_TYPE=upgrade node sync.js"
+    "initSchema": "initSchema",
+    "start": "node ./server.js",
+    "test": "mocha",
+    "migrate": "node ./migrate/index.js"
   },
   "dependencies": {
     "kcors": "^2.1.1",
@@ -20,30 +22,22 @@
     "pg": "^6.1.0",
     "pg-pool": "^1.6.0",
     "lodash": "^4.17.4",
+    "redis-json-schema": "1.0.0-beta.9",
     "request": "^2.81.0",
     "request-promise": "^4.1.1",
     "config": "^1.25.1",
     "moment": "^2.13.0",
     "uuid": "^3.0.0",
     "scirichon-acl-checker": "1.0.1-beta.4",
-    "scirichon-cache": "1.0.3-beta.4",
+    "scirichon-cache": "1.0.3-beta.5",
     "scirichon-common": "1.0.1-beta.6",
     "scirichon-response-wrapper": "1.0.0-beta.6",
     "scirichon-token-checker": "1.0.0-beta.6",
-    "sequelize-fulltext-search": "4.22.5-beta.1"
+    "sequelize-fulltext-search": "4.22.5-beta.1",
+    "sequelize-wrapper-advanced":"1.0.0-beta.2",
+    "sequelize-schema-init":"1.0.0-beta.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.1",
-    "clean-webpack-plugin": "^0.1.16",
-    "copy-webpack-plugin": "^4.0.1",
-    "git-revision-webpack-plugin": "^2.4.1",
-    "uglifyjs-webpack-plugin": "^1.0.1",
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0",
-    "newman": "^3.3.1",
-    "webpack": "^2.2.1",
-    "webpack-shell-plugin": "^0.5.0"
+    "webpack-builder-advanced": "1.0.0-beta.1"
   }
 }

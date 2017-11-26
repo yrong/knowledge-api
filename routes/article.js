@@ -1,11 +1,10 @@
-let articleHelper = require('../helper/article_helper');
-let common_processor = require('./common');
-let _ = require('lodash');
-let dbHelper = require('../helper/db_helper')
-let models = require('../models');
+const articleHelper = require('../helper/article_helper');
+const common_processor = require('./common');
+const _ = require('lodash');
+const dbHelper = require('../helper/db_helper')
+const models = require('sequelize-wrapper-advanced').models
 const Router = require('koa-router')
 const common = require('scirichon-common')
-const ScirichonError = common.ScirichonError
 
 const article_processors = {
     findOne_processor: async (ctx) => {
