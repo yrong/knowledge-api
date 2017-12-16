@@ -19,7 +19,6 @@ const bodyParser = require('koa-bodyparser')
 const responseWrapper = require('scirichon-response-wrapper')
 const check_token = require('scirichon-token-checker')
 const acl_checker = require('scirichon-acl-checker')
-const schema = require('redis-json-schema')
 const scirichon_cache = require('scirichon-cache')
 const locale = require('koa-locale')
 const i18n = require('koa-i18n')
@@ -61,16 +60,9 @@ app.use(acl_checker({redisOption}))
  * init routes and start server
  */
 app.use(router.routes())
-schema.loadSchemas({redisOption}).then((schemas)=>{
-    if (schemas && schemas.length) {
-        scirichon_cache.initialize({loadUrl: cache_loadUrl,redisOption})
-        app.listen(config.get('kb.port'), () => {
-            logger.info('App started')
-        })
-    }else{
-        logger.fatal(`no schemas found,npm run init first!`)
-        process.exit(-2)
-    }
+scirichon_cache.initialize({loadUrl: cache_loadUrl,redisOption})
+app.listen(config.get('kb.port'), () => {
+    logger.info('App started')
 })
 
 process.on('uncaughtException', (err) => {
