@@ -59,17 +59,13 @@
 					"response": []
 				},
 				{
-					"name": "delete articles",
+					"name": "delete all",
 					"request": {
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
-							},
-							{
-								"key": "Cookie",
-								"value": "token={{token}}"
 							}
 						],
 						"body": {
@@ -77,7 +73,7 @@
 							"raw": "\n  {\n    \"token\":\"{{token}}\"\n   }\n\n"
 						},
 						"url": {
-							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/synergy",
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/hidden",
 							"protocol": "http",
 							"host": [
 								"{{kb_api_host}}"
@@ -87,7 +83,7 @@
 								"KB",
 								"API",
 								"v1",
-								"synergy"
+								"hidden"
 							]
 						},
 						"description": ""
@@ -526,9 +522,9 @@
 							],
 							"query": [
 								{
+									"equals": true,
 									"key": "token",
-									"value": "{{token}}",
-									"equals": true
+									"value": "{{token}}"
 								}
 							]
 						},
@@ -579,14 +575,14 @@
 							],
 							"query": [
 								{
+									"equals": true,
 									"key": "page",
-									"value": "1",
-									"equals": true
+									"value": "1"
 								},
 								{
+									"equals": true,
 									"key": "per_page",
-									"value": "2",
-									"equals": true
+									"value": "2"
 								}
 							]
 						},
