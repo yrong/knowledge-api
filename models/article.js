@@ -51,7 +51,6 @@ module.exports = function (sequelize, DataTypes) {
             tasks: {type: DataTypes.TEXT},
             type: {type: DataTypes.ENUM('Free', 'Guide', 'Share', 'Troubleshooting')},
             content: {type: DataTypes.JSONB},
-            migrate:{type: DataTypes.BOOLEAN,defaultValue:false},
             discussion_count:{type:DataTypes.INTEGER,defaultValue:0},
             attachment:{type: DataTypes.ARRAY(DataTypes.JSONB)}
         });

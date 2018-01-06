@@ -46,8 +46,7 @@ module.exports = function (sequelize, DataTypes) {
             reply_id:{type: DataTypes.UUID},
             type: {type: DataTypes.ENUM('topic', 'reply')},
             content: {type: DataTypes.TEXT},
-            title: {type: DataTypes.TEXT},
-            migrate:{type:DataTypes.BOOLEAN,defaultValue:false}
+            title: {type: DataTypes.TEXT}
         });
     Discussion.initsql = initsql;
     Discussion.trace_history = true
