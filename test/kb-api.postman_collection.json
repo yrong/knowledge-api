@@ -1640,6 +1640,56 @@
 						"description": ""
 					},
 					"response": []
+				},
+				{
+					"name": "search articles  by filter with title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"discussions found\"] = jsonData.count >= 1"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"filter\":\n  {\n   \"title\": {\"$like\":\"%水电%\"}\n  },\n  \"page\":1,\n  \"per_page\":2,\n  \"sortby\":\"createdAt\",\n  \"order\":\"desc\"\n}\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/search",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"articles",
+								"search"
+							]
+						},
+						"description": ""
+					},
+					"response": []
 				}
 			]
 		}
