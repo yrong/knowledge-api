@@ -3922,9 +3922,17 @@ scirichon-common@1.0.1-beta.7:
     request "^2.81.0"
     request-promise "^4.1.1"
 
-scirichon-response-wrapper@1.0.0-beta.6:
-  version "1.0.0-beta.6"
-  resolved "https://registry.npmjs.org/scirichon-response-wrapper/-/scirichon-response-wrapper-1.0.0-beta.6.tgz#3a71e8e258b5d422e2e878f8706243141b72addc"
+scirichon-common@1.0.1-beta.8:
+  version "1.0.1-beta.8"
+  resolved "https://registry.npmjs.org/scirichon-common/-/scirichon-common-1.0.1-beta.8.tgz#bd146d30d554e2cc0ce160b28e35ac6049ee4c89"
+  dependencies:
+    lodash "^4.17.4"
+    request "^2.81.0"
+    request-promise "^4.1.1"
+
+scirichon-response-wrapper@1.0.0-beta.8:
+  version "1.0.0-beta.8"
+  resolved "https://registry.npmjs.org/scirichon-response-wrapper/-/scirichon-response-wrapper-1.0.0-beta.8.tgz#d930346b79423e43fe372bbe7f22de934c1dec4a"
   dependencies:
     lodash "^4.17.4"
     log4js_wrapper "1.0.3-beta.5"
