@@ -23,6 +23,8 @@ const scirichon_cache = require('scirichon-cache')
 const locale = require('koa-locale')
 const i18n = require('koa-i18n')
 const router = require('./routes')
+const _ = require('lodash')
+const common_handler = require('./routes/common')
 
 /**
  * init middlewares
@@ -60,9 +62,18 @@ app.use(acl_checker({redisOption}))
  * init routes and start server
  */
 app.use(router.routes())
-scirichon_cache.initialize({loadUrl: cache_loadUrl,redisOption})
+scirichon_cache.initialize({loadUrl: cache_loadUrl,redisOption,prefix:'cmdb'})
 app.listen(config.get('kb.port'), () => {
     logger.info('App started')
+    if(process.env['INIT_CACHE']){
+        db.models['Article'].findAll().then((results)=>{
+            for(let result of results){
+                if(result&&result.dataValues){
+                    common_handler.addCache('Article',result.dataValues)
+                }
+            }
+        })
+    }
 })
 
 process.on('uncaughtException', (err) => {

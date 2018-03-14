@@ -4,6 +4,7 @@ const common = require('scirichon-common')
 const config = require('config')
 const ScirichonError = common.ScirichonError
 const ScirichonWarning = common.ScirichonWarning
+const scirichon_cache = require('scirichon-cache')
 
 const getModelFromRoute = (url)=>{
     let model = models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
@@ -35,14 +36,33 @@ const addNotification = async (notification)=>{
     }
 }
 
+const addCache = async (category,item)=>{
+    try{
+        await scirichon_cache.addItem(_.assign({category},item))
+    }catch(err){
+        throw new ScirichonWarning('add cache failed,' + String(err))
+    }
+}
+
+const delFromCache = async (category,item)=>{
+    try{
+        await scirichon_cache.delItem(_.assign({category},item))
+    }catch(err){
+        throw new ScirichonWarning('add cache failed,' + String(err))
+    }
+}
+
 module.exports = {
     post_processor: async function(ctx) {
         let obj=ctx.request.body,user=ctx[common.TokenUserName],
             model=getModelFromRoute(ctx.url), notification_obj,new_obj;
-        new_obj = await model.create(obj);
+        new_obj = await model.create(obj)
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'CREATE',new:new_obj,token:ctx.token,source:'kb'}
             await addNotification(notification_obj)
+        }
+        if(model.cacheObj){
+            await addCache(model.name,new_obj.dataValues)
         }
         ctx.body = {uuid: new_obj.uuid}
     },
@@ -53,6 +73,9 @@ module.exports = {
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'DELETE',old:obj,token:ctx.token,source:'kb'}
             await addNotification(notification_obj)
+        }
+        if(model.cacheObj){
+            await delFromCache(model.name,obj.dataValues)
         }
         ctx.body = {}
     },
@@ -66,6 +89,9 @@ module.exports = {
             notification_obj = {type:model.name,user,action:'UPDATE',old:old_obj,
                 update:_.omit(obj,'token'),new:update_obj,token:ctx.token,source:'kb'}
             await addNotification(notification_obj)
+        }
+        if(model.cacheObj){
+            await addCache(model.name,update_obj.dataValues)
         }
         ctx.body = {}
     },
@@ -85,5 +111,6 @@ module.exports = {
         let result = await model.findAndCountAll(common.buildQueryCondition(query));
         ctx.body = result
     },
-    findOne
+    findOne,
+    addCache
 }
