@@ -56,6 +56,6 @@ module.exports = function (sequelize, DataTypes) {
         });
     Article.initsql = initsql;
     Article.trace_history = true
-    Article.cacheObj = false
+    Article.cacheObj = true
     return Article;
 };
