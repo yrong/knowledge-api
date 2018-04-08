@@ -1,7 +1,6 @@
 const models = require('sequelize-wrapper-advanced').models
 const _ = require('lodash')
 const common = require('scirichon-common')
-const config = require('config')
 const ScirichonError = common.ScirichonError
 const ScirichonWarning = common.ScirichonWarning
 const scirichon_cache = require('scirichon-cache')
@@ -30,7 +29,7 @@ const findOne = async (ctx,raw=true)=>{
 
 const addNotification = async (notification)=>{
     try{
-        common.apiInvoker('POST',`http://${config.get('privateIP')||'localhost'}:${config.get('notifier.port')}/api/notifications`,'','',notification)
+        common.apiInvoker('POST',common.getServiceApiUrl('notifier'),'/api/notifications','',notification)
     }catch(err){
         throw new ScirichonWarning('add notification failed,' + String(err))
     }

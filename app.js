@@ -51,8 +51,7 @@ app.use(bodyParser())
 /**
  * scirichon middlewares
  */
-const redisOption = {host:`${process.env['REDIS_HOST']||config.get('redis.host')}`,port:config.get('redis.port'),dbname:'cmdb'}
-const cache_loadUrl = {cmdb_url:`http://${config.get('privateIP') || 'localhost'}:${config.get('cmdb.port')}/api`}
+const redisOption = {host:`${process.env['REDIS_HOST']||config.get('redis.host')}`,port:config.get('redis.port')}
 if(config.get('wrapResponse'))
     app.use(responseWrapper())
 app.use(check_token({check_token_url:`http://${config.get('privateIP')||'localhost'}:${config.get('auth.port')}/auth/check`}))
@@ -62,7 +61,7 @@ app.use(acl_checker({redisOption}))
  * init routes and start server
  */
 app.use(router.routes())
-scirichon_cache.initialize({loadUrl: cache_loadUrl,redisOption,prefix:'cmdb'})
+scirichon_cache.initialize({redisOption,prefix:process.env['SCHEMA_TYPE']})
 app.listen(config.get('kb.port'), () => {
     logger.info('App started')
     if(process.env['INIT_CACHE']){

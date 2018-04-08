@@ -5,7 +5,6 @@ const models = require('sequelize-wrapper-advanced').models
 const jp = require('jsonpath');
 const scirichon_cache = require('scirichon-cache')
 const common = require('scirichon-common')
-const config = require('config')
 
 var articlesMapping = async (articles)=>{
     let result = []
@@ -23,15 +22,23 @@ var articleMapping = async (article)=> {
     let it_services_items = [],user_item,cached_itservice
     if(article&&article.it_service){
         for(let it_service_uuid of article.it_service){
-            cached_itservice = await scirichon_cache.getItemByCategoryAndID('ITService',it_service_uuid)
+            try{
+                cached_itservice = await scirichon_cache.getItemByCategoryAndID('ITService',it_service_uuid)
+            }catch(err){
+                console.log(err.stack||err)
+            }
             if(!_.isEmpty(cached_itservice))
                 it_services_items.push(cached_itservice)
         }
-        article.it_service = _.isEmpty(it_services_items)?article.it_service:it_services_items
+        article.it_service = !_.isEmpty(it_services_items)?it_services_items:article.it_service
     }
     if(article&&article.user_id){
-        user_item = await scirichon_cache.getItemByCategoryAndID('User',article.user_id)
-        article.actor = user_item || article.user_id
+        try{
+            user_item = await scirichon_cache.getItemByCategoryAndID('User',article.user_id)
+        }catch(err){
+            console.log(err.stack||err)
+        }
+        article.actor = !_.isEmpty(user_item)?user_item:article.user_id
     }
     return article
 }
@@ -73,7 +80,7 @@ var setITServiceValues = function(querys,result) {
 
 var searchITServicesByKeyword = async function(querys){
     let search = getITServiceValues(querys)
-    let result = await common.apiInvoker('POST',`http://${config.get('privateIP')||'localhost'}:${config.get('cmdb.port')}`,'/api/searchByCypher','',{
+    let result = await common.apiInvoker('POST',common.getServiceApiUrl('cmdb'),'/api/searchByCypher','',{
         "category":"ITService",
         "search":search,
         "cypherQueryFile":"advanceSearchITService"
@@ -167,7 +174,7 @@ var countArticlesAndDiscussionsByITServiceGroup = async function(querys,it_servi
 var countArticlesAndDiscussionsByITServiceGroups = async function(querys){
     let result,it_service_groups
     checkQuery(querys)
-    result = await common.apiInvoker('POST',`http://${config.get('privateIP')||'localhost'}:${config.get('cmdb.port')}`,'/api/members','',{"category":"ITServiceGroup"})
+    result = await common.apiInvoker('POST',common.getServiceApiUrl('cmdb'),'/api/members','',{"category":"ITServiceGroup"})
     it_service_groups = result.data||result
     return await countArticlesAndDiscussionsByITServiceGroup(querys,it_service_groups)
 };
