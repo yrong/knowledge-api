@@ -29,7 +29,7 @@ const findOne = async (ctx,raw=true)=>{
 
 const addNotification = async (notification)=>{
     try{
-        common.apiInvoker('POST',common.getServiceApiUrl('notifier'),'/api/notifications','',notification)
+        await common.apiInvoker('POST',common.getServiceApiUrl('notifier'),'/api/notifications','',notification)
     }catch(err){
         throw new ScirichonWarning('add notification failed,' + String(err))
     }
@@ -58,6 +58,9 @@ module.exports = {
         new_obj = await model.create(obj)
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'CREATE',new:new_obj,token:ctx.token,source:'kb'}
+            if(model.name='Discussion'&&new_obj.to){
+                notification_obj.subscribe_user = new_obj.to
+            }
             await addNotification(notification_obj)
         }
         if(model.cacheObj){
@@ -66,31 +69,37 @@ module.exports = {
         ctx.body = {uuid: new_obj.uuid}
     },
     delete_processor: async function(ctx) {
-        let obj,user=ctx[common.TokenUserName], model=getModelFromRoute(ctx.url), notification_obj;
-        obj = await findOne(ctx,false)
-        await(obj.destroy())
+        let old_obj,user=ctx[common.TokenUserName], model=getModelFromRoute(ctx.url), notification_obj;
+        old_obj = await findOne(ctx,false)
+        await(old_obj.destroy())
         if(model.trace_history){
-            notification_obj = {type:model.name,user,action:'DELETE',old:obj,token:ctx.token,source:'kb'}
+            notification_obj = {type:model.name,user,action:'DELETE',old:old_obj,token:ctx.token,source:'kb'}
+            if(model.name='Discussion'&&old_obj.to){
+                notification_obj.subscribe_user = old_obj.to
+            }
             await addNotification(notification_obj)
         }
         if(model.cacheObj){
-            await delFromCache(model.name,obj.dataValues)
+            await delFromCache(model.name,old_obj.dataValues)
         }
         ctx.body = {}
     },
     put_processor: async function(ctx) {
-        let obj=ctx.request.body,user=ctx[common.TokenUserName],
-            model=getModelFromRoute(ctx.url), notification_obj,old_obj,update_obj;
+        let update_obj=ctx.request.body,user=ctx[common.TokenUserName],
+            model=getModelFromRoute(ctx.url), notification_obj,old_obj,new_obj;
         old_obj = await findOne(ctx)
-        update_obj = await findOne(ctx,false)
-        await(update_obj.update(obj))
+        new_obj = await findOne(ctx,false)
+        await(new_obj.update(update_obj))
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'UPDATE',old:old_obj,
-                update:_.omit(obj,'token'),new:update_obj,token:ctx.token,source:'kb'}
+                update:_.omit(update_obj,'token'),new:new_obj,token:ctx.token,source:'kb'}
+            if(model.name='Discussion'&&new_obj.to){
+                notification_obj.subscribe_user = new_obj.to
+            }
             await addNotification(notification_obj)
         }
         if(model.cacheObj){
-            await addCache(model.name,update_obj.dataValues)
+            await addCache(model.name,new_obj.dataValues)
         }
         ctx.body = {}
     },
