@@ -51,6 +51,23 @@ const delFromCache = async (category,item)=>{
     }
 }
 
+const userName2Id = async(model,obj,notification_obj)=>{
+    let userIds=[],users=[],user
+    if(model.name='Discussion'&&obj.to){
+        for(let username of obj.to){
+            user = await scirichon_cache.getItemByCategoryAndUniqueName('User',obj.to)
+            if(!_.isEmpty(user)){
+                users.push(user)
+            }
+        }
+        if(!_.isEmpty(users)){
+            userIds = _.map(users,(user)=>user.uuid)
+            notification_obj.subscribe_user = userIds
+        }
+    }
+    return notification_obj
+}
+
 module.exports = {
     post_processor: async function(ctx) {
         let obj=ctx.request.body,user=ctx[common.TokenUserName],
@@ -58,9 +75,7 @@ module.exports = {
         new_obj = await model.create(obj)
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'CREATE',new:new_obj,token:ctx.token,source:'kb'}
-            if(model.name='Discussion'&&new_obj.to){
-                notification_obj.subscribe_user = new_obj.to
-            }
+            await userName2Id(model,new_obj,notification_obj)
             await addNotification(notification_obj)
         }
         if(model.cacheObj){
@@ -74,9 +89,7 @@ module.exports = {
         await(old_obj.destroy())
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'DELETE',old:old_obj,token:ctx.token,source:'kb'}
-            if(model.name='Discussion'&&old_obj.to){
-                notification_obj.subscribe_user = old_obj.to
-            }
+            await userName2Id(model,old_obj,notification_obj)
             await addNotification(notification_obj)
         }
         if(model.cacheObj){
@@ -93,9 +106,7 @@ module.exports = {
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'UPDATE',old:old_obj,
                 update:_.omit(update_obj,'token'),new:new_obj,token:ctx.token,source:'kb'}
-            if(model.name='Discussion'&&new_obj.to){
-                notification_obj.subscribe_user = new_obj.to
-            }
+            await userName2Id(model,new_obj,notification_obj)
             await addNotification(notification_obj)
         }
         if(model.cacheObj){

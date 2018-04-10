@@ -59,13 +59,17 @@
 					"response": []
 				},
 				{
-					"name": "delete all",
+					"name": "delete articles",
 					"request": {
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "token={{token}}"
 							}
 						],
 						"body": {
@@ -522,9 +526,9 @@
 							],
 							"query": [
 								{
-									"equals": true,
 									"key": "token",
-									"value": "{{token}}"
+									"value": "{{token}}",
+									"equals": true
 								}
 							]
 						},
@@ -575,14 +579,14 @@
 							],
 							"query": [
 								{
-									"equals": true,
 									"key": "page",
-									"value": "1"
+									"value": "1",
+									"equals": true
 								},
 								{
-									"equals": true,
 									"key": "per_page",
-									"value": "2"
+									"value": "2",
+									"equals": true
 								}
 							]
 						},
@@ -701,13 +705,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"jsonData = jsonData.data||jsonData;",
 									"tests[\"uuid found\"] = jsonData.uuid;",
 									"postman.setEnvironmentVariable(\"discussion_1_id\", jsonData.uuid);"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -725,7 +729,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"zhang_san\",\n      \"to\": [\"li_si\",\"wang_wu\"],\n       \"content\": \"评论的测试内容水电费释放但\",\n     \"type\": \"topic\"\n   }\n\n"
+							"raw": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"{{auth_user_id}}\",\n      \"to\": [\"{{auth_user}}\"],\n       \"content\": \"评论的测试内容水电费释放但\",\n     \"type\": \"topic\"\n   }\n\n"
 						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
@@ -751,13 +755,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"jsonData = jsonData.data||jsonData;",
 									"tests[\"uuid found\"] = jsonData.uuid;",
 									"postman.setEnvironmentVariable(\"discussion_2_id\", jsonData.uuid);"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -771,7 +775,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"li_si\",\n      \"to\": [\"zhang_san\",\"wang_wu\"],\n       \"content\": \"测试内容水电费释放\",\n     \"type\": \"reply\",\n     \"reply_id\":\"{{discussion_1_id}}\"\n   }\n\n"
+							"raw": "\n  {\n    \"token\":\"{{token}}\",\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"{{auth_user_id}}\",\n      \"to\": [\"{{auth_user}}\"],\n       \"content\": \"测试内容水电费释放\",\n     \"type\": \"reply\",\n     \"reply_id\":\"{{discussion_1_id}}\"\n   }\n\n"
 						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
@@ -828,6 +832,102 @@
 								"v1",
 								"discussions",
 								"{{discussion_1_id}}"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "add topic 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"jsonData = jsonData.data||jsonData;",
+									"tests[\"uuid found\"] = jsonData.uuid;",
+									"postman.setEnvironmentVariable(\"discussion_2_id\", jsonData.uuid);"
+								],
+								"id": "334eaa4d-6d64-400a-b339-a154942ec2c5",
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n  {\n    \"article_id\":\"{{article_1_id}}\",\n      \"from\": \"{{auth_user_id}}\",\n      \"to\": [\"{{auth_user}}\"],\n       \"content\": \"评论的测试内容水电费释放但\",\n     \"type\": \"topic\"\n   }\n\n"
+						},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "del topic 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"article patched\"] =  responseCode.code == 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/{{discussion_2_id}}",
+							"protocol": "http",
+							"host": [
+								"{{kb_api_host}}"
+							],
+							"port": "{{kb_api_port}}",
+							"path": [
+								"KB",
+								"API",
+								"v1",
+								"discussions",
+								"{{discussion_2_id}}"
 							]
 						},
 						"description": ""
@@ -1687,7 +1787,7 @@
 								"search"
 							]
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				}
