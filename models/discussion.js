@@ -1,7 +1,7 @@
 const config = require('config')
-var zhparser=config.get('postgres-kb.zhparser')
-
-var initsql = `
+const zhparser=config.get('postgres-kb.zhparser')
+const CATEGORY='Discussion'
+const initsql = `
 DO $$ 
         BEGIN
             BEGIN
@@ -33,11 +33,20 @@ DROP TRIGGER IF EXISTS update_article_discussion_count_trigger on "Discussions";
 
 CREATE TRIGGER update_article_discussion_count_trigger AFTER INSERT OR DELETE ON "Discussions" FOR EACH ROW
 EXECUTE PROCEDURE update_article_discussion_count();
- 
+
+DO $$ 
+        BEGIN
+            BEGIN
+                ALTER TABLE "Discussions" ADD COLUMN category TEXT;              
+            EXCEPTION
+                WHEN duplicate_column THEN RAISE NOTICE 'column category already exists in Discussions.';
+            END; 
+        END;
+  $$; 
 `;
 
 module.exports = function (sequelize, DataTypes) {
-    var Discussion = sequelize.define("Discussion",
+    let Discussion = sequelize.define(CATEGORY,
         {
             uuid: {type: DataTypes.UUID, allowNull: false, primaryKey: true,defaultValue: DataTypes.UUIDV4},
             article_id:{type: DataTypes.UUID, allowNull: false},
@@ -46,7 +55,8 @@ module.exports = function (sequelize, DataTypes) {
             reply_id:{type: DataTypes.UUID},
             type: {type: DataTypes.ENUM('topic', 'reply')},
             content: {type: DataTypes.TEXT},
-            title: {type: DataTypes.TEXT}
+            title: {type: DataTypes.TEXT},
+            category:{type: DataTypes.TEXT,defaultValue:CATEGORY}
         });
     Discussion.initsql = initsql;
     Discussion.trace_history = true

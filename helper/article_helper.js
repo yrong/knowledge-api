@@ -3,45 +3,9 @@ const dbHelper = require('../helper/db_helper');
 const {article_table_alias,discussion_table_alias} = dbHelper
 const models = require('sequelize-wrapper-advanced').models
 const jp = require('jsonpath');
-const scirichon_cache = require('scirichon-cache')
 const common = require('scirichon-common')
+const responseMapper = require('scirichon-response-mapper')
 
-var articlesMapping = async (articles)=>{
-    let result = []
-    for(let article of articles){
-        await articleMapping(article)
-        await articleMapping(article.old)
-        await articleMapping(article.new)
-        await articleMapping(article.update)
-        result.push(article)
-    }
-    return result
-};
-
-var articleMapping = async (article)=> {
-    let it_services_items = [],user_item,cached_itservice
-    if(article&&article.it_service){
-        for(let it_service_uuid of article.it_service){
-            try{
-                cached_itservice = await scirichon_cache.getItemByCategoryAndID('ITService',it_service_uuid)
-            }catch(err){
-                console.log(err.stack||err)
-            }
-            if(!_.isEmpty(cached_itservice))
-                it_services_items.push(cached_itservice)
-        }
-        article.it_service = !_.isEmpty(it_services_items)?it_services_items:article.it_service
-    }
-    if(article&&article.user_id){
-        try{
-            user_item = await scirichon_cache.getItemByCategoryAndID('User',article.user_id)
-        }catch(err){
-            console.log(err.stack||err)
-        }
-        article.actor = !_.isEmpty(user_item)?user_item:article.user_id
-    }
-    return article
-}
 
 var containsITService = (filter) => {
     let services = jp.query(filter,'$..it_service')
@@ -95,20 +59,20 @@ var constructWherePart = function(querys){
     querys.where = where
 };
 
-var queryArticlesV1AndMappingWithITService = async function(querys){
-    let condition = common.buildQueryCondition(querys)
-    let articles  = await models['Article'].findAndCountAll(condition)
-    articles.rows = await articlesMapping(articles.rows)
-    return articles
-};
-
-
 var articlesSearchByITServiceKeyword = async function(querys) {
     checkQuery(querys)
     if(containsITService(querys.filter)){
         await searchITServicesByKeyword(querys)
     }
-    let articles = await queryArticlesV1AndMappingWithITService(querys)
+    let condition = common.buildQueryCondition(querys)
+    let articles  = await models['Article'].findAndCountAll(condition),rows=[]
+    if(articles&&articles.rows){
+        for(let article of articles.rows){
+            article = await responseMapper.referencedObjectMapper(article)
+            rows.push(article)
+        }
+        articles.rows = rows
+    }
     return articles
 };
 
@@ -180,6 +144,6 @@ var countArticlesAndDiscussionsByITServiceGroups = async function(querys){
 };
 
 
-module.exports = {articlesMapping,articlesSearchByITServiceKeyword,
+module.exports = {articlesSearchByITServiceKeyword,
     countArticlesAndDiscussionsByITServiceKeyword,countArticlesAndDiscussionsByITServiceGroups}
 

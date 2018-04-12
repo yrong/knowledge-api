@@ -1,7 +1,7 @@
 const config = require('config')
-var zhparser=config.get('postgres-kb.zhparser')
-
-var initsql = `
+const zhparser=config.get('postgres-kb.zhparser')
+const CATEGORY='Article'
+const initsql = `
 
 DO $$ 
         BEGIN
@@ -34,13 +34,23 @@ DO $$
             (select article_id,count(*) as cnt from "Discussions" group by article_id) as article_discussion_count         
             WHERE  "Articles".uuid=article_discussion_count.article_id; 
         END;
-$$;    
-  
+$$; 
+
+DO $$ 
+        BEGIN
+            BEGIN
+                ALTER TABLE "Articles" ADD COLUMN category TEXT;              
+            EXCEPTION
+                WHEN duplicate_column THEN RAISE NOTICE 'column category already exists in Articles.';
+            END; 
+        END;
+  $$; 
+         
 `
 
 
 module.exports = function (sequelize, DataTypes) {
-    var Article = sequelize.define("Article",
+    let Article = sequelize.define(CATEGORY,
         {
             uuid: {type: DataTypes.UUID, allowNull: false, primaryKey: true,defaultValue: DataTypes.UUIDV4},
             title: {type: DataTypes.TEXT, allowNull: false},
@@ -52,7 +62,8 @@ module.exports = function (sequelize, DataTypes) {
             type: {type: DataTypes.ENUM('Free', 'Guide', 'Share', 'Troubleshooting')},
             content: {type: DataTypes.JSONB},
             discussion_count:{type:DataTypes.INTEGER,defaultValue:0},
-            attachment:{type: DataTypes.ARRAY(DataTypes.JSONB)}
+            attachment:{type: DataTypes.ARRAY(DataTypes.JSONB)},
+            category:{type: DataTypes.TEXT,defaultValue:CATEGORY}
         });
     Article.initsql = initsql;
     Article.trace_history = true

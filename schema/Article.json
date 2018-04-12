@@ -1,0 +1,17 @@
+{
+  "id": "Article",
+  "cache":{"fields":["uuid","title","category"]},
+  "service":"kb",
+  "loadUrl":"/KB/API/v1/articles",
+  "properties": {
+    "author":{
+      "type": "string",
+      "schema":"User"
+    },
+    "it_service": {
+      "type": "array",
+      "items": { "type": "string", "schema":"ITService"},
+      "uniqueItems": true
+    }
+  }
+}

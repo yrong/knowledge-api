@@ -23,8 +23,8 @@ const scirichon_cache = require('scirichon-cache')
 const locale = require('koa-locale')
 const i18n = require('koa-i18n')
 const router = require('./routes')
-const _ = require('lodash')
 const common_handler = require('./routes/common')
+const scirichon_common = require('scirichon-common')
 
 /**
  * init middlewares
@@ -52,10 +52,20 @@ app.use(bodyParser())
  * scirichon middlewares
  */
 const redisOption = {host:`${process.env['REDIS_HOST']||config.get('redis.host')}`,port:config.get('redis.port')}
+const auth_url = scirichon_common.getServiceApiUrl('auth')
 if(config.get('wrapResponse'))
     app.use(responseWrapper())
-app.use(check_token({check_token_url:`http://${config.get('privateIP')||'localhost'}:${config.get('auth.port')}/auth/check`}))
+app.use(check_token({check_token_url:`${auth_url}/auth/check`}))
 app.use(acl_checker({redisOption}))
+
+const loadCache = async ()=>{
+    let results = await db.models['Article'].findAll()
+    for(let result of results){
+        if(result&&result.dataValues){
+            await common_handler.addCache('Article',result.dataValues)
+        }
+    }
+}
 
 /**
  * init routes and start server
@@ -65,13 +75,7 @@ scirichon_cache.initialize({redisOption,prefix:process.env['SCHEMA_TYPE']})
 app.listen(config.get('kb.port'), () => {
     logger.info('App started')
     if(process.env['INIT_CACHE']){
-        db.models['Article'].findAll().then((results)=>{
-            for(let result of results){
-                if(result&&result.dataValues){
-                    common_handler.addCache('Article',result.dataValues)
-                }
-            }
-        })
+        loadCache()
     }
 })
 

@@ -4,6 +4,7 @@ const common = require('scirichon-common')
 const ScirichonError = common.ScirichonError
 const ScirichonWarning = common.ScirichonWarning
 const scirichon_cache = require('scirichon-cache')
+const responseMapper = require('scirichon-response-mapper')
 
 const getModelFromRoute = (url)=>{
     let model = models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
@@ -37,21 +38,31 @@ const addNotification = async (notification)=>{
 
 const addCache = async (category,item)=>{
     try{
-        await scirichon_cache.addItem(_.assign({category},item))
+        item.category = item.category||category
+        await scirichon_cache.addItem(item)
     }catch(err){
-        throw new ScirichonWarning('add cache failed,' + String(err))
+        throw new ScirichonWarning('add cache failed,' + err)
     }
 }
 
 const delFromCache = async (category,item)=>{
     try{
+        item.category = item.category||category
         await scirichon_cache.delItem(_.assign({category},item))
     }catch(err){
-        throw new ScirichonWarning('add cache failed,' + String(err))
+        throw new ScirichonWarning('add cache failed,' + err)
     }
 }
 
-const userName2Id = async(names)=>{
+const userName2Id = async(name)=>{
+    let user = await scirichon_cache.getItemByCategoryAndUniqueName('User',name)
+    if(!_.isEmpty(user)){
+        return user.uuid
+    }
+    return name
+}
+
+const userNames2Id = async(names)=>{
     let users=[],user
     for(let name of names){
         user = await scirichon_cache.getItemByCategoryAndUniqueName('User',name)
@@ -59,16 +70,27 @@ const userName2Id = async(names)=>{
             users.push(user)
         }
     }
-    return _.map(users,(user)=>user.uuid)
+    return _.isEmpty(users)?names:_.map(users,(user)=>user.uuid)
 }
 
-const setNotificationSubscriber = async (ctx,obj,notification_obj)=>{
+const assignUserId = async(model,obj)=>{
+    obj.category = model.name
+    if(!_.isEmpty(obj.author)){
+        obj.author = await userName2Id(obj.author)
+    }
+    if(!_.isEmpty(obj.from)){
+        obj.from = await userName2Id(obj.from)
+    }
     if(!_.isEmpty(obj.to)){
-        let userIds = await userName2Id(obj.to)
-        if(!_.isEmpty(userIds)){
-            notification_obj.subscribe_user = userIds
-            notification_obj.subscribe_role = ctx[common.TokenUserName].roles||[]
-        }
+        obj.to = await userNames2Id(obj.to)
+    }
+    return obj
+}
+
+const setNotificationSubscriber = async (obj,notification_obj)=>{
+    if(!_.isEmpty(obj.to)){
+        notification_obj.subscribe_user = obj.to
+        notification_obj.subscribe_role = []
     }
     return notification_obj
 }
@@ -76,15 +98,17 @@ const setNotificationSubscriber = async (ctx,obj,notification_obj)=>{
 module.exports = {
     post_processor: async function(ctx) {
         let obj=ctx.request.body,user=ctx[common.TokenUserName],
-            model=getModelFromRoute(ctx.url), notification_obj,new_obj,userIds;
+            model=getModelFromRoute(ctx.url), notification_obj,new_obj;
+        obj = await assignUserId(model,obj)
         new_obj = await model.create(obj)
+        new_obj = new_obj.dataValues
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'CREATE',new:new_obj,token:ctx.token,source:'kb'}
-            await setNotificationSubscriber(ctx,new_obj,notification_obj)
+            await setNotificationSubscriber(new_obj,notification_obj)
             await addNotification(notification_obj)
         }
         if(model.cacheObj){
-            await addCache(model.name,new_obj.dataValues)
+            await addCache(model.name,new_obj)
         }
         ctx.body = {uuid: new_obj.uuid}
     },
@@ -92,22 +116,25 @@ module.exports = {
         let old_obj,user=ctx[common.TokenUserName], model=getModelFromRoute(ctx.url), notification_obj;
         old_obj = await findOne(ctx,false)
         await(old_obj.destroy())
+        old_obj = old_obj.dataValues
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'DELETE',old:old_obj,token:ctx.token,source:'kb'}
-            await setNotificationSubscriber(ctx,old_obj,notification_obj)
+            await setNotificationSubscriber(old_obj,notification_obj)
             await addNotification(notification_obj)
         }
         if(model.cacheObj){
-            await delFromCache(model.name,old_obj.dataValues)
+            await delFromCache(model.name,old_obj)
         }
         ctx.body = {}
     },
     put_processor: async function(ctx) {
         let update_obj=ctx.request.body,user=ctx[common.TokenUserName],
             model=getModelFromRoute(ctx.url), notification_obj,old_obj,new_obj;
+        update_obj = await assignUserId(model,update_obj)
         old_obj = await findOne(ctx)
         new_obj = await findOne(ctx,false)
         await(new_obj.update(update_obj))
+        new_obj = new_obj.dataValues
         if(model.trace_history){
             notification_obj = {type:model.name,user,action:'UPDATE',old:old_obj,
                 update:_.omit(update_obj,'token'),new:new_obj,token:ctx.token,source:'kb'}
@@ -115,24 +142,40 @@ module.exports = {
             await addNotification(notification_obj)
         }
         if(model.cacheObj){
-            await addCache(model.name,new_obj.dataValues)
+            await addCache(model.name,new_obj)
         }
         ctx.body = {}
     },
     findOne_processor: async function(ctx) {
+        let model = getModelFromRoute(ctx.url);
         let result = await findOne(ctx);
+        result = await responseMapper.referencedObjectMapper(result,{category:model.name})
         ctx.body = result
     },
     findAll_processor: async function(ctx) {
         let model = getModelFromRoute(ctx.url);
         let query = _.assign({},ctx.params,ctx.query,ctx.request.body);
-        let result = await model.findAndCountAll(common.buildQueryCondition(query));
+        let result = await model.findAndCountAll(common.buildQueryCondition(query)),rows=[]
+        if(result&&result.rows){
+            for(let row of result.rows){
+                row = await responseMapper.referencedObjectMapper(row,{category:model.name})
+                rows.push(row)
+            }
+            result.rows = rows
+        }
         ctx.body = result
     },
     search_processor: async function(ctx) {
         let model = getModelFromRoute(ctx.url);
         let query = _.assign({},ctx.params,ctx.query,ctx.request.body)
-        let result = await model.findAndCountAll(common.buildQueryCondition(query));
+        let result = await model.findAndCountAll(common.buildQueryCondition(query)),rows=[]
+        if(result&&result.rows){
+            for(let row of result.rows){
+                row = await responseMapper.referencedObjectMapper(row,{category:model.name})
+                rows.push(row)
+            }
+            result.rows = rows
+        }
         ctx.body = result
     },
     findOne,

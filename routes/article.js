@@ -7,12 +7,6 @@ const Router = require('koa-router')
 const common = require('scirichon-common')
 
 const article_processors = {
-    findOne_processor: async (ctx) => {
-        let article = await common_processor.findOne(ctx)
-        let result = await articleHelper.articlesMapping([article])
-        article = result[0]
-        ctx.body = article
-    },
     search_processor: async function(ctx) {
         let query = _.assign({},ctx.params,ctx.query,ctx.request.body),result
         query.filter = common.pruneEmpty(query.filter)
@@ -30,12 +24,6 @@ const article_processors = {
         let result = await dbHelper.pool.query(`select distinct(unnest(tag)) as tag from "Articles"`)
         result = result.rows.map(item => item.tag)
         ctx.body = result
-    },
-    findAll_processor: async function(ctx) {
-        let query = _.assign({},ctx.params,ctx.query,ctx.request.body)
-        let articles = await models['Article'].findAndCountAll(common.buildQueryCondition(query));
-        articles.rows = await articleHelper.articlesMapping(articles.rows)
-        ctx.body = articles
     },
     score_processor: async function(ctx){
         let token_user = ctx[common.TokenUserName]
@@ -65,9 +53,9 @@ const articles = new Router();
 articles.post('/',common_processor.post_processor)
 articles.post('/search',article_processors.search_processor)
 articles.del('/:uuid',common_processor.delete_processor)
-articles.get('/',article_processors.findAll_processor)
+articles.get('/',common_processor.findAll_processor)
 articles.get('/tag',article_processors.tag_processor)
-articles.get('/:uuid',article_processors.findOne_processor)
+articles.get('/:uuid',common_processor.findOne_processor)
 articles.put('/:uuid',common_processor.put_processor)
 articles.patch('/:uuid',common_processor.put_processor)
 articles.post('/:uuid/score',article_processors.score_processor)

@@ -1,0 +1,20 @@
+{
+  "id": "Discussion",
+  "cache":{"ignore":true},
+  "service":"kb",
+  "loadUrl":"/KB/API/v1/discussions",
+  "properties": {
+    "article_id":{
+      "type": "string",
+      "schema":"Article"
+    },
+    "from":{
+      "type": "string",
+      "schema":"User"
+    },
+    "to":{
+      "type": "array",
+      "items": { "type": "string", "schema":"User"}
+    }
+  }
+}
