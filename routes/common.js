@@ -149,7 +149,7 @@ module.exports = {
     findOne_processor: async function(ctx) {
         let model = getModelFromRoute(ctx.url);
         let result = await findOne(ctx);
-        result = await responseMapper.referencedObjectMapper(result,{category:model.name})
+        result = await responseMapper.responseMapper(result,{category:model.name})
         ctx.body = result
     },
     findAll_processor: async function(ctx) {
@@ -158,7 +158,7 @@ module.exports = {
         let result = await model.findAndCountAll(common.buildQueryCondition(query)),rows=[]
         if(result&&result.rows){
             for(let row of result.rows){
-                row = await responseMapper.referencedObjectMapper(row,{category:model.name})
+                row = await responseMapper.responseMapper(row,{category:model.name})
                 rows.push(row)
             }
             result.rows = rows
@@ -171,7 +171,7 @@ module.exports = {
         let result = await model.findAndCountAll(common.buildQueryCondition(query)),rows=[]
         if(result&&result.rows){
             for(let row of result.rows){
-                row = await responseMapper.referencedObjectMapper(row,{category:model.name})
+                row = await responseMapper.responseMapper(row,{category:model.name})
                 rows.push(row)
             }
             result.rows = rows

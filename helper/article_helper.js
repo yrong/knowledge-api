@@ -68,7 +68,7 @@ var articlesSearchByITServiceKeyword = async function(querys) {
     let articles  = await models['Article'].findAndCountAll(condition),rows=[]
     if(articles&&articles.rows){
         for(let article of articles.rows){
-            article = await responseMapper.referencedObjectMapper(article)
+            article = await responseMapper.responseMapper(article,{category:'Article',original:true})
             rows.push(article)
         }
         articles.rows = rows

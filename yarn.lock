@@ -3712,26 +3712,6 @@ redis-crud-fork@1.0.0-beta.8:
   version "1.0.0-beta.8"
   resolved "https://registry.npmjs.org/redis-crud-fork/-/redis-crud-fork-1.0.0-beta.8.tgz#6ff803b251f092bb7a5d108c75d24f43b30fd057"
 
-redis-json-schema-init@1.0.1-beta.9:
-  version "1.0.1-beta.9"
-  resolved "https://registry.npmjs.org/redis-json-schema-init/-/redis-json-schema-init-1.0.1-beta.9.tgz#17bf2be161eebac8c28cde872d2c6af563dfa49e"
-  dependencies:
-    config "^1.25.1"
-    elasticsearch "^12.1.3"
-    lodash "^4.17.4"
-    neo4j-driver "^1.5.0"
-    parse-neo4j-fork "^0.6.10"
-    redis-json-schema "1.0.2-beta.3"
-
-redis-json-schema@1.0.2-beta.3:
-  version "1.0.2-beta.3"
-  resolved "https://registry.npmjs.org/redis-json-schema/-/redis-json-schema-1.0.2-beta.3.tgz#c0205142b9a049e630f376e9cbfaff6a52653c77"
-  dependencies:
-    ajv "^5.3.0"
-    lodash "^4.17.4"
-    redis "^2.8.0"
-    redis-crud-fork "1.0.0-beta.8"
-
 redis-parser@^2.6.0:
   version "2.6.0"
   resolved "https://registry.npmjs.org/redis-parser/-/redis-parser-2.6.0.tgz#52ed09dacac108f1a631c07e9b69941e7a19504b"
@@ -3947,43 +3927,74 @@ schema-utils@^0.3.0:
   dependencies:
     ajv "^5.0.0"
 
-scirichon-acl-checker@1.0.1-beta.8:
-  version "1.0.1-beta.8"
-  resolved "https://registry.npmjs.org/scirichon-acl-checker/-/scirichon-acl-checker-1.0.1-beta.8.tgz#118cb409d1cbc06f1099c17c0b1282590e0e9cea"
+scirichon-acl-checker@1.0.2-beta.3:
+  version "1.0.2-beta.3"
+  resolved "https://registry.npmjs.org/scirichon-acl-checker/-/scirichon-acl-checker-1.0.2-beta.3.tgz#c6414e455e0a576e124fbf97bd2b4e5eb4ebfc99"
   dependencies:
     acl-fork "0.4.10-beta.3"
+    lodash "^4.17.4"
     redis "^2.8.0"
-    scirichon-common "1.0.2-beta.4"
+    scirichon-common "1.0.2-beta.8"
 
-scirichon-cache@1.0.6-beta.7:
-  version "1.0.6-beta.7"
-  resolved "https://registry.npmjs.org/scirichon-cache/-/scirichon-cache-1.0.6-beta.7.tgz#4cd9b5f78d7bdde4cf946d081c791a5f56418453"
+scirichon-cache@1.0.7-beta.3:
+  version "1.0.7-beta.3"
+  resolved "https://registry.npmjs.org/scirichon-cache/-/scirichon-cache-1.0.7-beta.3.tgz#3071e1a2d2598cf102eecf8da5f60a2c64bac2cb"
   dependencies:
     config "^1.25.1"
     lodash "^4.17.4"
     node-cache-redis-fork "2.2.0-beta.3"
-    redis-json-schema "1.0.2-beta.3"
     request "^2.81.0"
     request-promise "^4.1.1"
-    scirichon-common "1.0.2-beta.4"
+    scirichon-common "1.0.2-beta.7"
+    scirichon-json-schema "1.0.2-beta.4"
     uuid-validate "0.0.2"
 
-scirichon-common@1.0.2-beta.4:
-  version "1.0.2-beta.4"
-  resolved "https://registry.npmjs.org/scirichon-common/-/scirichon-common-1.0.2-beta.4.tgz#8bab1b851ec101fa64b182339b573aa30b91d260"
+scirichon-common@1.0.2-beta.7:
+  version "1.0.2-beta.7"
+  resolved "https://registry.npmjs.org/scirichon-common/-/scirichon-common-1.0.2-beta.7.tgz#03dba99b6d9187dd9b4769bfb1a109138e8bf549"
   dependencies:
     config "^1.25.1"
     lodash "^4.17.4"
     request "^2.81.0"
     request-promise "^4.1.1"
 
-scirichon-response-mapper@1.0.1-beta.7:
-  version "1.0.1-beta.7"
-  resolved "https://registry.npmjs.org/scirichon-response-mapper/-/scirichon-response-mapper-1.0.1-beta.7.tgz#df0f27b4fc57f8ab042298bbb31feb7f65b6a8c6"
+scirichon-common@1.0.2-beta.8:
+  version "1.0.2-beta.8"
+  resolved "https://registry.npmjs.org/scirichon-common/-/scirichon-common-1.0.2-beta.8.tgz#37e63df5478683b21f1d42890822f08cecdb6846"
+  dependencies:
+    config "^1.25.1"
+    lodash "^4.17.4"
+    request "^2.81.0"
+    request-promise "^4.1.1"
+
+scirichon-json-schema-init@1.0.2-beta.1:
+  version "1.0.2-beta.1"
+  resolved "https://registry.npmjs.org/scirichon-json-schema-init/-/scirichon-json-schema-init-1.0.2-beta.1.tgz#5595780191ddfeb9c1ef20dd478a64b61efca3b7"
+  dependencies:
+    config "^1.25.1"
+    elasticsearch "^12.1.3"
+    lodash "^4.17.4"
+    neo4j-driver "^1.5.0"
+    parse-neo4j-fork "^0.6.10"
+    scirichon-json-schema "1.0.2-beta.4"
+
+scirichon-json-schema@1.0.2-beta.4:
+  version "1.0.2-beta.4"
+  resolved "https://registry.npmjs.org/scirichon-json-schema/-/scirichon-json-schema-1.0.2-beta.4.tgz#5d64723d32555f0750713e095d64606764c831d4"
+  dependencies:
+    ajv "^5.3.0"
+    lodash "^4.17.4"
+    redis "^2.8.0"
+    redis-crud-fork "1.0.0-beta.8"
+
+scirichon-response-mapper@1.0.2-beta.5:
+  version "1.0.2-beta.5"
+  resolved "https://registry.npmjs.org/scirichon-response-mapper/-/scirichon-response-mapper-1.0.2-beta.5.tgz#84e51e35a1da959eff213919c1e21ebebac428f7"
   dependencies:
     lodash "^4.17.4"
-    scirichon-cache "1.0.6-beta.7"
-    scirichon-common "1.0.2-beta.4"
+    scirichon-cache "1.0.7-beta.3"
+    scirichon-common "1.0.2-beta.8"
+    scirichon-json-schema "1.0.2-beta.4"
 
 scirichon-response-wrapper@1.0.0-beta.9:
   version "1.0.0-beta.9"
@@ -3992,15 +4003,15 @@ scirichon-response-wrapper@1.0.0-beta.9:
     lodash "^4.17.4"
     log4js_wrapper "1.0.3-beta.5"
 
-scirichon-token-checker@1.0.1-beta.2:
-  version "1.0.1-beta.2"
-  resolved "https://registry.npmjs.org/scirichon-token-checker/-/scirichon-token-checker-1.0.1-beta.2.tgz#9b9f3cdc8fd6ca9346f531fdffae584268a088e0"
+scirichon-token-checker@1.0.1-beta.3:
+  version "1.0.1-beta.3"
+  resolved "https://registry.npmjs.org/scirichon-token-checker/-/scirichon-token-checker-1.0.1-beta.3.tgz#42f44e0cba80ab772f31168784b1d936c4bded6a"
   dependencies:
     config "^1.25.1"
     lodash "^4.17.4"
     request "^2.81.0"
     request-promise "^4.1.1"
-    scirichon-common "1.0.2-beta.4"
+    scirichon-common "1.0.2-beta.8"
 
 "semver@2 || 3 || 4 || 5", semver@5.4.1, semver@^5.0.1, semver@^5.3.0:
   version "5.4.1"
@@ -4674,9 +4685,9 @@ watchpack@^1.4.0:
     chokidar "^1.7.0"
     graceful-fs "^4.1.2"
 
-webpack-builder-advanced@1.0.0-beta.1:
-  version "1.0.0-beta.1"
-  resolved "https://registry.npmjs.org/webpack-builder-advanced/-/webpack-builder-advanced-1.0.0-beta.1.tgz#37f04d0977ebd9afe2cb9c18a5f1cd36b3700cc4"
+webpack-builder-advanced@1.0.0-beta.2:
+  version "1.0.0-beta.2"
+  resolved "https://registry.npmjs.org/webpack-builder-advanced/-/webpack-builder-advanced-1.0.0-beta.2.tgz#bfe5175af4330c13915bc2191f1ffece1b225d66"
   dependencies:
     babel-core "^6.26.0"
     babel-loader "^7.1.2"

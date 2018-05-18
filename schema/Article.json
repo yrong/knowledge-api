@@ -2,7 +2,7 @@
   "id": "Article",
   "cache":{"fields":["uuid","title","category"]},
   "service":"kb",
-  "loadUrl":"/KB/API/v1/articles",
+  "route":"/KB/API/v1/articles",
   "properties": {
     "author":{
       "type": "string",
