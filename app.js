@@ -1,5 +1,5 @@
 const config = require('config')
-const Logger = require('log4js_wrapper')
+const Logger = require('log4js-wrapper-advanced')
 /**
  * init logger
  */
