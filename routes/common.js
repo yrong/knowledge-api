@@ -95,6 +95,25 @@ const setNotificationSubscriber = async (obj,notification_obj)=>{
     return notification_obj
 }
 
+const mappingRows = async(category,rows)=>{
+    let result = []
+    for(let row of rows){
+        row = await responseMapper.responseMapper(row,{category})
+        result.push(row)
+    }
+    return result
+}
+
+const search_processor = async (ctx)=>{
+    let model = getModelFromRoute(ctx.url);
+    let query = _.assign({},ctx.params,ctx.query,ctx.request.body)
+    let result = await model.findAndCountAll(common.buildQueryCondition(query)),rows=[]
+    if(result&&result.rows){
+        result.rows = await mappingRows(model.name,result.rows)
+    }
+    ctx.body = result
+}
+
 module.exports = {
     post_processor: async function(ctx) {
         let obj=ctx.request.body,user=ctx[common.TokenUserName],
@@ -152,32 +171,9 @@ module.exports = {
         result = await responseMapper.responseMapper(result,{category:model.name})
         ctx.body = result
     },
-    findAll_processor: async function(ctx) {
-        let model = getModelFromRoute(ctx.url);
-        let query = _.assign({},ctx.params,ctx.query,ctx.request.body);
-        let result = await model.findAndCountAll(common.buildQueryCondition(query)),rows=[]
-        if(result&&result.rows){
-            for(let row of result.rows){
-                row = await responseMapper.responseMapper(row,{category:model.name})
-                rows.push(row)
-            }
-            result.rows = rows
-        }
-        ctx.body = result
-    },
-    search_processor: async function(ctx) {
-        let model = getModelFromRoute(ctx.url);
-        let query = _.assign({},ctx.params,ctx.query,ctx.request.body)
-        let result = await model.findAndCountAll(common.buildQueryCondition(query)),rows=[]
-        if(result&&result.rows){
-            for(let row of result.rows){
-                row = await responseMapper.responseMapper(row,{category:model.name})
-                rows.push(row)
-            }
-            result.rows = rows
-        }
-        ctx.body = result
-    },
+    findAll_processor: search_processor,
+    search_processor: search_processor,
     findOne,
-    addCache
+    addCache,
+    mappingRows
 }

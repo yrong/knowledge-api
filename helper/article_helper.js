@@ -5,6 +5,7 @@ const models = require('sequelize-wrapper-advanced').models
 const jp = require('jsonpath');
 const common = require('scirichon-common')
 const responseMapper = require('scirichon-response-mapper')
+const common_processor = require('../routes/common')
 
 
 var containsITService = (filter) => {
@@ -65,13 +66,9 @@ var articlesSearchByITServiceKeyword = async function(querys) {
         await searchITServicesByKeyword(querys)
     }
     let condition = common.buildQueryCondition(querys)
-    let articles  = await models['Article'].findAndCountAll(condition),rows=[]
+    let articles  = await models['Article'].findAndCountAll(condition)
     if(articles&&articles.rows){
-        for(let article of articles.rows){
-            article = await responseMapper.responseMapper(article,{category:'Article',original:true})
-            rows.push(article)
-        }
-        articles.rows = rows
+        articles.rows = await common_processor.mappingRows('Article',articles.rows)
     }
     return articles
 };
