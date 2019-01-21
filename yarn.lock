@@ -3941,9 +3941,9 @@ scirichon-acl-checker@1.0.9-beta.1:
     redis "^2.8.0"
     scirichon-common "1.0.7-beta.1"
 
-scirichon-cache@1.0.11-beta.1:
-  version "1.0.11-beta.1"
-  resolved "https://registry.npmjs.org/scirichon-cache/-/scirichon-cache-1.0.11-beta.1.tgz#c91b8767638244766e6a349c396c6fd8f9f2c5f3"
+scirichon-cache@1.0.11-beta.2:
+  version "1.0.11-beta.2"
+  resolved "https://registry.npmjs.org/scirichon-cache/-/scirichon-cache-1.0.11-beta.2.tgz#d2a12386a8b54681a44d23533a17df4c7645bbb6"
   dependencies:
     config "^1.25.1"
     lodash "^4.17.4"
@@ -3983,12 +3983,12 @@ scirichon-json-schema@^1.0.3:
     redis "^2.8.0"
     redis-crud-fork "^1.0.1"
 
-scirichon-response-mapper@1.0.7-beta.1:
-  version "1.0.7-beta.1"
-  resolved "https://registry.npmjs.org/scirichon-response-mapper/-/scirichon-response-mapper-1.0.7-beta.1.tgz#edf9c5a51ffe6a44069cd72979189530ba3212d6"
+scirichon-response-mapper@1.0.7-beta.2:
+  version "1.0.7-beta.2"
+  resolved "https://registry.npmjs.org/scirichon-response-mapper/-/scirichon-response-mapper-1.0.7-beta.2.tgz#efecca5d60efcecd2f5fccfe8b4e49f4d397759d"
   dependencies:
     lodash "^4.17.4"
-    scirichon-cache "1.0.11-beta.1"
+    scirichon-cache "1.0.11-beta.2"
     scirichon-common "1.0.7-beta.1"
     scirichon-json-schema "^1.0.3"
 

@@ -1,14 +1,13 @@
 {
 	"info": {
+		"_postman_id": "d9829219-696e-4eeb-8d19-66ec558094a4",
 		"name": "kb-api",
-		"_postman_id": "a30e07cb-a73c-bf99-7ac5-feb12f989e88",
-		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "0-prepare",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "login",
@@ -53,8 +52,7 @@
 								"auth",
 								"login"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -89,8 +87,7 @@
 								"v1",
 								"hidden"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -98,7 +95,7 @@
 		},
 		{
 			"name": "1-article",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "add article 1",
@@ -141,8 +138,7 @@
 								"v1",
 								"articles"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -191,8 +187,7 @@
 								"v1",
 								"articles"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -240,8 +235,7 @@
 								"articles",
 								"{{article_1_1_id}}"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -286,8 +280,7 @@
 								"v1",
 								"articles"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -334,8 +327,7 @@
 								"articles",
 								"{{article_2_id}}"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -383,8 +375,7 @@
 								"v1",
 								"articles"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -432,8 +423,7 @@
 								"v1",
 								"articles"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -481,8 +471,7 @@
 								"v1",
 								"articles"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -509,7 +498,10 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}?token={{token}}",
 							"protocol": "http",
@@ -527,12 +519,10 @@
 							"query": [
 								{
 									"key": "token",
-									"value": "{{token}}",
-									"equals": true
+									"value": "{{token}}"
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -563,7 +553,10 @@
 								"value": "application/json"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles?page=1&per_page=2",
 							"protocol": "http",
@@ -580,17 +573,14 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1",
-									"equals": true
+									"value": "1"
 								},
 								{
 									"key": "per_page",
-									"value": "2",
-									"equals": true
+									"value": "2"
 								}
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -639,8 +629,7 @@
 								"{{article_2_id}}",
 								"score"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -671,7 +660,10 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}/score/aggregate",
 							"protocol": "http",
@@ -688,8 +680,7 @@
 								"score",
 								"aggregate"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -697,7 +688,7 @@
 		},
 		{
 			"name": "2-discussion",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "add topic 1",
@@ -744,8 +735,7 @@
 								"v1",
 								"discussions"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -790,8 +780,7 @@
 								"v1",
 								"discussions"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -818,7 +807,10 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/{{discussion_1_id}}",
 							"protocol": "http",
@@ -833,8 +825,7 @@
 								"discussions",
 								"{{discussion_1_id}}"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -884,8 +875,7 @@
 								"v1",
 								"discussions"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -914,7 +904,10 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/{{discussion_2_id}}",
 							"protocol": "http",
@@ -929,8 +922,7 @@
 								"discussions",
 								"{{discussion_2_id}}"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -957,7 +949,10 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
 							"protocol": "http",
@@ -971,8 +966,7 @@
 								"v1",
 								"discussions"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				}
@@ -980,7 +974,7 @@
 		},
 		{
 			"name": "3-search&aggregate",
-			"description": "",
+			"description": null,
 			"item": [
 				{
 					"name": "search discussions  by article id",
@@ -1023,8 +1017,7 @@
 								"discussions",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1073,8 +1066,7 @@
 								"discussions",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1123,8 +1115,7 @@
 								"discussions",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1173,8 +1164,7 @@
 								"discussions",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1223,8 +1213,7 @@
 								"discussions",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1273,8 +1262,7 @@
 								"discussions",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1323,8 +1311,7 @@
 								"discussions",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1373,8 +1360,7 @@
 								"discussions",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1423,8 +1409,7 @@
 								"articles",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1473,8 +1458,7 @@
 								"articles",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1523,8 +1507,7 @@
 								"articles",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1573,8 +1556,7 @@
 								"articles",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1623,8 +1605,7 @@
 								"articles",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1680,8 +1661,7 @@
 								"articles",
 								"search"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1721,7 +1701,10 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/tag",
 							"protocol": "http",
@@ -1736,8 +1719,7 @@
 								"articles",
 								"tag"
 							]
-						},
-						"description": ""
+						}
 					},
 					"response": []
 				},
@@ -1786,8 +1768,7 @@
 								"articles",
 								"search"
 							]
-						},
-						"description": null
+						}
 					},
 					"response": []
 				}
