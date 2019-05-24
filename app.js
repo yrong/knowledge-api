@@ -51,7 +51,7 @@ app.use(bodyParser())
 /**
  * scirichon middlewares
  */
-const redisOption = {host:`${process.env['REDIS_HOST']||config.get('redis.host')}`,port:config.get('redis.port')}
+const redisOption = config.get('redis')
 const auth_url = scirichon_common.getServiceApiUrl('auth')
 if(config.get('wrapResponse'))
     app.use(responseWrapper())
