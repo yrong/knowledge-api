@@ -5,6 +5,7 @@ const dbHelper = require('../helper/db_helper')
 const models = require('sequelize-wrapper-advanced').models
 const Router = require('koa-router')
 const common = require('scirichon-common')
+const config = require('config')
 
 const article_processors = {
     search_processor: async function(ctx) {
@@ -26,7 +27,7 @@ const article_processors = {
         ctx.body = result
     },
     score_processor: async function(ctx){
-        let token_user = ctx[common.TokenUserName]
+        let token_user = ctx[config.get('auth.userFieldName')]
         let user_id = token_user.uuid
         let article_id = ctx.params.uuid
         let options = {article_id: article_id, user_id:user_id}

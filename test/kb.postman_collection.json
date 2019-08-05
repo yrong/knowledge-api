@@ -7,7 +7,6 @@
 	"item": [
 		{
 			"name": "0-prepare",
-			"description": null,
 			"item": [
 				{
 					"name": "login",
@@ -95,7 +94,6 @@
 		},
 		{
 			"name": "1-article",
-			"description": null,
 			"item": [
 				{
 					"name": "add article 1",
@@ -498,10 +496,6 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}?token={{token}}",
 							"protocol": "http",
@@ -553,10 +547,6 @@
 								"value": "application/json"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles?page=1&per_page=2",
 							"protocol": "http",
@@ -660,10 +650,6 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/{{article_2_id}}/score/aggregate",
 							"protocol": "http",
@@ -688,7 +674,6 @@
 		},
 		{
 			"name": "2-discussion",
-			"description": null,
 			"item": [
 				{
 					"name": "add topic 1",
@@ -807,10 +792,6 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/{{discussion_1_id}}",
 							"protocol": "http",
@@ -904,10 +885,6 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions/{{discussion_2_id}}",
 							"protocol": "http",
@@ -949,10 +926,6 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/discussions",
 							"protocol": "http",
@@ -974,7 +947,6 @@
 		},
 		{
 			"name": "3-search&aggregate",
-			"description": null,
 			"item": [
 				{
 					"name": "search discussions  by article id",
@@ -1701,10 +1673,6 @@
 								"value": "{{token}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://{{kb_api_host}}:{{kb_api_port}}/KB/API/v1/articles/tag",
 							"protocol": "http",

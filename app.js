@@ -1,11 +1,11 @@
-const config = require('config')
-const Logger = require('log4js-wrapper-advanced')
 /**
  * init logger
  */
 
-Logger.initialize(config.get('logger'))
-const logger = Logger.getLogger()
+const log4js_wrapper = require('log4js-wrapper-advanced')
+const config = require('config')
+log4js_wrapper.initialize(Object.assign({}, config.get('logger')))
+const logger = log4js_wrapper.getLogger()
 
 /**
  * init db schema
@@ -17,8 +17,7 @@ const Koa = require('koa')
 const cors = require('kcors')
 const bodyParser = require('koa-bodyparser')
 const responseWrapper = require('scirichon-response-wrapper')
-const check_token = require('scirichon-token-checker')
-const acl_checker = require('scirichon-acl-checker')
+const authenticator = require('scirichon-authenticator')
 const scirichon_cache = require('scirichon-cache')
 const locale = require('koa-locale')
 const i18n = require('koa-i18n')
@@ -55,8 +54,8 @@ const redisOption = config.get('redis')
 const auth_url = scirichon_common.getServiceApiUrl('auth')
 if(config.get('wrapResponse'))
     app.use(responseWrapper())
-app.use(check_token({check_token_url:`${auth_url}/auth/check`}))
-app.use(acl_checker({redisOption}))
+app.use(authenticator.checkToken({check_token_url:`${auth_url}/auth/check`}))
+app.use(authenticator.checkAcl({redisOption}))
 
 const loadCache = async ()=>{
     let results = await db.models['Article'].findAll()

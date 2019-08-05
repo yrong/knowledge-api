@@ -10,3 +10,6 @@ logs
 build
 config
 release
+package-lock.json
+/test/index.js
+/test/postman_globals.json

@@ -5,6 +5,7 @@ const ScirichonError = common.ScirichonError
 const ScirichonWarning = common.ScirichonWarning
 const scirichon_cache = require('scirichon-cache')
 const responseMapper = require('scirichon-response-mapper')
+const config = require('config')
 
 const getModelFromRoute = (url)=>{
     let model = models[_.find(Object.keys(models),((model) => url.includes(model.toLowerCase())))];
@@ -116,7 +117,7 @@ const search_processor = async (ctx)=>{
 
 module.exports = {
     post_processor: async function(ctx) {
-        let obj=ctx.request.body,user=ctx[common.TokenUserName],
+        let obj=ctx.request.body,user=ctx[config.get('auth.userFieldName')],
             model=getModelFromRoute(ctx.url), notification_obj,new_obj;
         obj = await assignUserId(model,obj)
         new_obj = await model.create(obj)
@@ -132,7 +133,7 @@ module.exports = {
         ctx.body = {uuid: new_obj.uuid}
     },
     delete_processor: async function(ctx) {
-        let old_obj,user=ctx[common.TokenUserName], model=getModelFromRoute(ctx.url), notification_obj;
+        let old_obj,user=ctx[config.get('auth.userFieldName')], model=getModelFromRoute(ctx.url), notification_obj;
         old_obj = await findOne(ctx,false)
         await(old_obj.destroy())
         old_obj = old_obj.dataValues
@@ -147,7 +148,7 @@ module.exports = {
         ctx.body = {}
     },
     put_processor: async function(ctx) {
-        let update_obj=ctx.request.body,user=ctx[common.TokenUserName],
+        let update_obj=ctx.request.body,user=ctx[config.get('auth.userFieldName')],
             model=getModelFromRoute(ctx.url), notification_obj,old_obj,new_obj;
         update_obj = await assignUserId(model,update_obj)
         old_obj = await findOne(ctx)
